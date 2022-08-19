@@ -32,6 +32,7 @@ public class LayerController {
 
     @GetMapping("/{id}")
     Layer getById(@PathVariable Integer id) {
+        // todo: add controller adviser to return 'not found', not 404
         return repository.findById(id).orElseThrow(() -> new LayerNotFoundException(id));
     }
 
@@ -40,6 +41,7 @@ public class LayerController {
         repository.deleteById(id);
     }
 
+    @GetMapping("/filter")
     public List<Layer> search(@RequestParam(value = "search") String search) {
         SpecificationsBuilder<Layer> builder = new SpecificationsBuilder<>();
         Pattern pattern = Pattern.compile("(\\w+?)([:<>])(\\w+?),");

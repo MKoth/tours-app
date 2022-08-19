@@ -1,6 +1,5 @@
 package com.toursapp.tourslocationslayers.repositories.specs;
 
-import com.toursapp.tourslocationslayers.entities.Layer;
 import com.toursapp.tourslocationslayers.entities.Location;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -12,6 +11,10 @@ import javax.persistence.criteria.Root;
 public class LocationSpecification implements Specification<Location> {
 
     private SearchCriteria criteria;
+
+    public LocationSpecification (SearchCriteria criteria){
+        this.criteria = criteria;
+    }
 
     @Override
     public Predicate toPredicate(Root<Location> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
