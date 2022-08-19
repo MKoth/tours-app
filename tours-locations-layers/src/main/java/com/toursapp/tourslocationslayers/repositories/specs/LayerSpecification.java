@@ -12,6 +12,10 @@ public class LayerSpecification implements Specification<Layer> {
 
     private SearchCriteria criteria;
 
+    public LayerSpecification (SearchCriteria criteria){
+        this.criteria = criteria;
+    }
+
     @Override
     public Predicate toPredicate(Root<Layer> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         return SpecificationsUtil.getToursSpecPredicate(criteria, root, builder);
