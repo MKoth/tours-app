@@ -48,7 +48,7 @@ public class Tour {
     private Layer layer;
 
     @OneToMany
-    @OrderBy("order ASC")
+    @OrderBy("ordering ASC")
     private List<Location> locations;
 
     @ManyToMany(cascade = CascadeType.ALL)

@@ -40,7 +40,7 @@ public class Location {
 
     private Boolean approved;
 
-    private Integer order;
+    private Integer ordering;
 
     @Enumerated(EnumType.STRING)
     private LocationType type;
