@@ -14,7 +14,6 @@ import java.util.Set;
 @ToString
 @RequiredArgsConstructor
 public class Tag {
-    public Tag() {}
     public Tag(Integer id) {
         this.id = id;
     }
