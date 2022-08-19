@@ -1,16 +1,21 @@
 package com.toursapp.tourslocationslayers.entities;
 
 import com.toursapp.tourslocationslayers.entities.Enums.LocationType;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Location {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -53,5 +58,19 @@ public class Location {
             joinColumns = @JoinColumn(name = "location_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
+    @ToString.Exclude
     private Set<Tag> tags = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Location location = (Location) o;
+        return id != null && Objects.equals(id, location.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

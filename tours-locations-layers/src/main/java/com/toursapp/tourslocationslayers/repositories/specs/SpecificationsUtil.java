@@ -1,12 +1,8 @@
 package com.toursapp.tourslocationslayers.repositories.specs;
 
-import com.toursapp.tourslocationslayers.entities.Layer;
-import com.toursapp.tourslocationslayers.entities.Tag;
-
 import javax.persistence.criteria.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 public class SpecificationsUtil {
     public static <T> Predicate getToursSpecPredicate(SearchCriteria criteria, Root<T> root, CriteriaBuilder builder){
@@ -16,7 +12,6 @@ public class SpecificationsUtil {
             return builder.and(predicates.toArray(new Predicate[0]));
         }
         else if (criteria.getOperation().equalsIgnoreCase(">")) {
-            ParameterExpression<Date> parameter = builder.parameter(java.util.Date.class);
             return builder.greaterThanOrEqualTo(
                     root.get(criteria.getKey()).as(Date.class), new Date((Integer) criteria.getValue()));
         }
@@ -25,7 +20,6 @@ public class SpecificationsUtil {
                     root.get(criteria.getKey()).as(Date.class), new Date((Integer) criteria.getValue()));
         }
         else if (criteria.getOperation().equalsIgnoreCase(":")) {
-            Path<Set<Tag>> tags = root.get("tags");
             if (root.get(criteria.getKey()).getJavaType() == String.class) {
                 return builder.like(
                         root.get(criteria.getKey()), "%" + criteria.getValue() + "%");

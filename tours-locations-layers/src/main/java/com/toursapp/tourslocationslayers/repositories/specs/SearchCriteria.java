@@ -14,5 +14,5 @@ public class SearchCriteria {
     @Nullable
     private Object value;
     @Nullable
-    private List<Object> values;
+    private List<? extends Object> values;
 }

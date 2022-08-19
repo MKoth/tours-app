@@ -1,2 +1,4 @@
-package com.toursapp.tourslocationslayers.controllers;public class LocationController {
+package com.toursapp.tourslocationslayers.controllers;
+
+public class LocationController {
 }
