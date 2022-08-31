@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@RestController
+@RequestMapping("/location")
 public class LocationController {
     @Autowired
     LocationRepository repository;
@@ -29,7 +31,6 @@ public class LocationController {
 
     @GetMapping("/{id}")
     Location getById(@PathVariable Integer id) {
-        // todo: add controller adviser to return 'not found', not 404
         return repository.findById(id).orElseThrow(() -> new LocationNotFoundException(id));
     }
 

@@ -18,6 +18,6 @@ public class LocationSpecification implements Specification<Location> {
 
     @Override
     public Predicate toPredicate(Root<Location> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        return SpecificationsUtil.getToursSpecPredicate(criteria, root, builder);
+        return SpecificationsUtil.getSpecPredicate(criteria, root, builder);
     }
 }

@@ -18,6 +18,6 @@ public class LayerSpecification implements Specification<Layer> {
 
     @Override
     public Predicate toPredicate(Root<Layer> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        return SpecificationsUtil.getToursSpecPredicate(criteria, root, builder);
+        return SpecificationsUtil.getSpecPredicate(criteria, root, builder);
     }
 }

@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class SpecificationsUtil {
-    public static <T> Predicate getToursSpecPredicate(SearchCriteria criteria, Root<T> root, CriteriaBuilder builder){
+    public static <T> Predicate getSpecPredicate(SearchCriteria criteria, Root<T> root, CriteriaBuilder builder){
         if (criteria.getKey().equalsIgnoreCase("tags")) {
             List<Predicate> predicates = criteria.getValues().stream()
                     .map((value)->builder.isMember(value, root.get("tags"))).toList();

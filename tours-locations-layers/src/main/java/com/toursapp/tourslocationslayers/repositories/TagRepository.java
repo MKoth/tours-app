@@ -4,4 +4,5 @@ import com.toursapp.tourslocationslayers.entities.Tag;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TagRepository extends CrudRepository<Tag, Integer> {
+    Iterable<Tag> findByNameContainingIgnoreCase(String name);
 }

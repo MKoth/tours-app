@@ -1,6 +1,5 @@
 package com.toursapp.tourslocationslayers.repositories.specs;
 
-import com.toursapp.tourslocationslayers.entities.Location;
 import com.toursapp.tourslocationslayers.entities.Tour;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -13,8 +12,12 @@ public class TourSpecification  implements Specification<Tour> {
 
     private SearchCriteria criteria;
 
+    public TourSpecification (SearchCriteria criteria){
+        this.criteria = criteria;
+    }
+
     @Override
     public Predicate toPredicate(Root<Tour> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        return SpecificationsUtil.getToursSpecPredicate(criteria, root, builder);
+        return SpecificationsUtil.getSpecPredicate(criteria, root, builder);
     }
 }
