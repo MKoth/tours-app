@@ -17,7 +17,7 @@ public class FileInfo {
 
     private String extension;
 
-    private Integer user_id;
+    private Integer userId;
 
     private Date date_added;
 
