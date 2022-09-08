@@ -4,6 +4,7 @@ import com.toursapp.filesuploader.entities.Enums.FileType;
 import com.toursapp.filesuploader.services.FilesUploaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -9,8 +9,10 @@ import com.toursapp.filesuploader.repositories.FileRepository;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,8 +26,12 @@ import java.util.UUID;
 
 @Service
 public class FilesUploaderServiceImpl implements FilesUploaderService {
-    private final Path rootImages = Paths.get("images");
-    private final Path rootAudios = Paths.get("audios");
+    @Autowired
+    ResourceLoader resourceLoader;
+//    private final Path rootImages = Paths.get("images");
+//    private final Path rootAudios = Paths.get("audios");
+    private final Path rootImages = Paths.get("src", "main", "resources", "images");
+    private final Path rootAudios = Paths.get("src", "main", "resources", "audios");
 
     @Autowired
     FileRepository repository;
