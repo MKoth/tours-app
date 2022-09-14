@@ -42,6 +42,8 @@ public class Tour {
 
     private String city;
 
+    private String duration;
+
     private Boolean enabled;
 
     private Boolean approved;
