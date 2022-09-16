@@ -1,0 +1,22 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/my_realm
+  cloud:
+    gateway:
+      routes:
+        - id: tours-locations-layers
+          uri: lb://tours-locations-layers
+          predicates:
+            - Path=/tours-locations-layers/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8083/eureka
