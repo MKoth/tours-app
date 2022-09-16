@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: tours-locations-layers
   jpa:
     hibernate:
       ddl-auto: update
@@ -7,3 +9,9 @@ spring:
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8082
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8083/eureka

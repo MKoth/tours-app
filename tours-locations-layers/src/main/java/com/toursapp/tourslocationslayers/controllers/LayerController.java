@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/layer")
+@RequestMapping("/tours-locations-layers/layer")
 public class LayerController {
 
     @Autowired

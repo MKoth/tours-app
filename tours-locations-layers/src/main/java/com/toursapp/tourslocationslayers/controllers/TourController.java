@@ -17,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/tour")
+@RequestMapping("/tours-locations-layers/tour")
 public class TourController {
     @Autowired
     TourRepository repository;
