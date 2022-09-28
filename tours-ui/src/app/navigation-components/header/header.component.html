@@ -1,0 +1,35 @@
+<mat-toolbar color="primary">
+    <div fxHide.gt-xs>
+        <button mat-icon-button (click)="onToggleSidenav()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+    <div>
+        <a routerLink="/home">Home</a>
+    </div>
+    <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+        <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+            <li>
+                <a routerLink="/owner">Tours</a>
+            </li>
+            <li>
+                <a routerLink="/account">Layers</a>
+            </li>
+            <li>
+                <a routerLink="/account">Posts</a>
+            </li>
+        </ul>
+        <ul fxLayout fxLayoutGap="15px" class="navigation-items login">
+            <li>
+                <!-- <a routerLink="/login">Login</a>
+                <span>/</span>
+                <a routerLink="/register">Register</a> -->
+                <div class="header-profile-image" [matMenuTriggerFor]="settingsMenu"></div>
+                <mat-menu #settingsMenu>
+                    <menu mat-menu-item><mat-icon>account_circle</mat-icon>Profile</menu>
+                    <menu mat-menu-item><mat-icon>exit_to_app</mat-icon>Logout</menu>
+                </mat-menu>
+            </li>
+        </ul>
+    </div>
+  </mat-toolbar>
