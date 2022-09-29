@@ -5,6 +5,9 @@ import { LayersRoutingModule } from './layers-routing.module';
 import { LayerComponent } from './layer/layer.component';
 import { FilterLayersComponent } from './filter-layers/filter-layers.component';
 import { LayersListComponent } from './layers-list/layers-list.component';
+import { MaterialModule } from '../material/material.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -15,7 +18,9 @@ import { LayersListComponent } from './layers-list/layers-list.component';
   ],
   imports: [
     CommonModule,
-    LayersRoutingModule
+    LayersRoutingModule,
+    MaterialModule,
+    FlexLayoutModule
   ]
 })
 export class LayersModule { }

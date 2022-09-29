@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
+import { MaterialModule } from '../material/material.module';
 import { LayerComponent } from './layer/layer.component';
 import { LayersListComponent } from './layers-list/layers-list.component';
 
@@ -10,7 +11,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild(routes)
+  ],
   exports: [RouterModule]
 })
 export class LayersRoutingModule { }

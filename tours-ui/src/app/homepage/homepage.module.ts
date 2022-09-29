@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { HomepageRoutingModule } from './homepage-routing.module';
 import { HomepageComponent } from './homepage/homepage.component';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { MaterialModule } from '../material/material.module';
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import { HomepageComponent } from './homepage/homepage.component';
   ],
   imports: [
     CommonModule,
-    HomepageRoutingModule
+    HomepageRoutingModule,
+    GoogleMapsModule,
+    MaterialModule
   ]
 })
 export class HomepageModule { }
