@@ -6,9 +6,8 @@ import { LayerComponent } from './layer/layer.component';
 import { FilterLayersComponent } from './filter-layers/filter-layers.component';
 import { LayersListComponent } from './layers-list/layers-list.component';
 import { MaterialModule } from '../material/material.module';
-import { BrowserModule } from '@angular/platform-browser';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     CommonModule,
     LayersRoutingModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    ReactiveFormsModule
   ]
 })
 export class LayersModule { }
