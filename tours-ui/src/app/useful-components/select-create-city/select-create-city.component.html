@@ -1,0 +1,11 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign.xs=" stretch" fxLayoutAlign="center start" fxLayoutGap.gt-xs="15px">
+    <mat-form-field appearance="fill" fxFlex.gt-xs>
+        <mat-label>Select city</mat-label>
+        <mat-select>
+            <mat-option value="lviv">Lviv</mat-option>
+            <mat-option value="berlin">Berlin</mat-option>
+            <mat-option value="paris">Paris</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button class="new-city-add-button" fxFlex.gt-xs="30" mat-flat-button color="accent" (click)="openDialog($event)"><mat-icon>add</mat-icon>Add New City</button>
+</div>

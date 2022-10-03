@@ -5,10 +5,10 @@
             <mat-form-field appearance="fill" fxFlex="20">
                 <mat-label>Filter By city</mat-label>
                 <mat-select [(value)]="city">
-                <mat-option>No Filter</mat-option>
-                <mat-option value="lviv">Lviv</mat-option>
-                <mat-option value="berlin">Berlin</mat-option>
-                <mat-option value="paris">Paris</mat-option>
+                    <mat-option>No Filter</mat-option>
+                    <mat-option value="lviv">Lviv</mat-option>
+                    <mat-option value="berlin">Berlin</mat-option>
+                    <mat-option value="paris">Paris</mat-option>
                 </mat-select>
             </mat-form-field>
             <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxFlex="30">
@@ -22,32 +22,7 @@
                     <input matInput type="number" placeholder="Ex. 1900 or -5000" value="1900">
                 </mat-form-field>
             </div>
-            <mat-form-field fxFlex appearance="fill">
-                <mat-label>Filter By Tags</mat-label>
-                <mat-chip-list #chipList aria-label="Filter By Tags">
-                    <mat-chip
-                        *ngFor="let tag of tags"
-                        (removed)="remove(tag)">
-                        {{tag}}
-                        <button matChipRemove>
-                        <mat-icon>cancel</mat-icon>
-                        </button>
-                    </mat-chip>
-                    <input
-                        placeholder="New tag..."
-                        #tagInput
-                        [formControl]="tagCtrl"
-                        [matAutocomplete]="auto"
-                        [matChipInputFor]="chipList"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        (matChipInputTokenEnd)="add($event)">
-                </mat-chip-list>
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                    <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                        {{tag}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
+            <app-chips-field></app-chips-field>
         </div>
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end none">
             <button mat-flat-button color="accent" fxFlex.xs><mat-icon>clear</mat-icon>Clear Filters</button>

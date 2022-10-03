@@ -1,0 +1,74 @@
+<!-- image uploader + dialog -->
+<!-- city selector + city adding dialog with map -->
+<!-- range selector 3 fields from - 3 fields to -->
+<form style="margin-bottom: 10px;">
+  <mat-card>
+    <div fxLayout="column">
+      <mat-form-field appearance="fill">
+        <mat-label>Layers Name</mat-label>
+        <input matInput placeholder="Layers Name">
+      </mat-form-field>
+      <app-chips-field></app-chips-field>
+      <app-select-create-city></app-select-create-city>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between center" fxLayoutGap="15px">
+        <div fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field class="number-field" appearance="fill">
+            <mat-label>Years from</mat-label>
+            <input matInput type="number" placeholder="Ex. 1700 or -300" value="1700">
+          </mat-form-field>
+          <mat-form-field class="month-field" appearance="fill" fxFlex.gt-xs>
+            <mat-label>Select month</mat-label>
+            <mat-select>
+              <mat-option>No data</mat-option>
+              <mat-option value="jan">January</mat-option>
+              <mat-option value="feb">February</mat-option>
+              <mat-option value="mar">March</mat-option>
+              <mat-option value="apr">April</mat-option>
+              <mat-option value="may">May</mat-option>
+              <mat-option value="jun">June</mat-option>
+              <mat-option value="jul">July</mat-option>
+              <mat-option value="aug">August</mat-option>
+              <mat-option value="sep">September</mat-option>
+              <mat-option value="oct">October</mat-option>
+              <mat-option value="nov">November</mat-option>
+              <mat-option value="dec">December</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="number-field" appearance="fill">
+            <mat-label>Day</mat-label>
+            <input matInput type="number" placeholder="1 to 31">
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field class="number-field" appearance="fill">
+            <mat-label>Years to</mat-label>
+            <input matInput type="number" placeholder="Ex. 1700 or -300" value="1700">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="month-field" fxFlex.gt-xs>
+            <mat-label>Select month</mat-label>
+            <mat-select>
+              <mat-option>No data</mat-option>
+              <mat-option value="jan">January</mat-option>
+              <mat-option value="feb">February</mat-option>
+              <mat-option value="mar">March</mat-option>
+              <mat-option value="apr">April</mat-option>
+              <mat-option value="may">May</mat-option>
+              <mat-option value="jun">June</mat-option>
+              <mat-option value="jul">July</mat-option>
+              <mat-option value="aug">August</mat-option>
+              <mat-option value="sep">September</mat-option>
+              <mat-option value="oct">October</mat-option>
+              <mat-option value="nov">November</mat-option>
+              <mat-option value="dec">December</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="number-field" appearance="fill">
+            <mat-label>Day</mat-label>
+            <input matInput type="number" placeholder="1 to 31">
+          </mat-form-field>
+        </div>
+      </div>
+      <app-text-editor></app-text-editor>
+    </div>
+  </mat-card>
+</form>

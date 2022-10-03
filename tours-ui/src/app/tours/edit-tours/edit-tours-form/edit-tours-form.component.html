@@ -1,0 +1,30 @@
+<form style="margin-bottom: 10px;">
+    <mat-card>
+      <div fxLayout="column">
+            <mat-form-field appearance="fill">
+                <mat-label>Tour's Name</mat-label>
+                <input matInput placeholder="Tour's Name">
+            </mat-form-field>
+            <app-chips-field></app-chips-field>
+            <app-select-create-city></app-select-create-city>
+            <mat-checkbox (change)="toggleEnrollability($event.checked)">User can Enroll for Tour</mat-checkbox>
+            <ng-container *ngIf="canEnroll">
+                <div fxLayout="row">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Min Visitors</mat-label>
+                        <input type="number" matInput placeholder="Min Visitors">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Max Visitors</mat-label>
+                        <input type="number" matInput placeholder="Max Visitors">
+                    </mat-form-field>
+                </div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Tours Price</mat-label>
+                    <input type="number" matInput placeholder="Tours Price">
+                </mat-form-field>
+            </ng-container>
+            <app-text-editor></app-text-editor>
+        </div>
+    </mat-card>
+</form>

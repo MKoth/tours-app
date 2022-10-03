@@ -5,17 +5,29 @@ import { ToursRoutingModule } from './tours-routing.module';
 import { TourComponent } from './tour/tour.component';
 import { FilterToursComponent } from './filter-tours/filter-tours.component';
 import { ToursListComponent } from './tours-list/tours-list.component';
+import { EditToursComponent } from './edit-tours/edit-tours.component';
+import { EditToursMapComponent } from './edit-tours/edit-tours-map/edit-tours-map.component';
+import { EditToursFormComponent } from './edit-tours/edit-tours-form/edit-tours-form.component';
+import { EditToursCalendarComponent } from './edit-tours/edit-tours-calendar/edit-tours-calendar.component';
+import { UsefulComponentsModule } from '../useful-components/useful-components.module';
+import { MaterialModule } from '../material/material.module';
 
 
 @NgModule({
   declarations: [
     TourComponent,
     FilterToursComponent,
-    ToursListComponent
+    ToursListComponent,
+    EditToursComponent,
+    EditToursMapComponent,
+    EditToursFormComponent,
+    EditToursCalendarComponent
   ],
   imports: [
     CommonModule,
-    ToursRoutingModule
+    ToursRoutingModule,
+    UsefulComponentsModule,
+    MaterialModule
   ]
 })
 export class ToursModule { }

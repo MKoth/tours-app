@@ -1,0 +1,5 @@
+<div fxLayout fxLayoutGap="10px" class="buttons_holder">
+    <button mat-flat-button color="accent" (click)="cancelLastStroke()" [disabled]="getPointsCount()<=1">Cancel Last Stroke</button>
+    <button mat-flat-button color="accent" (click)="clearLine()" [disabled]="getPointsCount()==0">Clear Points</button>
+</div>
+<div id="googleMapNewTour"></div>
