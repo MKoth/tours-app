@@ -14,6 +14,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+
 
 @NgModule({
   declarations: [],
@@ -32,7 +36,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatChipsModule,
     MatAutocompleteModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatButtonToggleModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule
   ],
   exports: [
     MatTabsModule,
@@ -48,7 +57,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatChipsModule,
     MatAutocompleteModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatButtonToggleModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule
   ]
 })
 export class MaterialModule { }

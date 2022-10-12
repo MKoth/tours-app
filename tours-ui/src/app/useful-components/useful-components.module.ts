@@ -21,6 +21,11 @@ import { DialogsModule } from '../dialogs/dialogs.module';
     ReactiveFormsModule,
     EditorModule,
     DialogsModule
+  ],
+  exports: [
+    ChipsFieldComponent,
+    TextEditorComponent,
+    SelectCreateCityComponent
   ]
 })
 export class UsefulComponentsModule { }

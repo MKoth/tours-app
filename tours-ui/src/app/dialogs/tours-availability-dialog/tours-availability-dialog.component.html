@@ -1,0 +1,101 @@
+<div>
+    <div fxLayout="row">
+        <mat-form-field>
+            <input matInput [ngxMatDatetimePicker]="picker1" placeholder="Start date" [formControl]="fromDatetime">
+            <mat-datepicker-toggle matSuffix [for]="$any(picker1)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker1 [touchUi]="true" [disableMinute]="false">
+                <ng-template>
+                    <span>OK</span>
+                </ng-template>
+            </ngx-mat-datetime-picker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [ngxMatDatetimePicker]="picker2" placeholder="End date" [formControl]="toDatetime">
+            <mat-datepicker-toggle matSuffix [for]="$any(picker2)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker2 [touchUi]="true" [disableMinute]="false">
+                <ng-template>
+                    <span>OK</span>
+                </ng-template>
+            </ngx-mat-datetime-picker>
+        </mat-form-field>
+    </div>
+    <button mat-button (click)="addRrule()"><mat-icon>add</mat-icon>Add Reccurrence Rule</button>
+    <div *ngFor="let rrule of rrules">
+        <mat-button-toggle-group #group="matButtonToggleGroup">
+            <mat-button-toggle value="day" aria-label="Day">
+                Day
+            </mat-button-toggle>
+            <mat-button-toggle value="week" aria-label="Week">
+                Week
+            </mat-button-toggle>
+            <mat-button-toggle value="month" aria-label="Month">
+                Month
+            </mat-button-toggle>
+            <mat-button-toggle value="year" aria-label="Year">
+                Year
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+        <div *ngIf="group.value=='day'">
+            <mat-form-field class="number-field" appearance="fill">
+                <mat-label>Interval</mat-label>
+                <input matInput type="number" placeholder="Ex. each 3rd. day">
+            </mat-form-field>
+            <mat-button-toggle-group #week="matButtonToggleGroup" multiple>
+                <ng-container *ngFor="let day of days">
+                    <mat-button-toggle [value]="day" aria-label="Day">
+                        {{day}}
+                    </mat-button-toggle>
+                </ng-container>
+            </mat-button-toggle-group>
+        </div>
+        <div *ngIf="group.value=='week'">
+            <mat-form-field class="number-field" appearance="fill">
+                <mat-label>Interval</mat-label>
+                <input matInput type="number" placeholder="Ex. each 3rd. week">
+            </mat-form-field>
+            <mat-button-toggle-group #week="matButtonToggleGroup" multiple>
+                <mat-button-toggle value="0" aria-label="Day">
+                    Mon
+                </mat-button-toggle>
+                <mat-button-toggle value="1" aria-label="Week">
+                    Tue
+                </mat-button-toggle>
+                <mat-button-toggle value="2" aria-label="Month">
+                    Wed
+                </mat-button-toggle>
+                <mat-button-toggle value="3" aria-label="Year">
+                    Thu
+                </mat-button-toggle>
+                <mat-button-toggle value="4" aria-label="Year">
+                    Fri
+                </mat-button-toggle>
+                <mat-button-toggle value="5" aria-label="Year">
+                    Sat
+                </mat-button-toggle>
+                <mat-button-toggle value="6" aria-label="Year">
+                    Sun
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div *ngIf="group.value=='month'">
+            <mat-form-field class="number-field" appearance="fill">
+                <mat-label>Interval</mat-label>
+                <input matInput type="number" placeholder="Ex. each 3rd. day">
+            </mat-form-field>
+            <mat-button-toggle-group #month="matButtonToggleGroup" multiple>
+                <ng-container *ngFor="let month of months">
+                    <mat-button-toggle [value]="month" aria-label="Day">
+                        {{month}}
+                    </mat-button-toggle>
+                </ng-container>
+            </mat-button-toggle-group>
+        </div>
+        <div *ngIf="group.value=='year'">
+            <mat-form-field class="number-field" appearance="fill">
+                <mat-label>Interval</mat-label>
+                <input matInput type="number" placeholder="Ex. each 3rd. year">
+            </mat-form-field>
+        </div>
+    </div>
+</div>
