@@ -13,7 +13,6 @@ import { MatChipInputEvent } from '@angular/material/chips';
 export class FilterLayersComponent implements OnInit {
 
   city = 'lviv';
-  century = 'xix';
 
   constructor() {
   }

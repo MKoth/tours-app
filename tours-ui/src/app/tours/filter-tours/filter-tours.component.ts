@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FilterToursComponent implements OnInit {
 
+  city = 'lviv';
+
   constructor() { }
 
   ngOnInit(): void {
