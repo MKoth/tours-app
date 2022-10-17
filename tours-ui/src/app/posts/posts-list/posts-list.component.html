@@ -1,1 +1,25 @@
-<p>posts-list works!</p>
+<app-filter-posts></app-filter-posts>
+<div fxLayoutAlign="end center" style="margin-bottom: 10px;">
+    <button mat-flat-button color="warn" routerLink="/posts/edit/new"><mat-icon>add</mat-icon>Create New Post</button>
+</div>
+<div class="tour-list-holder" fxLayoutGap="10px" fxLayout="column" fxLayoutAlign="space-between center">
+    <mat-card *ngFor="let post of posts">
+        <mat-card-title-group>
+          <mat-card-title>Shiba Inu {{post}}</mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>location_on</mat-icon>Lviv (Jews Quarter, Old City)</mat-card-subtitle>
+          <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>map</mat-icon>Medieval Tour</mat-card-subtitle>
+          <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
+        </mat-card-title-group>
+        <mat-card-content>
+            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
+        </mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="space-between none">
+            <mat-chip-list aria-label="Fish selection">
+                <mat-chip>XIX century</mat-chip>
+                <mat-chip>Ukranians</mat-chip>
+            </mat-chip-list>
+            <div fxLayoutAlign="end center"><button mat-flat-button color="primary" routerLink="/posts/{{post}}">See More</button></div>
+        </div>
+    </mat-card>
+</div>
+

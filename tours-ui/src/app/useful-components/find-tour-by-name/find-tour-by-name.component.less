@@ -1,0 +1,22 @@
+.multiple-layers-selector {
+    width: 100%;
+
+    &-form-field {
+        width: calc(100% - 20px);
+        margin: 10px;
+
+        ::ng-deep .mat-form-field-wrapper {
+            padding-bottom: 0;
+            margin: 0;
+        }
+    }
+
+    
+}
+
+
+
+// hide option but not remove it, otherwise dropdown will not work without an option
+.disabled-option {
+    display: none;
+}

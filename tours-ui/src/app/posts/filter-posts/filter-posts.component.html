@@ -1,1 +1,31 @@
-<p>filter-posts works!</p>
+<form style="margin-bottom: 10px;">
+    <mat-card>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between end" fxLayout.xs="column"
+            fxLayoutAlign.xs="none">
+            <mat-form-field appearance="fill" fxFlex="20">
+                <mat-label>Filter By city</mat-label>
+                <mat-select [(value)]="city">
+                    <mat-option>No Filter</mat-option>
+                    <mat-option value="lviv">Lviv</mat-option>
+                    <mat-option value="berlin">Berlin</mat-option>
+                    <mat-option value="paris">Paris</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <app-select-layers-list fxFlex="30"></app-select-layers-list>
+            <app-chips-field fxFlex></app-chips-field>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="end center">
+            <button mat-flat-button color="accent" fxFlex.xs><mat-icon>clear</mat-icon>Clear Filters</button>
+            <button mat-flat-button color="accent" fxFlex.xs><mat-icon>filter_list</mat-icon>Filter Results</button>
+        </div>
+    </mat-card>
+</form>
+
+<form style="margin-bottom: 10px;">
+    <mat-card>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between end" fxLayout.xs="column"
+            fxLayoutAlign.xs="none">
+            <app-find-tour-by-name fxFlex></app-find-tour-by-name>
+        </div>
+    </mat-card>
+</form>

@@ -8,6 +8,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { SelectCreateCityComponent } from './select-create-city/select-create-city.component';
 import { DialogsModule } from '../dialogs/dialogs.module';
 import { SelectLayersListComponent } from './select-layers-list/select-layers-list.component';
+import { FindTourByNameComponent } from './find-tour-by-name/find-tour-by-name.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { SelectLayersListComponent } from './select-layers-list/select-layers-li
     ChipsFieldComponent,
     TextEditorComponent,
     SelectCreateCityComponent,
-    SelectLayersListComponent
+    SelectLayersListComponent,
+    FindTourByNameComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { SelectLayersListComponent } from './select-layers-list/select-layers-li
     ChipsFieldComponent,
     TextEditorComponent,
     SelectCreateCityComponent,
-    SelectLayersListComponent
+    SelectLayersListComponent,
+    FindTourByNameComponent
   ]
 })
 export class UsefulComponentsModule { }

@@ -32,7 +32,6 @@ import { CalendarComponentsModule } from '../calendar-components/calendar-compon
     UsefulComponentsModule,
     MaterialModule,
     CalendarComponentsModule
-    // CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ]
 })
 export class ToursModule { }

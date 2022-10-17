@@ -9,7 +9,13 @@
                 <app-select-layers-list fxFlex></app-select-layers-list>
             </div>
             <app-chips-field></app-chips-field>
-            <app-select-create-city></app-select-create-city>
+            <div fxLayout="row" fxLayoutGap="10px">
+                <app-select-create-city fxFlex></app-select-create-city>
+                <mat-form-field appearance="fill" fxFlex="30">
+                    <mat-label>Tour's Duration (in minutes)</mat-label>
+                    <input type="number" matInput placeholder="Tour's Duration">
+                </mat-form-field>
+            </div>
             <mat-checkbox (change)="toggleEnrollability($event.checked)">User can Enroll for a Tour</mat-checkbox>
             <ng-container *ngIf="canEnroll">
                 <div fxLayout="row" fxLayoutAlign="space-between start">
