@@ -16,6 +16,10 @@ spring:
           uri: lb://tours-locations-layers
           predicates:
             - Path=/tours-locations-layers/**
+        - id: users-manager
+          uri: lb://users-manager
+          predicates:
+            - Path=/users-manager/**
 eureka:
   client:
     serviceUrl:
