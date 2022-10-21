@@ -2,6 +2,10 @@ package com.toursapp.usersmanager.controllers;
 
 import com.toursapp.usersmanager.dto.UserDTO;
 import com.toursapp.usersmanager.service.KeyCloakService;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.keycloak.OAuth2Constants;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
