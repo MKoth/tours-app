@@ -1,1 +1,35 @@
-<p>registration works!</p>
+<form style="margin-bottom: 10px;">
+    <mat-card>
+        <mat-card-title>Registration Form</mat-card-title>
+        <mat-card-subtitle>Fill In All Fields Below and Click Register Button!</mat-card-subtitle>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between end" fxLayout.xs="column"
+            fxLayoutAlign.xs="none">
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput placeholder="Ex. pat@example.com">
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Name</mat-label>
+                <input type="text" matInput>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between end" fxLayout.xs="column"
+            fxLayoutAlign.xs="none">
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput>
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Repeat Password</mat-label>
+                <input type="password" matInput>
+            </mat-form-field>
+        </div>
+        <mat-card-actions>
+            <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" >
+                <button mat-flat-button color="warn" fxFlex.xs><mat-icon>clear</mat-icon>Cancel</button>
+                <button mat-flat-button color="primary" fxFlex.xs><mat-icon>assignment_ind</mat-icon>Register</button>
+            </div>
+        </mat-card-actions>
+        
+    </mat-card>
+</form>

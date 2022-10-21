@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LayerMapComponent } from './layer-map.component';
+import { AuthenticatedComponent } from './authenticated.component';
 
-describe('LayerMapComponent', () => {
-  let component: LayerMapComponent;
-  let fixture: ComponentFixture<LayerMapComponent>;
+describe('AuthenticatedComponent', () => {
+  let component: AuthenticatedComponent;
+  let fixture: ComponentFixture<AuthenticatedComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LayerMapComponent ]
+      declarations: [ AuthenticatedComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LayerMapComponent);
+    fixture = TestBed.createComponent(AuthenticatedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

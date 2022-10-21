@@ -1,1 +1,59 @@
-<p>tour works!</p>
+<div id="googleMapTour"></div>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <h1 class="mat-headline">Tour's Header here</h1>
+    <div fxLayout="row" fxLayoutGap="10px">
+        <!-- <button mat-flat-button color="accent" routerLink="/tours/edit/1"><mat-icon>calendar_today</mat-icon>Enrol for Tour</button> -->
+        <button mat-flat-button color="accent" routerLink="/tours/edit/1"><mat-icon>edit</mat-icon>Edit Tour</button>
+    </div>
+</div>
+
+<div class="separator"></div>
+<p class="additional-info"><mat-icon>location_on</mat-icon>Lviv (Jews Quarter, Old City)</p>
+<p class="additional-info"><mat-icon>timeline</mat-icon>19 March 1867 - 15 September 1942</p>
+<p class="additional-info"><mat-icon>map</mat-icon>Medieval Tour</p>
+<img class="post-image" src="https://material.angular.io/assets/img/examples/shiba2.jpg" />
+<div class="mat-body">
+    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. 
+    Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, 
+    ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, 
+    fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, 
+    justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus 
+    elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, 
+    eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla 
+    ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur 
+    ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, 
+    sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, 
+    luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut 
+    libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. 
+    Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, 
+    augue velit cursus nunc,
+    <div class="chips-holder" fxLayout="row" fxLayoutAlign="end start">
+        <mat-chip-list aria-label="Fish selection">
+            <mat-chip>XIX century</mat-chip>
+            <mat-chip>Ukranians</mat-chip>
+        </mat-chip-list>
+    </div>
+</div>
+<div class="separator"></div>
+<h1 class="mat-headline">Tour's Posts:</h1>
+<div class="separator"></div>
+<div class="tour-list-holder" fxLayoutGap="10px" fxLayout="column" fxLayoutAlign="space-between center">
+    <mat-card *ngFor="let post of posts">
+        <mat-card-title-group>
+            <mat-card-title>Shiba Inu {{post}}</mat-card-title>
+            <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>location_on</mat-icon>Lviv (Jews Quarter, Old City)</mat-card-subtitle>
+            <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>map</mat-icon>Medieval Tour</mat-card-subtitle>
+            <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
+        </mat-card-title-group>
+        <mat-card-content>
+            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
+        </mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="space-between none">
+            <mat-chip-list aria-label="Fish selection">
+                <mat-chip>XIX century</mat-chip>
+                <mat-chip>Ukranians</mat-chip>
+            </mat-chip-list>
+            <div fxLayoutAlign="end center"><button mat-flat-button color="primary" routerLink="/posts/{{post}}">See More</button></div>
+        </div>
+    </mat-card>
+</div>

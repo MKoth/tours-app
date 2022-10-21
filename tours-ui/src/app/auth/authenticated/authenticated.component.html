@@ -1,0 +1,6 @@
+<div class="authenticating-text" fxLayout="row" fxLayoutAlign="center start">
+    <div fxLayout="column" fxLayoutAlign="start center">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <p class="page-text" [class.error]="isError">{{pageText}}</p>
+    </div>
+</div>
