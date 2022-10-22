@@ -22,14 +22,18 @@
 
         <ul fxLayout fxLayoutGap="15px" class="navigation-items login">
             <li>
-                <a routerLink="/login">Login</a>
-                <span>/</span>
-                <a routerLink="/register">Register</a>
-                <!-- <div class="header-profile-image" [matMenuTriggerFor]="settingsMenu"></div>
-                <mat-menu #settingsMenu>
-                    <menu mat-menu-item><mat-icon>account_circle</mat-icon>Profile</menu>
-                    <menu mat-menu-item><mat-icon>exit_to_app</mat-icon>Logout</menu>
-                </mat-menu> -->
+                <ng-container *ngIf="!isLogged">
+                    <a routerLink="/login">Login</a>
+                    <span>/</span>
+                    <a routerLink="/register">Register</a>
+                </ng-container>
+                <ng-container *ngIf="isLogged">
+                    <div class="header-profile-image" [matMenuTriggerFor]="settingsMenu"></div>
+                    <mat-menu #settingsMenu>
+                        <menu mat-menu-item><mat-icon>account_circle</mat-icon>Profile</menu>
+                        <menu mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon>Logout</menu>
+                    </mat-menu>
+                </ng-container>
             </li>
         </ul>
     </div>
