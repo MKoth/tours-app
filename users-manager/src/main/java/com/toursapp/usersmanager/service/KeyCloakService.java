@@ -4,11 +4,15 @@ import com.toursapp.usersmanager.config.KeycloakConfig;
 import com.toursapp.usersmanager.config.KeycloakConfigProperties;
 import com.toursapp.usersmanager.dto.UserDTO;
 import com.toursapp.usersmanager.utils.Credentials;
+import org.keycloak.admin.client.CreatedResponseUtil;
+import org.keycloak.admin.client.resource.RolesResource;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import javax.ws.rs.core.Response;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,14 +29,21 @@ public class KeyCloakService {
                 .createPasswordCredentials(userDTO.getPassword());
         UserRepresentation user = new UserRepresentation();
         user.setUsername(userDTO.getUserName());
-        user.setFirstName(userDTO.getFirstname());
+        user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmailId());
         user.setCredentials(Collections.singletonList(credential));
+
         user.setEnabled(true);
 
         UsersResource instance = getInstance();
-        instance.create(user);
+        var newUser = instance.create(user);
+        String userId = CreatedResponseUtil.getCreatedId(newUser);
+        UserResource userResource = instance.get(userId);
+
+        var userRealmRole = getRolesInstance().get("USER").toRepresentation();
+        userResource.roles().realmLevel() //
+                .add(Arrays.asList(userRealmRole));
     }
 
     public List<UserRepresentation> getUser(String userName){
@@ -47,7 +58,7 @@ public class KeyCloakService {
                 .createPasswordCredentials(userDTO.getPassword());
         UserRepresentation user = new UserRepresentation();
         user.setUsername(userDTO.getUserName());
-        user.setFirstName(userDTO.getFirstname());
+        user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmailId());
         user.setCredentials(Collections.singletonList(credential));
@@ -79,5 +90,11 @@ public class KeyCloakService {
         return KeycloakConfig.getInstance(keycloakConfigProps)
                 .realm(keycloakConfigProps.getRealm())
                 .users();
+    }
+
+    public RolesResource getRolesInstance(){
+        return KeycloakConfig.getInstance(keycloakConfigProps)
+                .realm(keycloakConfigProps.getRealm())
+                .roles();
     }
 }

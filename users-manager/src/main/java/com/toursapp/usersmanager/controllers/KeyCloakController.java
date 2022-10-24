@@ -2,16 +2,18 @@ package com.toursapp.usersmanager.controllers;
 
 import com.toursapp.usersmanager.dto.UserDTO;
 import com.toursapp.usersmanager.service.KeyCloakService;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-import org.keycloak.OAuth2Constants;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("users-manager/user")
 public class KeyCloakController {
@@ -19,9 +21,15 @@ public class KeyCloakController {
     KeyCloakService service;
 
     @PostMapping
-    public String addUser(@RequestBody UserDTO userDTO){
-        service.addUser(userDTO);
-        return "User Added Successfully.";
+    public ResponseEntity addUser(@RequestBody UserDTO userDTO){
+        try {
+            service.addUser(userDTO);
+        } catch (WebApplicationException ex) {
+            if (ex.getMessage().contains("Code: 409")) {
+                return new ResponseEntity(Map.of("error", "User already exists"), HttpStatus.CONFLICT);
+            }
+        }
+        return new ResponseEntity(Map.of("msg", "User successfully created"), HttpStatus.CREATED);
     }
 
     @GetMapping("/{userName}")
