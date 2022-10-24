@@ -7,6 +7,7 @@ import { MaterialModule } from '../material/material.module';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthenticatedComponent } from './authenticated/authenticated.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { AuthenticatedComponent } from './authenticated/authenticated.component'
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     MaterialModule,
     AuthRoutingModule,
     HttpClientModule

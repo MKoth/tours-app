@@ -76,10 +76,11 @@ export class AuthService {
     const body = new HttpParams()
       .set('refresh_token', refresh_token as string)
       .set('client_id', client_id);
-    this.tokenService.removeToken();
-    this.tokenService.removeRefreshToken();
     this.isLogged.next(false);
-    this.http.post<any>(OAUTH_API_URL + '/logout', body, HTTP_OPTIONS).subscribe();
+    this.http.post<any>(OAUTH_API_URL + '/logout', body, HTTP_OPTIONS).subscribe(()=>{
+      this.tokenService.removeToken();
+      this.tokenService.removeRefreshToken();
+    });
   }
 
   isAuthenticated():boolean {

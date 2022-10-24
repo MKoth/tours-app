@@ -1,35 +1,59 @@
-<form style="margin-bottom: 10px;">
+<form style="margin-bottom: 10px;" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-title>Registration Form</mat-card-title>
-        <mat-card-subtitle>Fill In All Fields Below and Click Register Button!</mat-card-subtitle>
+        <mat-card-subtitle>Fill in all fields below and click Register button!</mat-card-subtitle>
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between end" fxLayout.xs="column"
             fxLayoutAlign.xs="none">
             <mat-form-field fxFlex appearance="fill">
                 <mat-label>Email</mat-label>
-                <input type="email" matInput placeholder="Ex. pat@example.com">
+                <input type="email" matInput placeholder="Ex. pat@example.com" formControlName="emailId">
+                <mat-error *ngIf="emailId?.invalid && (emailId?.dirty ||emailId?.touched)">Please, enter valid email</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex appearance="fill">
-                <mat-label>Name</mat-label>
-                <input type="text" matInput>
+                <mat-label>Username</mat-label>
+                <input type="text" matInput formControlName="userName">
+                <mat-error *ngIf="userName?.invalid && (userName?.dirty ||userName?.touched)">Please, enter Username between 2 to 15 characters long</mat-error>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between end" fxLayout.xs="column"
+            fxLayoutAlign.xs="none">
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>First Name</mat-label>
+                <input type="text" matInput formControlName="firstName">
+                <mat-error *ngIf="firstName?.invalid && (firstName?.dirty ||firstName?.touched)">Please, enter First Name between 2 to 15 characters long</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Last Name</mat-label>
+                <input type="text" matInput formControlName="lastName">
+                <mat-error *ngIf="lastName?.invalid && (lastName?.dirty ||lastName?.touched)">Please, enter Last Name between 2 to 15 characters long</mat-error>
             </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between end" fxLayout.xs="column"
             fxLayoutAlign.xs="none">
             <mat-form-field fxFlex appearance="fill">
                 <mat-label>Password</mat-label>
-                <input type="password" matInput>
+                <input type="password" matInput formControlName="password">
+                <mat-error *ngIf="password?.invalid && (password?.dirty ||password?.touched)">Please, enter Password at least 5 characters long</mat-error>
             </mat-form-field>
             <mat-form-field fxFlex appearance="fill">
                 <mat-label>Repeat Password</mat-label>
-                <input type="password" matInput>
+                <input type="password" matInput formControlName="confirmPassword">
+                <mat-error *ngIf="confirmPassword?.invalid && (confirmPassword?.dirty ||confirmPassword?.touched)">Please, confirm password</mat-error>
             </mat-form-field>
         </div>
+        <mat-error *ngIf="contactForm?.errors">Password and Repeat Password fields must match</mat-error>
         <mat-card-actions>
             <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" >
-                <button mat-flat-button color="warn" fxFlex.xs><mat-icon>clear</mat-icon>Cancel</button>
-                <button mat-flat-button color="primary" fxFlex.xs><mat-icon>assignment_ind</mat-icon>Register</button>
+                <button [disabled]="isSubmitted" (click)="goToHomePage()" mat-flat-button color="warn" fxFlex.xs><mat-icon>clear</mat-icon>Cancel</button>
+                <button [disabled]="isSubmitted" mat-flat-button color="primary" fxFlex.xs><mat-icon>assignment_ind</mat-icon>Register</button>
             </div>
         </mat-card-actions>
-        
+        <div *ngIf="isSubmitted" class="authenticating-text" fxLayout="row" fxLayoutAlign="center start">
+            <div fxLayout="column" fxLayoutAlign="start center">
+                <mat-spinner *ngIf="isLoading"></mat-spinner>
+                <p class="page-text" [class.error]="isError">{{pageText}}</p>
+                <button *ngIf="isSuccess" (click)="goToLoginPage()" mat-flat-button color="accent" fxFlex.xs>Go To Login Page</button>
+            </div>
+        </div>
     </mat-card>
 </form>

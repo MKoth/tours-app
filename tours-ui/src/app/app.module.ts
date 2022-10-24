@@ -11,6 +11,8 @@ import { MaterialModule } from './material/material.module';
 import { SidenavListComponent } from './navigation-components/sidenav-list/sidenav-list.component';
 import { HeaderComponent } from './navigation-components/header/header.component';
 import { AuthModule } from './auth/auth.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,13 @@ import { AuthModule } from './auth/auth.module';
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 
