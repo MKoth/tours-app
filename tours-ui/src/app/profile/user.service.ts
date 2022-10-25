@@ -27,6 +27,10 @@ export class UserService {
     return this.http.put<string>(USER_API_URL+`/${userId}`, user);
   }
 
+  assignCreatorRoleToUser(userId:string): Observable<string> {
+    return this.http.get<string>(USER_API_URL+`/assignCreatorRole/${userId}`);
+  }
+
   getUserInfo(username:string): Observable<any> {
     return this.http.get<string>(USER_API_URL+`/${username}`);
   }

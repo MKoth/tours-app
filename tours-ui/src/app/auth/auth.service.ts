@@ -3,11 +3,11 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Inject, Injectable } from '@angular/core';
 import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 import { TokenService } from './token.service';
+import jwt_decode from 'jwt-decode';
 
 const OAUTH_API_URL = 'http://localhost:8080/auth/realms/my_realm/protocol/openid-connect';
 const client_id = 'my_client';
 const redirect = 'http://localhost:4200/authenticated';
-const logoutRedirect = 'http://localhost:4200/home';
 const HTTP_OPTIONS = {
   headers: new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -81,6 +81,14 @@ export class AuthService {
       this.tokenService.removeToken();
       this.tokenService.removeRefreshToken();
     });
+  }
+
+  getDecodedAccessToken(): any {
+    try {
+      return jwt_decode(this.tokenService.getToken() as string);
+    } catch(Error) {
+      return null;
+    }
   }
 
   isAuthenticated():boolean {

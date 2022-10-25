@@ -1,1 +1,37 @@
-<p>user-profile works!</p>
+<mat-card>
+    <mat-card-title>Your Profile:</mat-card-title>
+    <div fxLayout="column" fxLayoutGap="10px">
+        <div class="info-row" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around center">
+            <div fxLayout="column">
+                <p class="name">Email:</p>
+                <p class="value">{{tokenInfo.email}}</p>
+            </div>
+            <div fxLayout="column">
+                <p class="name">Username:</p>
+                <p class="value">{{tokenInfo.preferred_username}}</p>
+            </div>
+        </div>
+        <div class="info-row" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around center">
+            <div fxLayout="column">
+                <p class="name">First Name:</p>
+                <p class="value">{{tokenInfo.given_name}}</p>
+            </div>
+            <div fxLayout="column">
+                <p class="name">Last Name:</p>
+                <p class="value">{{tokenInfo.family_name}}</p>
+            </div>
+        </div>
+        <div class="info-row" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around center">
+            <div fxLayout="column">
+                <p class="name">User Role:</p>
+                <p class="value">{{getUserRole()}}</p>
+            </div>
+            <div fxLayout="column">
+                <ng-container *ngIf="getUserRole()=='USER'">
+                    <p class="info">To be able to create your own tours, you should become CREATOR, to become one, please click a button below</p>
+                    <button mat-flat-button color="accent" (click)="updateRoleToCreator()">Obtain CREATOR's Role</button>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</mat-card>
