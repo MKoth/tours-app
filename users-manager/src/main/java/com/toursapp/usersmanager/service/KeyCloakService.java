@@ -46,6 +46,15 @@ public class KeyCloakService {
                 .add(Arrays.asList(userRealmRole));
     }
 
+    public void assignCreatorRole(String userId) {
+        UsersResource instance = getInstance();
+        UserResource userResource = instance.get(userId);
+        var userRealmRole = getRolesInstance().get("USER").toRepresentation();
+        var creatorRealmRole = getRolesInstance().get("CREATOR").toRepresentation();
+        userResource.roles().realmLevel().remove(Arrays.asList(userRealmRole));
+        userResource.roles().realmLevel().add(Arrays.asList(creatorRealmRole));
+    }
+
     public List<UserRepresentation> getUser(String userName){
         UsersResource usersResource = getInstance();
         List<UserRepresentation> user = usersResource.search(userName, true);

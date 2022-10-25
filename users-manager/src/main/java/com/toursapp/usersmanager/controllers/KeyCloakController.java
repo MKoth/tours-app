@@ -32,6 +32,12 @@ public class KeyCloakController {
         return new ResponseEntity(Map.of("msg", "User successfully created"), HttpStatus.CREATED);
     }
 
+    @GetMapping("/assignCreatorRole/{userId}")
+    public ResponseEntity assignCreatorRole(@PathVariable("userId") String userId){
+        service.assignCreatorRole(userId);
+        return new ResponseEntity(Map.of("msg", "Creator role successfully assigned to User"), HttpStatus.OK);
+    }
+
     @GetMapping("/{userName}")
     public List<UserRepresentation> getUser(@PathVariable("userName") String userName){
         List<UserRepresentation> user = service.getUser(userName);

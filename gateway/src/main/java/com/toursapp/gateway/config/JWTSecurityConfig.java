@@ -29,6 +29,7 @@ public class JWTSecurityConfig {
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeExchange()
+                .pathMatchers(HttpMethod.GET ,"/users-manager/user/assignCreatorRole/*").hasRole("USER")
                 .pathMatchers(HttpMethod.GET ,"/users-manager/user/*").permitAll()
                 .pathMatchers(HttpMethod.POST ,"/users-manager/user").permitAll()
                 .pathMatchers(HttpMethod.GET ,"/tours-locations-layers/layer").permitAll()
