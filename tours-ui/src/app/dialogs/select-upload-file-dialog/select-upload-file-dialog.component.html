@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Select image or upload one!</h1>
+<div mat-dialog-content>
+    <div fxLayout="column" fxLayoutAlign="start center">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <p *ngIf="pageText" class="page-text" [class.error]="isError">{{pageText}}</p>
+    </div>
+    <div *ngIf="isSuccess" class="images-holder">
+        <img (click)="selectImage($event)" src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80" alt=""/>
+        <img (click)="selectImage($event)" src="https://thumbs.dreamstime.com/b/beautiful-rain-forest-ang-ka-nature-trail-doi-inthanon-national-park-thailand-36703721.jpg" alt="" />
+        <img (click)="selectImage($event)" src="https://media.istockphoto.com/photos/canadian-rockies-banff-national-park-dramatic-landscape-picture-id1342152935?b=1&k=20&m=1342152935&s=170667a&w=0&h=q9-vhO5MC7zwaxX8_zFUiqMnQJ5udMjEBf0npeCCAGs=" alt="" />
+        <img (click)="selectImage($event)" src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg" alt="" />
+        <img (click)="selectImage($event)" src="https://ghantee.com/wp-content/uploads/2022/09/mahadev-beautiful-night-image-HD-576x1024.jpg" alt="" />
+        <img (click)="selectImage($event)" src="https://cdn.theatlantic.com/media/img/photo/2018/10/images-of-the-season-fall-is-in-the/f02_RTX6EJJJ-1/original.jpg" alt="" />
+        <img (click)="selectImage($event)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMma1RsDUuSNsB1CLxhrSbNJH9OApmgGQndQ&usqp=CAU" alt="" />
+        <img (click)="selectImage($event)" src="https://media.istockphoto.com/photos/hot-air-balloons-flying-over-the-botan-canyon-in-turkey-picture-id1297349747?b=1&k=20&m=1297349747&s=170667a&w=0&h=oH31fJty_4xWl_JQ4OIQWZKP8C6ji9Mz7L4XmEnbqRU=" alt="" />
+        <img src="http://localhost:8081/files-uploader/file/image/b8093432-aa1a-435f-812c-dfb384fac49e"/>
+        <img src="http://localhost:8081/files-uploader/file/image/fd97210f-96b7-487e-9734-79c9fecd990b" />
+    </div>
+</div>
+<div mat-dialog-actions fxLayout="column" fxLayoutGap="10px">
+    <div *ngIf="isSuccess" class="files-upload" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-around center">
+        <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+            <input style="display: none;" #file type="file" accept="image/*" (change)="uploadImage(file.files)">
+            <button mat-flat-button color="primary" (click)="file.click()">Upload New Image</button>
+        </div>
+        <mat-progress-bar
+            color="accent"
+            [mode]="mode"
+            [value]="progress">
+        </mat-progress-bar>
+    </div>
+    <div class="dialog-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+        <button color="warn" mat-flat-button (click)="onCancelClick()">Cancel</button>
+        <button [disabled]="!selectedFile" color="accent" mat-flat-button [mat-dialog-close]="selectedFile" cdkFocusInitial>Select File</button>
+    </div>
+</div>

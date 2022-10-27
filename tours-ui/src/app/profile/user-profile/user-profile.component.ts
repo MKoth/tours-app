@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/auth/auth.service';
+import { SelectUploadFileDialogComponent } from 'src/app/dialogs/select-upload-file-dialog/select-upload-file-dialog.component';
 import { UserService } from '../user.service';
 
 @Component({
@@ -9,7 +11,10 @@ import { UserService } from '../user.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(
+    private authService: AuthService, 
+    private userService: UserService,
+    public dialog: MatDialog) { }
 
   allowedRoles = ["ADMIN", "CREATOR", "USER"];
 
@@ -40,6 +45,18 @@ export class UserProfileComponent implements OnInit {
       error: (error)=>{
         console.log("Error happened", error);
       }
+    });
+  }
+
+  selectFileDialog() {
+    console.log("Selct file dialog");
+    const dialogRef = this.dialog.open(SelectUploadFileDialogComponent, {
+      width: '600px',
+      data: {city: '', location: {lat:0, lng:0}},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
     });
   }
 }

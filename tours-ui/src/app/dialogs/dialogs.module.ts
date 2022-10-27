@@ -6,12 +6,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToursAvailabilityDialogComponent } from './tours-availability-dialog/tours-availability-dialog.component';
 import { FlexModule } from '@angular/flex-layout';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { SelectUploadFileDialogComponent } from './select-upload-file-dialog/select-upload-file-dialog.component';
 
 
 @NgModule({
   declarations: [
     NewCityCreationDialogComponent,
-    ToursAvailabilityDialogComponent
+    ToursAvailabilityDialogComponent,
+    SelectUploadFileDialogComponent
   ],
   imports: [
     FlexModule,

@@ -52,6 +52,7 @@ export class AuthService {
   }
 
   refreshToken(): Observable<any> {
+    console.log("refreshing token");
     let refresh_token = this.tokenService.getRefreshToken();
     this.tokenService.removeToken();
     this.tokenService.removeRefreshToken();
@@ -91,8 +92,23 @@ export class AuthService {
     }
   }
 
+  getDecodedRefreshToken(): any {
+    try {
+      return jwt_decode(this.tokenService.getRefreshToken() as string);
+    } catch(Error) {
+      return null;
+    }
+  }
+
   isAuthenticated():boolean {
-    return this.tokenService.getToken()? true:false;
+    let refreshToken = this.getDecodedRefreshToken();
+    if(refreshToken && refreshToken.exp > (Date.now()/1000)) {
+      return true;
+    }
+    // If token expired or does not exists
+    this.tokenService.removeToken();
+    this.tokenService.removeRefreshToken();
+    return false;
   }
 
   private static handleError(error: HttpErrorResponse): any {
