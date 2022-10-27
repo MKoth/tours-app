@@ -11,10 +11,10 @@ import java.util.stream.Stream;
 
 public interface FilesUploaderService {
     void init();
-    String saveImage(MultipartFile file, Integer user_id);
-    String saveAudio(MultipartFile file, Integer user_id);
+    String saveImage(MultipartFile file, String user_id);
+    String saveAudio(MultipartFile file, String user_id);
     Resource loadImage(String filename);
     Resource loadAudio(String filename);
     void deleteFile(String filename, FileType type);
-    List<FileInfo> loadAll(Integer user_id, FileType type);
+    List<FileInfo> loadAll(String user_id, FileType type);
 }

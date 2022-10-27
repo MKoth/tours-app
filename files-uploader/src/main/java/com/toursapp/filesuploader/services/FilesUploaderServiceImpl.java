@@ -47,18 +47,19 @@ public class FilesUploaderServiceImpl implements FilesUploaderService {
     }
 
     @Override
-    public String saveImage(MultipartFile file, Integer user_id) {
+    public String saveImage(MultipartFile file, String user_id) {
         try {
             String fileName = saveFileInfo(file, user_id, FileType.IMAGE);
             Files.copy(file.getInputStream(), this.rootImages.resolve(fileName));
             return fileName;
         } catch (IOException | RuntimeException e) {
+            System.out.println("Error while saving file " + e);
             throw new FileUploadingException(FileType.IMAGE);
         }
     }
 
     @Override
-    public String saveAudio(MultipartFile file, Integer user_id) {
+    public String saveAudio(MultipartFile file, String user_id) {
         try {
             String fileName = saveFileInfo(file, user_id, FileType.AUDIO);
             Files.copy(file.getInputStream(), this.rootAudios.resolve(file.getOriginalFilename()));
@@ -68,7 +69,7 @@ public class FilesUploaderServiceImpl implements FilesUploaderService {
         }
     }
 
-    private String saveFileInfo(MultipartFile file, Integer user_id, FileType type) {
+    private String saveFileInfo(MultipartFile file, String user_id, FileType type) {
         UUID fileName = UUID.randomUUID();
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         FileInfo newImage = new FileInfo();
@@ -129,7 +130,7 @@ public class FilesUploaderServiceImpl implements FilesUploaderService {
     }
 
     @Override
-    public List<FileInfo> loadAll(Integer user_id, FileType type) {
+    public List<FileInfo> loadAll(String user_id, FileType type) {
         List<FileInfo> files = new ArrayList<>();
         repository.findByUserIdAndType(user_id, type).forEach(files::add);
         return files;

@@ -38,6 +38,6 @@ public class FileUploaderServiceTest {
         service.init();
         MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
                 "text/plain", "text".getBytes());
-        service.saveImage(multipartFile, 1);
+        service.saveImage(multipartFile, "test");
     }
 }

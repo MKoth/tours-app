@@ -5,5 +5,5 @@ import com.toursapp.filesuploader.entities.FileInfo;
 import org.springframework.data.repository.CrudRepository;
 
 public interface FileRepository extends CrudRepository<FileInfo, String> {
-    Iterable<FileInfo> findByUserIdAndType(Integer user_id, FileType type);
+    Iterable<FileInfo> findByUserIdAndType(String user_id, FileType type);
 }
