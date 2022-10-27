@@ -20,6 +20,10 @@ spring:
           uri: lb://users-manager
           predicates:
             - Path=/users-manager/**
+        - id: files-uploader
+          uri: lb://files-uploader
+          predicates:
+            - Path=/files-uploader/**
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       globalcors:

@@ -33,6 +33,7 @@ public class JWTSecurityConfig {
                 .pathMatchers(HttpMethod.GET ,"/users-manager/user/*").permitAll()
                 .pathMatchers(HttpMethod.POST ,"/users-manager/user").permitAll()
                 .pathMatchers(HttpMethod.GET ,"/tours-locations-layers/layer").permitAll()
+                .pathMatchers(HttpMethod.GET ,"/files-uploader/**").permitAll()
                 .pathMatchers(HttpMethod.GET ,"/tours-locations-layers/location").hasRole("ADMIN")
                 .anyExchange().authenticated().and()
                 .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(
