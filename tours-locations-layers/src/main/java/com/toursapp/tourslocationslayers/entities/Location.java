@@ -23,7 +23,7 @@ public class Location {
 
     private String name;
 
-    private Float point;
+    private String point;
 
     private String text;
 
@@ -39,7 +39,8 @@ public class Location {
 
     private Integer creator_id;
 
-    private String city;
+    @ManyToOne
+    private City city;
 
     private Boolean enabled;
 
@@ -52,6 +53,9 @@ public class Location {
 
     @ManyToOne
     private Layer layer;
+
+    @ManyToOne
+    private Tour tour;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "locations_tags",

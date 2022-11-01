@@ -22,7 +22,7 @@ public class Layer {
 
     private String name;
 
-    private Float[] points;
+    private String[] points;
 
     private String text;
 
@@ -36,9 +36,10 @@ public class Layer {
 
     private Timestamp period_end;
 
-    private Integer creator_id;
+    private String creator_id;
 
-    private String city;
+    @ManyToOne
+    private City city;
 
     private Boolean enabled;
 

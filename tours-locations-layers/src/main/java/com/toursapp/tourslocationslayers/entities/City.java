@@ -15,9 +15,12 @@ import javax.persistence.Id;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Cities {
+public class City {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
+
     private String city;
+
+    private String point;
 }

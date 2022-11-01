@@ -6,6 +6,8 @@ import com.toursapp.tourslocationslayers.entities.Tag;
 import com.toursapp.tourslocationslayers.entities.Tour;
 import com.toursapp.tourslocationslayers.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public class TagController {
 
     @GetMapping
     List<Tag> getAll() {
-        return (List<Tag>) repository.findAll();
+        return (List<Tag>) repository.findAll(PageRequest.of(0, 5));
     }
 
     @PostMapping
@@ -33,6 +35,6 @@ public class TagController {
 
     @GetMapping("/find")
     List<Tag> findByName(@RequestParam(value = "like") String like) {
-        return (List<Tag>) repository.findByNameContainingIgnoreCase(like);
+        return (List<Tag>) repository.findByNameContainingIgnoreCase(like, PageRequest.of(0, 5));
     }
 }

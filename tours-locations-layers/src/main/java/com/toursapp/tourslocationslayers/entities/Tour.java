@@ -24,8 +24,6 @@ public class Tour {
 
     private String name;
 
-    private Float point;
-
     private String text;
 
     private String image;
@@ -40,7 +38,8 @@ public class Tour {
 
     private Integer creator_id;
 
-    private String city;
+    @ManyToOne
+    private City city;
 
     private String duration;
 
