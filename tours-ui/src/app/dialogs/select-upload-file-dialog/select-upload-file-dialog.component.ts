@@ -18,12 +18,13 @@ export class SelectUploadFileDialogComponent implements OnInit {
 
   mode: ProgressBarMode = 'determinate';
   progress = 0;
-  //bufferValue = 75;
   isLoading = true;
   isError = false;
   isSuccess = false;
   pageText = "Images are loading...";
   selectedFile: string = "";
+  userId: string = "";
+  images: Array<any> = [];
 
   constructor(
     public dialogRef: MatDialogRef<SelectUploadFileDialogComponent>,
@@ -40,17 +41,31 @@ export class SelectUploadFileDialogComponent implements OnInit {
     this.selectedFile = image.currentSrc;
   }
 
+  deleteImage(imageId: string) {
+    if (confirm("Are you sure, you want to delete image?")){
+      this.filesService.deleteImage(this.userId, imageId).subscribe({
+        next: (response) => {
+          if (Array.isArray(response))
+            this.images = response;
+          this.pageText = this.images.length?"":"No images yet, upload some!";
+        },
+        error: (err: HttpErrorResponse) => console.log(err)
+      });
+    }
+  }
+
   uploadImage(files:FileList | null) {
-    if(!files?.length) return;
-    const userId = this.authService.getDecodedAccessToken()?.sub;
-    if (!userId) return;
-    this.filesService.uploadImageFile(files[0], userId).subscribe({
+    this.progress = 0;
+    if(!files?.length || !this.userId) return;
+    this.filesService.uploadImageFile(files[0], this.userId).subscribe({
       next: (event) => {
-        if (event.type === HttpEventType.UploadProgress)
+        if (event.type === HttpEventType.UploadProgress){
           this.progress = Math.round(100 * event.loaded / (event.total as number));
+          console.log("progress ", this.progress);
+        }
         else if (event.type === HttpEventType.Response) {
-          console.log(event.body);
-          this.filesService.getImagesList(userId).subscribe();
+          this.images = event.body as Array<any>;
+          this.pageText = "";
         }
       },
       error: (err: HttpErrorResponse) => console.log(err)
@@ -59,13 +74,30 @@ export class SelectUploadFileDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(()=>{
+    this.userId = this.authService.getDecodedAccessToken()?.sub;
+    if (!this.userId) {
+      this.isSuccess = false;
       this.isLoading = false;
-      this.isError = false;
-      this.isSuccess = true;
-      //this.pageText = "Error happened while loading images, please try again later!";
-      this.pageText = "";
-    }, 1000);
+      this.isError = true;
+      this.pageText = "Error happened while loading images, please try again later!";
+      return;
+    }
+    this.filesService.getImagesList(this.userId).subscribe({
+      next: (res:any) => {
+        this.images = res;
+        this.isSuccess = true;
+        this.isLoading = false;
+        this.isError = false;
+        this.pageText = this.images.length?"":"No images yet, upload some!";
+      },
+      error: err => {
+        console.error(err);
+        this.isSuccess = false;
+        this.isLoading = false;
+        this.isError = true;
+        this.pageText = "Error happened while loading images, please try again later!";
+      }
+    })
   }
 
 }

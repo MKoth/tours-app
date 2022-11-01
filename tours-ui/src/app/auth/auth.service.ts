@@ -4,6 +4,7 @@ import { Inject, Injectable } from '@angular/core';
 import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 import { TokenService } from './token.service';
 import jwt_decode from 'jwt-decode';
+import { Router } from '@angular/router';
 
 const OAUTH_API_URL = 'http://localhost:8080/auth/realms/my_realm/protocol/openid-connect';
 const client_id = 'my_client';
@@ -22,7 +23,8 @@ export class AuthService {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private tokenService: TokenService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router,
   ) { }
 
   public isLogged = new Subject<boolean>();
@@ -53,6 +55,8 @@ export class AuthService {
 
   refreshToken(): Observable<any> {
     console.log("refreshing token");
+    if (!this.isAuthenticated())
+      this.router.navigate(['login']);
     let refresh_token = this.tokenService.getRefreshToken();
     this.tokenService.removeToken();
     this.tokenService.removeRefreshToken();

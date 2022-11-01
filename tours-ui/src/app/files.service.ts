@@ -20,18 +20,19 @@ export class FilesService {
   }
 
   getImagesList(userId:string) {
-    return this.http.get<string>(FILES_API_URL + `/images/${userId}`);
+    return this.http.get<Array<any>>(FILES_API_URL + `/images/${userId}`);
   }
 
   uploadImageFile(file:File, userId:string) {
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.http.post(FILES_API_URL + `/image/upload/${userId}`, formData, {
-      // headers: new HttpHeaders({
-      //   'Content-Type': 'multipart/form-data'
-      // }),
       reportProgress: true,
       observe: "events"
     })
+  }
+
+  deleteImage(userId:string, fileId:string) {
+    return this.http.delete<Array<any>>(FILES_API_URL + `/file/image/${userId}/${fileId}`);
   }
 }

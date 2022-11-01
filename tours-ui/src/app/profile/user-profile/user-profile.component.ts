@@ -19,10 +19,18 @@ export class UserProfileComponent implements OnInit {
   allowedRoles = ["ADMIN", "CREATOR", "USER"];
 
   tokenInfo: any = {};
+  userId: string = "";
+  profileImage: string = "";
 
   ngOnInit(): void {
     this.tokenInfo = this.authService.getDecodedAccessToken();
     this.tokenInfo = this.tokenInfo ? this.tokenInfo : {};
+    this.userId = this.tokenInfo.sub;
+    this.userService.getUserInfo(this.tokenInfo.preferred_username).subscribe(data=>{
+      this.profileImage = data[0].attributes && data[0].attributes["profile-image"].length?
+        data[0].attributes["profile-image"][0]:"";
+        console.log("profile-image", this.profileImage);
+    });
   }
 
   getUserRole() {
@@ -32,7 +40,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   updateRoleToCreator() {
-    this.userService.getUserInfo(this.tokenInfo.preferred_username).subscribe(data=>console.log(data));
+    //this.userService.getUserInfo(this.tokenInfo.preferred_username).subscribe(data=>console.log(data));
     this.userService.assignCreatorRoleToUser(this.tokenInfo.sub).subscribe({
       complete: ()=>{
         console.log("assign role completed");
@@ -52,11 +60,15 @@ export class UserProfileComponent implements OnInit {
     console.log("Selct file dialog");
     const dialogRef = this.dialog.open(SelectUploadFileDialogComponent, {
       width: '600px',
-      data: {city: '', location: {lat:0, lng:0}},
+      minHeight: '400px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
+      if (result)
+        this.userService.updateProfileImage(this.userId, result).subscribe(()=>{
+          this.profileImage = result;
+        });
     });
   }
 }

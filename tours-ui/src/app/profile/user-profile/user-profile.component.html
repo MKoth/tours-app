@@ -1,7 +1,7 @@
 <mat-card>
     <mat-card-title>Your Profile:</mat-card-title>
     <div fxLayout="column" fxLayoutGap="10px">
-        <div class="profile-image">
+        <div class="profile-image" [ngStyle]="{'background-image':'url(' + (profileImage? profileImage : '/assets/no_profile_image.png') + ')'}">
             <div class="image-cover" (click)="selectFileDialog()">
                 <mat-icon>add_a_photo</mat-icon>
                 <p>Change profile image</p>
