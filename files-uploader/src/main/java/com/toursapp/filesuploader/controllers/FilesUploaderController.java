@@ -18,8 +18,9 @@ public class FilesUploaderController {
     FilesUploaderService service;
 
     @PostMapping("/image/upload/{userId}")
-    String uploadImage(@RequestParam("file") MultipartFile file, @PathVariable String userId) {
-        return service.saveImage(file, userId);
+    List<FileInfo> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable String userId) {
+        service.saveImage(file, userId);
+        return service.loadAll(userId, FileType.IMAGE);
     }
 
     @PostMapping("/audio/upload/{userId}")
@@ -37,12 +38,13 @@ public class FilesUploaderController {
         return service.loadAudio(filename);
     }
 
-    @DeleteMapping("/file/image/{filename}/")
-    void deleteImage(@PathVariable String filename) {
+    @DeleteMapping("/file/image/{userId}/{filename}")
+    List<FileInfo> deleteImage(@PathVariable String userId, @PathVariable String filename) {
         service.deleteFile(filename, FileType.IMAGE);
+        return service.loadAll(userId, FileType.IMAGE);
     }
 
-    @DeleteMapping("/file/audio/{filename}/")
+    @DeleteMapping("/file/audio/{filename}")
     void deleteAudio(@PathVariable String filename) {
         service.deleteFile(filename, FileType.AUDIO);
     }
