@@ -32,6 +32,12 @@ public class KeyCloakController {
         return new ResponseEntity(Map.of("msg", "User successfully created"), HttpStatus.CREATED);
     }
 
+    @PostMapping("/updateProfileImage/{userId}")
+    public ResponseEntity setProfileImage(@PathVariable("userId") String userId, @RequestParam("imageUrl") String imageUrl){
+        service.updateProfileImage(userId, imageUrl);
+        return new ResponseEntity(Map.of("msg", "Profile image successfully updated for User"), HttpStatus.OK);
+    }
+
     @GetMapping("/assignCreatorRole/{userId}")
     public ResponseEntity assignCreatorRole(@PathVariable("userId") String userId){
         service.assignCreatorRole(userId);
@@ -45,7 +51,7 @@ public class KeyCloakController {
     }
 
     @PutMapping(path = "/update/{userId}")
-    public String updateUser(@PathVariable("userId") String userId,   @RequestBody UserDTO userDTO){
+    public String updateUser(@PathVariable("userId") String userId, @RequestBody UserDTO userDTO){
         service.updateUser(userId, userDTO);
         return "User Details Updated Successfully.";
     }

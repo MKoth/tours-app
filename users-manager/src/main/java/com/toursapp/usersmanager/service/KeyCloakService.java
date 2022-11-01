@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class KeyCloakService {
@@ -60,6 +61,13 @@ public class KeyCloakService {
         List<UserRepresentation> user = usersResource.search(userName, true);
         return user;
 
+    }
+
+    public void updateProfileImage(String userId, String imageUrl) {
+        UserResource userResource = getInstance().get(userId);
+        UserRepresentation user = userResource.toRepresentation();
+        user.setAttributes(Map.of("profile-image", List.of(imageUrl)));
+        userResource.update(user);
     }
 
     public void updateUser(String userId, UserDTO userDTO){
