@@ -37,7 +37,7 @@ public class Location {
 
     private Timestamp period_end;
 
-    private Integer creator_id;
+    private String creator_id;
 
     @ManyToOne
     private City city;

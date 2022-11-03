@@ -36,12 +36,12 @@ public class Tour {
 
     private Timestamp period_end;
 
-    private Integer creator_id;
+    private String creator_id;
 
     @ManyToOne
     private City city;
 
-    private String duration;
+    private Integer duration;
 
     private Boolean enabled;
 
