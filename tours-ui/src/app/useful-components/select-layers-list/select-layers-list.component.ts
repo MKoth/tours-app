@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Layer, LayerService } from 'src/app/layers/layer.service';
 
 @Component({
   selector: 'app-select-layers-list',
@@ -7,18 +8,29 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./select-layers-list.component.less']
 })
 export class SelectLayersListComponent implements OnInit {
-  layers = new FormControl('');
-  allLayersList: string[] = ['Old City', '18th century', 'Jews Quarter', 'Riverside Area'];
-  layersList: string[] = this.allLayersList;
-  value: string = '';
 
-  constructor() { }
+  @Output() changeLayers = new EventEmitter<any>();
+  @Input() value: string = '';
+  @Input() cityId: number = 0;
+
+  layers = new FormControl();
+  allLayersList: Layer[] = [];
+  layersList: Layer[] = this.allLayersList;
+
+  constructor(private layerService: LayerService) { }
 
   ngOnInit(): void {
+    this.layerService.findLayer("city:"+this.cityId).subscribe(result=>{
+      this.allLayersList = result;
+    });
+  }
+
+  onChange() {
+    this.changeLayers.emit(this.layers.value());
   }
 
   onKey() {
-    this.layersList = this.allLayersList.filter(option => option.toLowerCase().includes(this.value.toLowerCase()));
+    this.layersList = this.allLayersList.filter(option => option.name.toLowerCase().includes(this.value.toLowerCase()));
   }
 
   clearSearch() {

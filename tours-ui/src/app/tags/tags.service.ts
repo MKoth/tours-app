@@ -4,7 +4,8 @@ import { Injectable } from '@angular/core';
 const TAGS_API_URL = 'http://localhost:8081/tours-locations-layers/tag';
 
 export interface Tag {
-  name:string;
+  id?: number,
+  name:string
 }
 
 @Injectable({

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { TourService } from 'src/app/tours/tour.service';
 
 @Component({
   selector: 'app-find-tour-by-name',
@@ -7,14 +8,25 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./find-tour-by-name.component.less']
 })
 export class FindTourByNameComponent implements OnInit {
-  tour = new FormControl('');
-  allToursList: string[] = ['Medieval Tour', '18th century Tour', 'History of Jews', 'River Secrets'];
+
+  @Output() changeTour = new EventEmitter<any>();
+  @Input() cityId: number = 0;
+  
+  tour = new FormControl();
+  allToursList: string[] = [];
   toursList: string[] = this.allToursList;
   value: string = '';
 
-  constructor() { }
+  constructor(private tourService: TourService) { }
 
   ngOnInit(): void {
+    this.tourService.findTour("city:" + this.cityId).subscribe(result=>{
+      this.allToursList = result;
+    });
+  }
+
+  onChange() {
+    this.changeTour.emit(this.tour.value());
   }
 
   onKey() {

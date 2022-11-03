@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { City, CityService } from 'src/app/useful-components/select-create-city/city.service';
 
 let map:google.maps.Map;
 let marker:google.maps.Marker;
@@ -19,13 +20,39 @@ export interface DialogData {
 })
 export class NewCityCreationDialogComponent implements OnInit {
 
+  errorMessage = "";
+  isLoading: boolean = false;
+
+  city: City = {
+    id: 0,
+    name: "",
+    point: ""
+  };
+
   constructor(
     public dialogRef: MatDialogRef<NewCityCreationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private cityService: CityService
   ) {}
 
   onCancelClick(): void {
     this.dialogRef.close();
+  }
+
+  addNewCity() {
+    if (!this.city.name || !this.city.point){
+      this.errorMessage = "City should have name and location"
+    }
+    this.isLoading = true;
+    this.cityService.createCity(this.city).subscribe({
+      error: err => {
+        console.log("Error happened", err);
+        this.isLoading = false;
+        this.errorMessage = "Error happened while saving new city, please try again later!";
+      },
+      next: newCity => {
+        this.dialogRef.close(newCity);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -39,15 +66,14 @@ export class NewCityCreationDialogComponent implements OnInit {
     });
     map = new google.maps.Map(document.getElementById("newCityLocationSelectionMap") as HTMLElement, mapProp);
     google.maps.event.addListener(map, "click", (event: google.maps.MapMouseEvent) => {
-      this.addMarker(event.latLng!, map);
+      this.addMarker(event.latLng!);
     });
   }
 
-  addMarker(location: google.maps.LatLng, map: google.maps.Map) {
+  addMarker(location: google.maps.LatLng) {
     marker.setPosition(location);
     marker.setMap(map);
-    this.data.location.lat = location.lat();
-    this.data.location.lng = location.lng();
+    this.city.point = location.lat() + "," + location.lng();
   }
 
 }

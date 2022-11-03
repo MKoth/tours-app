@@ -3,11 +3,12 @@
   <p>Add new city</p>
   <mat-form-field appearance="fill">
     <mat-label>City's name</mat-label>
-    <input matInput [(ngModel)]="data.city">
+    <input matInput [(ngModel)]="city.name">
   </mat-form-field>
   <div id="newCityLocationSelectionMap"></div>
+  <p style="color: red;" *ngIf="errorMessage">{{errorMessage}}</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onCancelClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  <button [disabled]="isLoading" mat-button (click)="onCancelClick()">Cancel</button>
+  <button [disabled]="isLoading" mat-button (click)="addNewCity()" cdkFocusInitial>Add New City</button>
 </div>

@@ -1,20 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Tag } from '../tags/tags.service';
+import { City } from '../useful-components/select-create-city/city.service';
 
 const LAYERS_API_URL = 'http://localhost:8081/tours-locations-layers/layer';
 
 export interface Layer {
-  id: number,
+  id?: number,
   name: string,
   points: Array<string>,
   text: string,
   image: string,
-  period_start: Date,
-  period_end: Date,
+  period_start: number,
+  period_end: number,
   creator_id: string,
-  city: any,
-  tags: Array<Tag>,
+  city: City,
+  tags: Array<Tag>|Array<number>,
 }
 
 @Injectable({

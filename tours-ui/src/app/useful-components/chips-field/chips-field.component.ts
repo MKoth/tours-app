@@ -1,9 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, startWith, map } from 'rxjs';
+import { Observable, startWith, map, of, mergeAll, debounce, interval } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { Tag, TagsService } from 'src/app/tags/tags.service';
 
 @Component({
   selector: 'app-chips-field',
@@ -14,54 +15,72 @@ export class ChipsFieldComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl('');
-  filteredTags: Observable<string[]>;
-  tags: string[] = ['XIX century'];
-  allTags: string[] = ['WW2', 'WW1', 'Jews', 'Ukranians', 'Poland', 'XX century'];
+  filteredTags: Observable<Array<Tag>>;
+  allTags: Array<Tag> = [];
+  @Input() tags: Array<Tag> = [];
+  @Input() allowToAddTag = false;
+  @Output() onChange = new EventEmitter<any>();
 
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement> | undefined;
 
 
-  constructor() {
+  constructor(private tagsService: TagsService) {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
-      map((tag: string | null) => (tag ? this._filter(tag) : this.allTags.slice())),
+      debounce(() => interval(500)),
+      map((tag: string | null) => this._filter(tag)),
+      mergeAll()
     );
   }
 
   ngOnInit(): void {
+    this.tagsService.getTags().subscribe(tags => {
+      this.allTags = tags;
+    })
   }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-
-    // Add our fruit
     if (value) {
-      this.tags.push(value);
+      this.tagsService.geTagByName(value).subscribe({
+        next: (tag: Tag)=>{
+          this.tags.push(tag);
+        },
+        error: err=>{
+          console.log("Error", err);
+          if (!this.allowToAddTag) return;
+          this.tagsService.createTag({name: value}).subscribe(newTag => {
+            this.tags.push(newTag);
+          });
+        }
+      });
     }
-
     // Clear the input value
     event.chipInput!.clear();
-
     this.tagCtrl.setValue(null);
+    this.onChange.emit(this.tags);
   }
 
-  remove(fruit: string): void {
-    const index = this.tags.indexOf(fruit);
+  remove(tagToRemove: Tag): void {
+    const index = this.tags.indexOf(tagToRemove);
 
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
+    this.onChange.emit(this.tags);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.viewValue);
+    this.tags.push(event.option.value);
     this.tagInput!.nativeElement.value = '';
     this.tagCtrl.setValue(null);
   }
 
-  private _filter(value: string): string[] {
+  private _filter(value: string | null): Observable<Array<Tag>> {
+    if (!value) return of(this.allTags) ;
     const filterValue = value.toLowerCase();
-    return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
+    //return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
+    return this.tagsService.geTagsLike(filterValue);
   }
 
 }

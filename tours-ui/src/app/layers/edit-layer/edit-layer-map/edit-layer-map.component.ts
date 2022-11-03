@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Layer } from '../../layer.service';
 
 let map:google.maps.Map;
 let poly:google.maps.Polyline;
@@ -11,6 +12,8 @@ let eventCleared:boolean = true;
   styleUrls: ['./edit-layer-map.component.less']
 })
 export class EditLayerMapComponent implements OnInit {
+
+  @Input() layer:Layer|{points:string[]} = {points:[]};
 
   constructor() { }
 
@@ -26,6 +29,10 @@ export class EditLayerMapComponent implements OnInit {
       strokeColor: "#FF0000",
       strokeOpacity: 1.0,
       strokeWeight: 2,
+      path:this.layer?.points.map(point=>{
+        let pointArr = point.split(",");
+        return new google.maps.LatLng(parseFloat(pointArr[0]), parseFloat(pointArr[1]));
+      })
     });
   
     poly.setMap(map);
@@ -78,5 +85,10 @@ export class EditLayerMapComponent implements OnInit {
 
   getPointsCount():number {
     return poly? poly.getPath().getLength():0;
+  }
+
+  get path() {
+    const path = poly.getPath();
+    return path.getArray().map(value=>value.toString());
   }
 }

@@ -9,6 +9,7 @@ import { SelectCreateCityComponent } from './select-create-city/select-create-ci
 import { DialogsModule } from '../dialogs/dialogs.module';
 import { SelectLayersListComponent } from './select-layers-list/select-layers-list.component';
 import { FindTourByNameComponent } from './find-tour-by-name/find-tour-by-name.component';
+import { AttachImageComponent } from './attach-image/attach-image.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { FindTourByNameComponent } from './find-tour-by-name/find-tour-by-name.c
     TextEditorComponent,
     SelectCreateCityComponent,
     SelectLayersListComponent,
-    FindTourByNameComponent
+    FindTourByNameComponent,
+    AttachImageComponent
   ],
   imports: [
     CommonModule,

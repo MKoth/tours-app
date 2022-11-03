@@ -57,7 +57,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   selectFileDialog() {
-    console.log("Selct file dialog");
     const dialogRef = this.dialog.open(SelectUploadFileDialogComponent, {
       width: '600px',
       minHeight: '400px'

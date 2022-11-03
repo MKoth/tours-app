@@ -31,4 +31,13 @@ export class CityService {
   createCity(newCity: City) {
     return this.http.post<any>(CITY_API_URL, newCity);
   }
+
+  cacheCurrentCity(cachedCity: City) {
+    localStorage.setItem("currentCity", JSON.stringify(cachedCity));
+  }
+
+  getChachedCity() {
+    let city = localStorage.getItem("currentCity");
+    return city ? JSON.parse(city):null;
+  }
 }
