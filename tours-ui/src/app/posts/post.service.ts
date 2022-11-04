@@ -2,20 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Layer } from '../layers/layer.service';
 import { Tag } from '../tags/tags.service';
+import { Tour } from '../tours/tour.service';
 
 const POSTS_API_URL = 'http://localhost:8081/tours-locations-layers/location';
 
 export interface Post {
-  id: number,
+  id?: number,
   name: string,
   text: string,
   image: string,
   point: string,
-  period_start: Date,
-  period_end: Date,
+  period_start: number,
+  period_end: number,
   creator_id: string,
   city: any,
-  layer: Layer,
+  layer: Layer|{},
+  tour: Tour|{},
   tags: Array<Tag>,
   ordering: number
 }

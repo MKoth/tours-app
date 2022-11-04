@@ -114,6 +114,8 @@ export class EditLayerFormComponent implements OnInit {
       this.toDay = dateEnd.getDay();
       this.toMonth = dateEnd.getMonth()+1;
       this.toYear = dateEnd.getFullYear();
+      this.city = layer.city;
+      this.tags = layer.tags as Tag[];
     }
   }
 

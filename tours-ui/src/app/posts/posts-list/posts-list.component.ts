@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Post, PostService } from '../post.service';
 
 @Component({
   selector: 'app-posts-list',
@@ -7,11 +9,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostsListComponent implements OnInit {
 
-  posts:Array<number> = [0,1,2,3,4,5,6,7,8,9,10,11];
+  posts:Array<Post> = [];
+  search = "";
+  excerptLength = 300;
 
-  constructor() { }
+  constructor(
+    private postService: PostService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.postService.getAllPosts().subscribe(result=>{
+      this.posts = result;
+    });
+    this.activatedRoute.queryParams.subscribe(params => {
+      const search = params['search'];
+      if(search !== this.search) {
+        this.search = search;
+        this.postService.findPost(search).subscribe(result=>{
+          this.posts = result;
+        });
+      }
+    });
+  }
+
+  turnicateText(text: string) {
+    return text.substring(0, this.excerptLength)+"...";
   }
 
 }

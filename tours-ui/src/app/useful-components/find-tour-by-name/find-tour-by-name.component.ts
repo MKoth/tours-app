@@ -11,6 +11,7 @@ export class FindTourByNameComponent implements OnInit {
 
   @Output() changeTour = new EventEmitter<any>();
   @Input() cityId: number = 0;
+  @Input() tourId: number = 0;
   
   tour = new FormControl();
   allToursList: string[] = [];
@@ -23,6 +24,10 @@ export class FindTourByNameComponent implements OnInit {
     this.tourService.findTour("city:" + this.cityId).subscribe(result=>{
       this.allToursList = result;
     });
+
+    if (this.tourId) {
+      this.tour.setValue(this.tourId);
+    }
   }
 
   onChange() {

@@ -1,3 +1,13 @@
-<app-edit-post-form></app-edit-post-form>
-<app-edit-post-map></app-edit-post-map>
-<button mat-flat-button color="accent"><mat-icon>save</mat-icon>Save Post</button>
+<div *ngIf="isLoading||isError" class="authenticating-text" fxLayout="row" fxLayoutAlign="center start">
+    <div fxLayout="column" fxLayoutAlign="start center">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <p class="page-text error" [class.error]="isError">No post found by this id, or there has been connection error!</p>
+    </div>
+</div>
+<ng-container *ngIf="post&&!isLoading">
+    <app-edit-post-form [layer]="layer"></app-edit-post-form>
+    <app-edit-post-map [layer]="layer"></app-edit-post-map>
+    <p class="error" *ngIf="formErrorMessage">{{formErrorMessage}}</p>
+    <button (click)="onSubmit()" mat-flat-button color="accent"><mat-icon>save</mat-icon>Save Post</button>
+</ng-container>
+

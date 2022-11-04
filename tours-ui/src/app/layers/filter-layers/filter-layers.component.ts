@@ -11,8 +11,6 @@ import { FilterService, SearchParam } from 'src/app/filter.service';
 })
 export class FilterLayersComponent implements OnInit {
 
-
-  city = 'lviv';
   cities: City[] = [];
   search: string = '';
   contactForm: FormGroup;
