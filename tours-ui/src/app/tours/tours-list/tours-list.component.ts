@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Tour, TourService } from '../tour.service';
 
 @Component({
   selector: 'app-tours-list',
@@ -7,11 +9,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ToursListComponent implements OnInit {
 
-  tours:Array<number> = [0,1,2,3,4,5,6,7,8,9,10,11];
+  tours:Array<Tour> = [];
+  search = "";
+  excerptLength = 300;
 
-  constructor() { }
+  constructor(
+    private tourService: TourService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.tourService.getAllTours().subscribe(result=>{
+      this.tours = result;
+    });
+    this.activatedRoute.queryParams.subscribe(params => {
+      const search = params['search'];
+      if(search !== this.search) {
+        this.search = search;
+        this.tourService.findTour(search).subscribe(result=>{
+          this.tours = result;
+        });
+      }
+    });
+  }
+
+  turnicateText(text: string) {
+    return text.substring(0, this.excerptLength)+"...";
+  }
+
+  getDuration(minutes: number) {
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return h+"h "+m+"min";
   }
 
 }

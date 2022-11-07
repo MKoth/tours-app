@@ -1,4 +1,12 @@
-<app-edit-tours-form></app-edit-tours-form>
-<app-edit-tours-map></app-edit-tours-map>
-<!-- <app-edit-tours-calendar></app-edit-tours-calendar> -->
-<button mat-flat-button color="accent"><mat-icon>save</mat-icon>Save Tour</button>
+<div *ngIf="isLoading||isError" class="authenticating-text" fxLayout="row" fxLayoutAlign="center start">
+    <div fxLayout="column" fxLayoutAlign="start center">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <p class="page-text error" [class.error]="isError">No tour found by this id, or there has been connection error!</p>
+    </div>
+</div>
+<ng-container *ngIf="layer&&!isLoading">
+    <app-edit-tours-form [tour]="tour"></app-edit-tours-form>
+    <app-edit-tours-map [tour]="tour"></app-edit-tours-map>
+    <p class="error" *ngIf="formErrorMessage">{{formErrorMessage}}</p>
+    <button mat-flat-button color="accent"><mat-icon>save</mat-icon>Save Tour</button>
+</ng-container>

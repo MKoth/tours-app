@@ -13,7 +13,7 @@ export class FilterPostsComponent implements OnInit {
 
   cities: City[] = [];
   search: string = '';
-  contactForm: FormGroup;
+  filterForm: FormGroup;
 
   searchParams: SearchParam[] = [];
   fields: {name:string, operation:string}[] = [
@@ -28,7 +28,7 @@ export class FilterPostsComponent implements OnInit {
     private filterService: FilterService,
     private fb: FormBuilder
   ) {
-    this.contactForm = this.fb.group({
+    this.filterForm = this.fb.group({
       city: [],
       layer: [],
       tags: [[]]
@@ -36,11 +36,11 @@ export class FilterPostsComponent implements OnInit {
   }
 
   setTags(tags:[]) {
-    this.contactForm.get("tags")?.setValue(tags);
+    this.filterForm.get("tags")?.setValue(tags);
   }
 
   setLayer(layerId: number) {
-    this.contactForm.get("layer")?.setValue(layerId);
+    this.filterForm.get("layer")?.setValue(layerId);
   }
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class FilterPostsComponent implements OnInit {
 
   filter() {
     this.fields.forEach(field => {
-      let formField = this.contactForm.get(field.name);
+      let formField = this.filterForm.get(field.name);
       let searchParam = this.searchParams.find(param=>param.name==field.name);
       if (searchParam) {
         if(searchParam.name == "tags")
@@ -82,7 +82,7 @@ export class FilterPostsComponent implements OnInit {
   setFieldsAccordingToParam() {
     this.searchParams.forEach(param => {
       let field;
-      if (field = this.contactForm.get(param.name)) {
+      if (field = this.filterForm.get(param.name)) {
         field.setValue(param.values? param.values : param.value);
       }
     });
@@ -98,7 +98,7 @@ export class FilterPostsComponent implements OnInit {
   onTourChange(tourId: string) {
     this.filterService.navigateWithParams([
       {name: "tour", operation:":", value: tourId},
-      {name: "city", operation:":", value: this.contactForm.get("layer")?.value}
+      {name: "city", operation:":", value: this.filterForm.get("layer")?.value}
     ]);
   }
 

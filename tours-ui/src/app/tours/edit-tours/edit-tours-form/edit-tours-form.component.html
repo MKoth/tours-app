@@ -4,36 +4,20 @@
             <div fxLayout="row" fxLayoutGap="10px">
                 <mat-form-field appearance="fill" fxFlex>
                     <mat-label>Tour's Name</mat-label>
-                    <input matInput placeholder="Tour's Name">
+                    <input matInput placeholder="Tour's Name" [formControl]="name">
                 </mat-form-field>
-                <app-select-layers-list fxFlex></app-select-layers-list>
+                <app-select-layers-list [cityId]="city" [value]="layer.value" (changeLayers)="setLayer($event)" fxFlex></app-select-layers-list>
             </div>
-            <app-chips-field></app-chips-field>
+            <app-attach-image [imageUrl]="tour.image" (onChange)="setImage($event)"></app-attach-image>
+            <app-chips-field [allowToAddTag]="true" [tags]="tour.tags" (onChange)="setTags($event)"></app-chips-field>
             <div fxLayout="row" fxLayoutGap="10px">
-                <app-select-create-city fxFlex></app-select-create-city>
+                <app-select-create-city [city]="tour.city.id" (onCityChange)="setCity($event)" fxFlex></app-select-create-city>
                 <mat-form-field appearance="fill" fxFlex="30">
                     <mat-label>Tour's Duration (in minutes)</mat-label>
-                    <input type="number" matInput placeholder="Tour's Duration">
+                    <input [formControl]="duration" type="number" matInput placeholder="Tour's Duration">
                 </mat-form-field>
             </div>
-            <mat-checkbox (change)="toggleEnrollability($event.checked)">User can Enroll for a Tour</mat-checkbox>
-            <ng-container *ngIf="canEnroll">
-                <div fxLayout="row" fxLayoutAlign="space-between start">
-                    <mat-form-field appearance="fill" fxFlex="30">
-                        <mat-label>Min Visitors</mat-label>
-                        <input type="number" matInput placeholder="Min Visitors">
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxFlex="30">
-                        <mat-label>Max Visitors</mat-label>
-                        <input type="number" matInput placeholder="Max Visitors">
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxFlex="30">
-                        <mat-label>Tours Price</mat-label>
-                        <input type="number" matInput placeholder="Tours Price">
-                    </mat-form-field>
-                </div>
-            </ng-container>
-            <app-text-editor></app-text-editor>
+            <app-text-editor [text]="text.value" (onTextChange)="setText($event)"></app-text-editor>
         </div>
     </mat-card>
 </form>

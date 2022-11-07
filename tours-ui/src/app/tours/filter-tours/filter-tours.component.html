@@ -1,23 +1,20 @@
-<form style="margin-bottom: 10px;">
+<form style="margin-bottom: 10px;" [formGroup]="filterForm" (ngSubmit)="filter()">
     <mat-card>
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between end" fxLayout.xs="column"
             fxLayoutAlign.xs="none">
             <mat-form-field appearance="fill" fxFlex="20">
                 <mat-label>Filter By city</mat-label>
-                <mat-select [(value)]="city">
+                <mat-select formControlName="city">
                     <mat-option>No Filter</mat-option>
-                    <mat-option value="lviv">Lviv</mat-option>
-                    <mat-option value="berlin">Berlin</mat-option>
-                    <mat-option value="paris">Paris</mat-option>
+                    <mat-option *ngFor="let city in cities" [value]="city.id">{{city.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <app-select-layers-list fxFlex="30"></app-select-layers-list>
-            <app-chips-field fxFlex></app-chips-field>
+            <app-select-layers-list [value]="contactForm.get('layer').value" [cityId]="contactForm.get('city').value" (changeLayers)="setLayer($event)" fxFlex="30"></app-select-layers-list>
+            <app-chips-field (onChange)="setTags($event)" [tags]="contactForm.get('tags').value" fxFlex></app-chips-field>
         </div>
         <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-between start">
-            <!-- <mat-checkbox>Show Tours with Enrollment</mat-checkbox> -->
             <div fxLayout="row" fxLayoutGap="10px" style="width: 100%" fxLayoutAlign="end center" >
-                <button mat-flat-button color="accent" fxFlex.xs><mat-icon>clear</mat-icon>Clear Filters</button>
+                <button (click)="clearFilters()" mat-flat-button color="accent" fxFlex.xs><mat-icon>clear</mat-icon>Clear Filters</button>
                 <button mat-flat-button color="accent" fxFlex.xs><mat-icon>filter_list</mat-icon>Filter Results</button>
             </div>
         </div>

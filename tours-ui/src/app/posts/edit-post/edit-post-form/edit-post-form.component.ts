@@ -73,10 +73,6 @@ export class EditPostFormComponent implements OnInit {
     return this.postForm.get('ordering');
   }
 
-  updateText(text: string) {
-    this.text?.setValue(text);
-  }
-
   setTags(tags: Tag[]) {
     this.tags = tags;
   }

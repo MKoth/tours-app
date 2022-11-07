@@ -20,6 +20,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    DragDropModule
   ],
   exports: [
     MatTabsModule,
@@ -71,7 +73,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    DragDropModule
   ]
 })
 export class MaterialModule { }

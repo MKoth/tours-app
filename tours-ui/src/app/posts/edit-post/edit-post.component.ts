@@ -19,7 +19,6 @@ export class EditPostComponent implements OnInit {
   formErrorMessage = "";
   isLoading = true;
   isError = false;
-  cities: City[] = [];
 
   post: Post = {
     name: "",

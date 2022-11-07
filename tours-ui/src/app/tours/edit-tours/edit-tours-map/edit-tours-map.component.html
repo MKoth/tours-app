@@ -1,5 +1,33 @@
+<!--
+    user can see posts that became unassigned
+    user can assign unassigned posts to newly created posts
+-->
 <div fxLayout fxLayoutGap="10px" class="buttons_holder">
     <button mat-flat-button color="accent" (click)="cancelLastStroke()" [disabled]="getPointsCount()<=1">Cancel Last Stroke</button>
     <button mat-flat-button color="accent" (click)="clearLine()" [disabled]="getPointsCount()==0">Clear Points</button>
 </div>
 <div id="googleMapNewTour"></div>
+<h3>Posts order can be changed here</h3>
+<div cdkDropList class="posts-list" (cdkDropListDropped)="onReorderPosts($event)">
+    <div class="post-box" *ngFor="let post of tour.locations" cdkDrag>{{post.name}} <span *ngIf="post.id">(Newly created)</span></div>
+    <button class="menu-item-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Submenu of post" (click)="setPostToBeReplaced(post)">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+</div>
+
+<mat-menu #menu="matMenu">
+    <button [matMenuTriggerFor]="submenu" mat-menu-item>
+        Replace with unassigned post
+    </button>
+</mat-menu>
+
+<mat-menu #submenu="matMenu">
+    <button *ngFor="let post of unassignedPosts" mat-menu-item (click)="replacePost(post)">
+        {{post.name}}
+    </button>
+</mat-menu>
+
+<h3>Already saved posts that was unassigned by map path changing</h3>
+<div class="posts-list">
+    <div class="post-box" *ngFor="let post of unassignedPosts" cdkDrag>{{post.name}}</div>
+</div>

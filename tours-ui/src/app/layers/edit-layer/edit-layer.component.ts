@@ -19,7 +19,6 @@ export class EditLayerComponent implements OnInit {
   formErrorMessage = "";
   isLoading = true;
   isError = false;
-  cities: City[] = [];
   layer: Layer = {
     name: "",
     points: [],

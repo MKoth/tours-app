@@ -13,7 +13,7 @@ export class FilterLayersComponent implements OnInit {
 
   cities: City[] = [];
   search: string = '';
-  contactForm: FormGroup;
+  filterForm: FormGroup;
 
   searchParams: SearchParam[] = [];
   fields: {name:string, operation:string}[] = [
@@ -29,7 +29,7 @@ export class FilterLayersComponent implements OnInit {
     private filterService: FilterService,
     private fb: FormBuilder
   ) {
-    this.contactForm = this.fb.group({
+    this.filterForm = this.fb.group({
       city: [],
       period_start: [],
       period_end: [],
@@ -38,7 +38,7 @@ export class FilterLayersComponent implements OnInit {
   }
 
   setTags(tags:[]) {
-    this.contactForm.get("tags")?.setValue(tags);
+    this.filterForm.get("tags")?.setValue(tags);
   }
 
   ngOnInit(): void {
@@ -62,7 +62,7 @@ export class FilterLayersComponent implements OnInit {
 
   filter() {
     this.fields.forEach(field => {
-      let formField = this.contactForm.get(field.name);
+      let formField = this.filterForm.get(field.name);
       let searchParam = this.searchParams.find(param=>param.name==field.name);
       if (searchParam) {
         if(searchParam.name == "tags")
@@ -80,7 +80,7 @@ export class FilterLayersComponent implements OnInit {
   setFieldsAccordingToParam() {
     this.searchParams.forEach(param => {
       let field;
-      if (field = this.contactForm.get(param.name)) {
+      if (field = this.filterForm.get(param.name)) {
         field.setValue(param.values? param.values : param.value);
       }
     });

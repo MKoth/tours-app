@@ -14,12 +14,14 @@ let eventCleared:boolean = true;
 export class EditLayerMapComponent implements OnInit {
 
   @Input() layer:Layer|{points:string[]} = {points:[]};
+  defaultLatLng = ["41.879","-87.624"];
 
   constructor() { }
 
   ngOnInit(): void {
+    const startPoint = this.layer?.points.length?this.layer?.points[1].split(","):this.defaultLatLng;
     let mapProp = {
-      center: new google.maps.LatLng(41.879, -87.624),
+      center: new google.maps.LatLng(parseFloat(startPoint[0]),parseFloat(startPoint[1])),
       zoom: 3,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };

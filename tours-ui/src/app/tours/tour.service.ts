@@ -3,21 +3,23 @@ import { Injectable } from '@angular/core';
 import { Layer } from '../layers/layer.service';
 import { Post } from '../posts/post.service';
 import { Tag } from '../tags/tags.service';
+import { City } from '../useful-components/select-create-city/city.service';
 
 const TOURS_API_URL = 'http://localhost:8081/tours-locations-layers/tour';
 
 export interface Tour {
-  id: number,
+  id?: number,
   name: string,
   text: string,
   image: string,
-  period_start: Date,
-  period_end: Date,
+  period_start: number,
+  period_end: number,
   creator_id: string,
-  city: any,
-  layer: Layer,
+  city: City,
+  layer: Layer|{},
   locations: Array<Post>,
-  tags: Array<Tag>
+  tags: Array<Tag>,
+  duration: number
 }
 
 @Injectable({
