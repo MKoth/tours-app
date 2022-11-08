@@ -17,7 +17,7 @@
     <p class="additional-info"><mat-icon>location_on</mat-icon>{{layer.city.name}} ({{getDateRange(layer)}})</p>
     <img class="post-image" [src]="layer.image" alt=""/>
     <div class="mat-body">
-        {{lyer.text}}
+        {{layer.text}}
         <div class="chips-holder" fxLayout="row" fxLayoutAlign="end start">
             <mat-chip-list aria-label="Fish selection">
                 <mat-chip *ngFor="let tag in layer.tags">{{tag.name}}</mat-chip>
@@ -33,7 +33,7 @@
                 <mat-card-title>{{tour.name}}</mat-card-title>
                 <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>location_on</mat-icon>{{tour.city.name}} ({{layer.name}})</mat-card-subtitle>
                 <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>access_time</mat-icon>{{getDuration(tour.duration)}}</mat-card-subtitle>
-                <img mat-card-md-image [src]="location.image" alt="">
+                <img mat-card-md-image [src]="tour.image" alt="">
             </mat-card-title-group>
             <mat-card-content>
                 {{turnicateText(tour.text)}}

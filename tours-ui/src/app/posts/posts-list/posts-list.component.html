@@ -6,8 +6,8 @@
     <mat-card *ngFor="let post of posts">
         <mat-card-title-group>
           <mat-card-title>{{post.name}}</mat-card-title>
-          <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>location_on</mat-icon>{{post.city.name}} ({{post.layer.name}})</mat-card-subtitle>
-          <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>map</mat-icon>{{post.tour.name}}</mat-card-subtitle>
+          <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>location_on</mat-icon>{{post.city.name}} ({{$any(post.layer).name}})</mat-card-subtitle>
+          <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>map</mat-icon>{{$any(post.tour).name}}</mat-card-subtitle>
           <img mat-card-md-image src="{{post.image}}" alt="">
         </mat-card-title-group>
         <mat-card-content>

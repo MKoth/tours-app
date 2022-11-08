@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Layer } from 'src/app/layers/layer.service';
 import { Tag } from 'src/app/tags/tags.service';
 import { City } from 'src/app/useful-components/select-create-city/city.service';
@@ -31,7 +31,7 @@ export class EditToursFormComponent implements OnInit {
   }
 
   get name() {
-    return this.tourForm.get('name');
+    return this.tourForm.get('name') as FormControl<string>;
   }
 
   get text() {
@@ -47,7 +47,7 @@ export class EditToursFormComponent implements OnInit {
   }
 
   get duration() {
-    return this.tourForm.get('duration');
+    return this.tourForm.get('duration') as FormControl<number>;
   }
 
   setTags(tags: Tag[]) {
@@ -66,7 +66,7 @@ export class EditToursFormComponent implements OnInit {
     this.layer?.setValue(layerId);
   }
 
-  setImage(image: string) {
+  setImage(image: any) {
     this.image?.setValue(image);
   }
 

@@ -14,11 +14,11 @@
     </div>
     
     <div class="separator"></div>
-    <p class="additional-info"><mat-icon>location_on</mat-icon>{{layer.city.name}} ({{tour.layer.name}})</p>
+    <p class="additional-info"><mat-icon>location_on</mat-icon>{{$any(tour.layer).city.name}} ({{$any(tour.layer).name}})</p>
     <p class="additional-info"><mat-icon>timeline</mat-icon>{{getDateRange(tour)}}</p>
-    <img class="post-image" [src]="layer.image" alt=""/>
+    <img class="post-image" [src]="$any(tour.layer).image" alt=""/>
     <div class="mat-body">
-        {{layer.text}}
+        {{$any(tour.layer).text}}
         <div class="chips-holder" fxLayout="row" fxLayoutAlign="end start">
             <mat-chip-list aria-label="Fish selection">
                 <mat-chip *ngFor="let tag in tour.tags">{{tag.name}}</mat-chip>
@@ -32,7 +32,7 @@
         <mat-card *ngFor="let post of posts">
             <mat-card-title-group>
                 <mat-card-title>{{post.name}}</mat-card-title>
-                <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>location_on</mat-icon>{{post.city.name}} ({{post.layer.name}})</mat-card-subtitle>
+                <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>location_on</mat-icon>{{post.city.name}} ({{$any(post.layer).name}})</mat-card-subtitle>
                 <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
             </mat-card-title-group>
             <mat-card-content>

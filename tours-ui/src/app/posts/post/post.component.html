@@ -5,7 +5,7 @@
     </div>
 </div>
 
-<ng-container *ngIf="tour">
+<ng-container *ngIf="post">
     <div id="googleMapPost"></div>
     <div fxLayout="row" fxLayoutAlign="space-between center">
         <h1 class="mat-headline">{{post.name}}</h1>
@@ -13,7 +13,7 @@
     </div>
     
     <div class="separator"></div>
-    <p class="additional-info"><mat-icon>location_on</mat-icon>{{post.city.name}} ({{post.layer.name}})</p>
+    <p class="additional-info"><mat-icon>location_on</mat-icon>{{post.city.name}} ({{$any(post.layer).name}})</p>
     <p class="additional-info"><mat-icon>timeline</mat-icon>{{getDateRange(post)}}</p>
     <img class="post-image" [src]="post.image" alt=""/>
     <div class="mat-body">
@@ -26,7 +26,7 @@
     </div>
     <div class="separator"></div>
     <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="10px">
-        <button mat-flat-button color="basic" routerLink="/tours/{{post.tour.id}}"><mat-icon>expand_less</mat-icon>To Tour</button>
+        <button mat-flat-button color="basic" routerLink="/tours/{{$any(post.tour).id}}"><mat-icon>expand_less</mat-icon>To Tour</button>
         <button *ngIf="prevPostId" mat-flat-button color="accent" routerLink="/posts/{{prevPostId}}"><mat-icon>navigate_before</mat-icon>Prev Post</button>
         <button *ngIf="nextPostId" mat-flat-button color="accent" routerLink="/posts/{{nextPostId}}"><mat-icon>navigate_next</mat-icon>Next Post</button>
     </div>

@@ -6,18 +6,18 @@
                     <mat-label>Tour's Name</mat-label>
                     <input matInput placeholder="Tour's Name" [formControl]="name">
                 </mat-form-field>
-                <app-select-layers-list [cityId]="city" [value]="layer.value" (changeLayers)="setLayer($event)" fxFlex></app-select-layers-list>
+                <app-select-layers-list [cityId]="city!.id" [value]="layer?.value" (changeLayers)="setLayer($event)" fxFlex></app-select-layers-list>
             </div>
-            <app-attach-image [imageUrl]="tour.image" (onChange)="setImage($event)"></app-attach-image>
-            <app-chips-field [allowToAddTag]="true" [tags]="tour.tags" (onChange)="setTags($event)"></app-chips-field>
+            <app-attach-image [imageUrl]="$any(tour).image" (onChange)="setImage($event)"></app-attach-image>
+            <app-chips-field [allowToAddTag]="true" [tags]="$any(tour).tags" (onChange)="setTags($event)"></app-chips-field>
             <div fxLayout="row" fxLayoutGap="10px">
-                <app-select-create-city [city]="tour.city.id" (onCityChange)="setCity($event)" fxFlex></app-select-create-city>
+                <app-select-create-city [city]="$any(tour).city.id" (onCityChange)="setCity($event)" fxFlex></app-select-create-city>
                 <mat-form-field appearance="fill" fxFlex="30">
                     <mat-label>Tour's Duration (in minutes)</mat-label>
                     <input [formControl]="duration" type="number" matInput placeholder="Tour's Duration">
                 </mat-form-field>
             </div>
-            <app-text-editor [text]="text.value" (onTextChange)="setText($event)"></app-text-editor>
+            <app-text-editor [text]="text?.value" (onTextChange)="setText($event)"></app-text-editor>
         </div>
     </mat-card>
 </form>

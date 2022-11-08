@@ -92,10 +92,10 @@ export class FilterPostsComponent implements OnInit {
     let tourField = this.searchParams.find(param=>param.name=="tour");
     if (tourField)
       return parseInt(tourField.value as string);
-    return null;
+    return 0;
   }
 
-  onTourChange(tourId: string) {
+  onTourChange(tourId: any) {
     this.filterService.navigateWithParams([
       {name: "tour", operation:":", value: tourId},
       {name: "city", operation:":", value: this.filterForm.get("layer")?.value}

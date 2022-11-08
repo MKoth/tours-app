@@ -6,12 +6,12 @@
                     <mat-label>Posts's Name</mat-label>
                     <input matInput placeholder="Posts's Name" [formControl]="name">
                 </mat-form-field>
-                <app-select-layers-list [cityId]="city" [value]="layer.value" (changeLayers)="setLayer($event)" fxFlex></app-select-layers-list>
+                <app-select-layers-list [cityId]="city!.id" [value]="layer!.value" (changeLayers)="setLayer($event)" fxFlex></app-select-layers-list>
             </div>
-            <app-attach-image [imageUrl]="post.image" (onChange)="setImage($event)"></app-attach-image>
+            <app-attach-image [imageUrl]="$any(post).image" (onChange)="setImage($event)"></app-attach-image>
             <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px">
-                <app-chips-field [allowToAddTag]="true" [tags]="post.tags" (onChange)="setTags($event)" fxFlex></app-chips-field>
-                <app-find-tour-by-name [cityId]="city" [tourId]="tour.value" (changeTour)="setTour($event)" fxFlex="40"></app-find-tour-by-name>
+                <app-chips-field [allowToAddTag]="true" [tags]="$any(post).tags" (onChange)="setTags($event)" fxFlex></app-chips-field>
+                <app-find-tour-by-name [cityId]="city!.id" [tourId]="tour!.value" (changeTour)="setTour($event)" fxFlex="40"></app-find-tour-by-name>
             </div>
             
             <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between center" fxLayoutGap="15px">
@@ -72,7 +72,7 @@
                     </mat-form-field>
                 </div>
             </div>
-            <app-text-editor [text]="text.value" (onTextChange)="setText($event)"></app-text-editor>
+            <app-text-editor [text]="text!.value" (onTextChange)="setText($event)"></app-text-editor>
         </div>
     </mat-card>
 </form>

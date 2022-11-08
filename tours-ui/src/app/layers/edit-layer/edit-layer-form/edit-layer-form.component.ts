@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tag } from 'src/app/tags/tags.service';
 import { City } from 'src/app/useful-components/select-create-city/city.service';
 import { Layer } from '../../layer.service';
@@ -37,7 +37,7 @@ export class EditLayerFormComponent implements OnInit {
   }
 
   get name() {
-    return this.layerForm.get('name');
+    return this.layerForm.get('name') as FormControl<any>;
   }
 
   get text() {

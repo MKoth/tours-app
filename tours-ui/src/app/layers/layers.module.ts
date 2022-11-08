@@ -7,7 +7,7 @@ import { FilterLayersComponent } from './filter-layers/filter-layers.component';
 import { LayersListComponent } from './layers-list/layers-list.component';
 import { MaterialModule } from '../material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditLayerComponent } from './edit-layer/edit-layer.component';
 import { EditLayerMapComponent } from './edit-layer/edit-layer-map/edit-layer-map.component';
 import { EditLayerFormComponent } from './edit-layer/edit-layer-form/edit-layer-form.component';
@@ -28,7 +28,8 @@ import { UsefulComponentsModule } from '../useful-components/useful-components.m
     MaterialModule,
     FlexLayoutModule,
     ReactiveFormsModule,
-    UsefulComponentsModule
+    UsefulComponentsModule,
+    FormsModule
   ]
 })
 export class LayersModule { }

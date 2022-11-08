@@ -6,7 +6,7 @@
     <mat-card *ngFor="let tour of tours">
         <mat-card-title-group>
           <mat-card-title>{{tour.name}}</mat-card-title>
-          <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>location_on</mat-icon>{{tour.city.name}} ({{tour.layer.name}})</mat-card-subtitle>
+          <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>location_on</mat-icon>{{tour.city.name}} ({{$any(tour.layer).name}})</mat-card-subtitle>
           <mat-card-subtitle fxLayoutAlign="start center"><mat-icon>access_time</mat-icon>{{getDuration(tour.duration)}}</mat-card-subtitle>
           <img mat-card-md-image  src="{{tour.image}}" alt="">
         </mat-card-title-group>

@@ -29,6 +29,7 @@ export class EditLayerComponent implements OnInit {
     creator_id: "",
     city: {id:-1, name:"No city available, create one!", point:""},
     tags: [],
+    tours: []
   };
 
   constructor(

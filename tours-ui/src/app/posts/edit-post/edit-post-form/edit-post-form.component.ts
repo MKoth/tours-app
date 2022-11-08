@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Layer } from 'src/app/layers/layer.service';
 import { Tag } from 'src/app/tags/tags.service';
 import { Tour } from 'src/app/tours/tour.service';
@@ -42,7 +42,7 @@ export class EditPostFormComponent implements OnInit {
   }
 
   get name() {
-    return this.postForm.get('name');
+    return this.postForm.get('name') as FormControl<any>;
   }
 
   get text() {

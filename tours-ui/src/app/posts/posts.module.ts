@@ -10,6 +10,7 @@ import { MaterialModule } from '../material/material.module';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { EditPostFormComponent } from './edit-post/edit-post-form/edit-post-form.component';
 import { EditPostMapComponent } from './edit-post/edit-post-map/edit-post-map.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -25,7 +26,9 @@ import { EditPostMapComponent } from './edit-post/edit-post-map/edit-post-map.co
     CommonModule,
     PostsRoutingModule,
     UsefulComponentsModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class PostsModule { }

@@ -9,8 +9,8 @@
                     <mat-option *ngFor="let city in cities" [value]="city.id">{{city.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <app-select-layers-list [value]="contactForm.get('layer').value" [cityId]="contactForm.get('city').value" (changeLayers)="setLayer($event)" fxFlex="30"></app-select-layers-list>
-            <app-chips-field (onChange)="setTags($event)" [tags]="contactForm.get('tags').value" fxFlex></app-chips-field>
+            <app-select-layers-list [value]="filterForm.get('layer')?.value" [cityId]="filterForm.get('city')?.value" (changeLayers)="setLayer($event)" fxFlex="30"></app-select-layers-list>
+            <app-chips-field (onChange)="setTags($event)" [tags]="filterForm.get('tags')?.value" fxFlex></app-chips-field>
         </div>
         <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-between start">
             <div fxLayout="row" fxLayoutGap="10px" style="width: 100%" fxLayoutAlign="end center" >

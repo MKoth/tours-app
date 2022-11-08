@@ -5,9 +5,9 @@
         <mat-label>Layer's Name</mat-label>
         <input matInput placeholder="Layer's Name" [formControl]="name">
       </mat-form-field>
-      <app-attach-image [imageUrl]="layer.image" (onChange)="setImage($event)"></app-attach-image>
-      <app-chips-field [allowToAddTag]="true" [tags]="layer.tags" (onChange)="setTags($event)"></app-chips-field>
-      <app-select-create-city [city]="layer.city.id" (onCityChange)="setCity($event)"></app-select-create-city>
+      <app-attach-image [imageUrl]="$any(layer).image" (onChange)="setImage($event)"></app-attach-image>
+      <app-chips-field [allowToAddTag]="true" [tags]="$any(layer).tags" (onChange)="setTags($event)"></app-chips-field>
+      <app-select-create-city [city]="$any(layer).city.id" (onCityChange)="setCity($event)"></app-select-create-city>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-between center" fxLayoutGap="15px">
         <div fxLayout="row" fxLayoutGap="10px">
           <mat-form-field class="number-field" appearance="fill">
@@ -66,7 +66,7 @@
           </mat-form-field>
         </div>
       </div>
-      <app-text-editor [text]="text.value" (onTextChange)="setText($event)"></app-text-editor>
+      <app-text-editor [text]="text!.value" (onTextChange)="setText($event)"></app-text-editor>
     </div>
   </mat-card>
 </form>

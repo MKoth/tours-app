@@ -5,8 +5,8 @@
     </div>
 </div>
 <ng-container *ngIf="post&&!isLoading">
-    <app-edit-post-form [layer]="layer"></app-edit-post-form>
-    <app-edit-post-map [layer]="layer"></app-edit-post-map>
+    <app-edit-post-form [post]="post"></app-edit-post-form>
+    <app-edit-post-map [post]="post"></app-edit-post-map>
     <p class="error" *ngIf="formErrorMessage">{{formErrorMessage}}</p>
     <button (click)="onSubmit()" mat-flat-button color="accent"><mat-icon>save</mat-icon>Save Post</button>
 </ng-container>

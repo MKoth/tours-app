@@ -4,7 +4,7 @@
         <p class="page-text error" [class.error]="isError">No tour found by this id, or there has been connection error!</p>
     </div>
 </div>
-<ng-container *ngIf="layer&&!isLoading">
+<ng-container *ngIf="tour&&!isLoading">
     <app-edit-tours-form [tour]="tour"></app-edit-tours-form>
     <app-edit-tours-map [tour]="tour"></app-edit-tours-map>
     <p class="error" *ngIf="formErrorMessage">{{formErrorMessage}}</p>

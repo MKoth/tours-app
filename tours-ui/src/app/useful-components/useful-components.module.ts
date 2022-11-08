@@ -34,7 +34,8 @@ import { AttachImageComponent } from './attach-image/attach-image.component';
     TextEditorComponent,
     SelectCreateCityComponent,
     SelectLayersListComponent,
-    FindTourByNameComponent
+    FindTourByNameComponent,
+    AttachImageComponent
   ]
 })
 export class UsefulComponentsModule { }
