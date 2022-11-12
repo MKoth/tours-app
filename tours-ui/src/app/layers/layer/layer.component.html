@@ -4,8 +4,8 @@
         <p class="page-text" [class.error]="isError">No layer found by this id, or there has been connection error!</p>
     </div>
 </div>
+<div id="googleMapLayer"></div>
 <ng-container *ngIf="layer">
-    <div id="googleMapLayer"></div>
     <div fxLayout="row" fxLayoutAlign="space-between center">
         <h1 class="mat-headline">{{layer.name}}</h1>
         <div fxLayout="row" fxLayoutGap="10px">
@@ -17,10 +17,10 @@
     <p class="additional-info"><mat-icon>location_on</mat-icon>{{layer.city.name}} ({{getDateRange(layer)}})</p>
     <img class="post-image" [src]="layer.image" alt=""/>
     <div class="mat-body">
-        {{layer.text}}
+        <div [innerHTML]="layer.text"></div>
         <div class="chips-holder" fxLayout="row" fxLayoutAlign="end start">
             <mat-chip-list aria-label="Fish selection">
-                <mat-chip *ngFor="let tag in layer.tags">{{tag.name}}</mat-chip>
+                <mat-chip *ngFor="let tag of layer.tags">{{tag.name}}</mat-chip>
             </mat-chip-list>
         </div>
     </div>
@@ -28,6 +28,7 @@
     <h1 class="mat-headline">Layer's Tours:</h1>
     <div class="separator"></div>
     <div class="tour-list-holder" fxLayoutGap="10px" fxLayout="column" fxLayoutAlign="space-between center">
+        <div class="no-tours" *ngIf="!layer.tours.length">No Tours added to this layer yet</div>
         <mat-card *ngFor="let tour of layer.tours">
             <mat-card-title-group>
                 <mat-card-title>{{tour.name}}</mat-card-title>

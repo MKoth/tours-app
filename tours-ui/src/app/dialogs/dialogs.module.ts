@@ -16,7 +16,6 @@ import { SelectUploadFileDialogComponent } from './select-upload-file-dialog/sel
     SelectUploadFileDialogComponent
   ],
   imports: [
-    FlexModule,
     CommonModule,
     MaterialModule,
     FormsModule,

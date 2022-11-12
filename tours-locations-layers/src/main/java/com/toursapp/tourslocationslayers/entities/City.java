@@ -20,7 +20,7 @@ public class City {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
-    private String city;
+    private String name;
 
     private String point;
 }

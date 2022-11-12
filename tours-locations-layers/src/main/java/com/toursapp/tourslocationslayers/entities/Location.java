@@ -1,5 +1,6 @@
 package com.toursapp.tourslocationslayers.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.toursapp.tourslocationslayers.entities.Enums.LocationType;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -57,6 +58,7 @@ public class Location {
     @ManyToOne
     private Tour tour;
 
+    @JsonIgnoreProperties(value={ "layers", "locations", "tours" })
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "locations_tags",
             joinColumns = @JoinColumn(name = "location_id", referencedColumnName = "id"),

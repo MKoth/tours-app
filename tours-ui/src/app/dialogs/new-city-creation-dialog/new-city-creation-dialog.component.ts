@@ -40,7 +40,8 @@ export class NewCityCreationDialogComponent implements OnInit {
 
   addNewCity() {
     if (!this.city.name || !this.city.point){
-      this.errorMessage = "City should have name and location"
+      this.errorMessage = "City should have name and location";
+      return;
     }
     this.isLoading = true;
     this.cityService.createCity(this.city).subscribe({

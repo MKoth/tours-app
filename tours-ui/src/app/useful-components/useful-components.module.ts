@@ -27,7 +27,8 @@ import { AttachImageComponent } from './attach-image/attach-image.component';
     ReactiveFormsModule,
     EditorModule,
     DialogsModule,
-    FormsModule
+    FormsModule,
+    DialogsModule
   ],
   exports: [
     ChipsFieldComponent,

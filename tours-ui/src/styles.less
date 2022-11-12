@@ -10,3 +10,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 body {
     background: #d4d4d48a;
 }
+
+.cdk-overlay-container:has(.image-selection-dialog-backdrop) {
+    z-index: 1500;
+
+    .cdk-overlay-backdrop {
+        z-index: 1500;
+    }
+    
+    .cdk-global-overlay-wrapper {
+        z-index: 1500;
+
+        .cdk-overlay-pane {
+            z-index: 1500;
+        }
+    }
+}
+

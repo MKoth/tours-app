@@ -22,7 +22,6 @@ export class LayerComponent implements OnInit {
 
   constructor(
     private layerService: LayerService,
-    private tourService: TourService,
     private route: ActivatedRoute
   ) { }
 
@@ -34,9 +33,6 @@ export class LayerComponent implements OnInit {
         this.isLoading = false;
         this.isError = false;
         this.layer = result;
-        this.tourService.findTour("layer:"+this.layer?.id).subscribe(res=>{
-          this.tours = res;
-        })
         this.initMap();
       },
       error: err=>{
@@ -52,7 +48,7 @@ export class LayerComponent implements OnInit {
     let cityLatLng = this.layer?.city.point.split(",").map(coord=>parseFloat(coord));
     let mapProp = {
       center: new google.maps.LatLng((cityLatLng as number[])[0], (cityLatLng as number[])[1]),
-      zoom: 3,
+      zoom: 10,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("googleMapLayer") as HTMLElement, mapProp);
@@ -72,7 +68,7 @@ export class LayerComponent implements OnInit {
   getDateRange(layer: Layer) {
     let from = new Date(layer.period_start);
     let to = new Date(layer.period_end);
-    return from.getFullYear + "-" + to.getFullYear;
+    return from.toDateString() + " - " + to.toDateString();
   }
 
   getDuration(minutes: number) {
@@ -82,7 +78,9 @@ export class LayerComponent implements OnInit {
   }
 
   turnicateText(text: string) {
-    return text.substring(0, this.excerptLength)+"...";
+    const regexp = /(<([^>]+)>)/gi;
+    const strippedText = text.replace(regexp, "");
+    return strippedText.substring(0, this.excerptLength)+"...";
   }
 
 }

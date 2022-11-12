@@ -64,6 +64,7 @@ export class EditLayerComponent implements OnInit {
   onSubmit() {
     this.formErrorMessage = "";
     const layerForm = this.formComponent.layerForm;
+
     if(layerForm.invalid) {
       this.formErrorMessage = "Please fill in all required fields!";
       return;
@@ -90,7 +91,8 @@ export class EditLayerComponent implements OnInit {
         this.isLoading = false;
         this.isError = false;
         this.layer = result;
-        this.router.navigate(["/layers/"+this.layer.id]);
+        console.log("Result:", result);
+        //this.router.navigate(["/layers/"+this.layer.id]);
       },
       error: err=>{
         this.isLoading = false;

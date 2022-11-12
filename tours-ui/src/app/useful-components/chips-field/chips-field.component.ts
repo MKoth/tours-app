@@ -45,12 +45,14 @@ export class ChipsFieldComponent implements OnInit {
       this.tagsService.geTagByName(value).subscribe({
         next: (tag: Tag)=>{
           this.tags.push(tag);
+          this.onChange.emit(this.tags);
         },
         error: err=>{
           console.log("Error", err);
           if (!this.allowToAddTag) return;
           this.tagsService.createTag({name: value}).subscribe(newTag => {
             this.tags.push(newTag);
+            this.onChange.emit(this.tags);
           });
         }
       });
@@ -58,7 +60,6 @@ export class ChipsFieldComponent implements OnInit {
     // Clear the input value
     event.chipInput!.clear();
     this.tagCtrl.setValue(null);
-    this.onChange.emit(this.tags);
   }
 
   remove(tagToRemove: Tag): void {
@@ -74,6 +75,7 @@ export class ChipsFieldComponent implements OnInit {
     this.tags.push(event.option.value);
     this.tagInput!.nativeElement.value = '';
     this.tagCtrl.setValue(null);
+    this.onChange.emit(this.tags);
   }
 
   private _filter(value: string | null): Observable<Array<Tag>> {

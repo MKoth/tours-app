@@ -1,12 +1,12 @@
 <h1 mat-dialog-title>New City Details</h1>
 <div mat-dialog-content>
   <p>Add new city</p>
+  <p style="color: red;" *ngIf="errorMessage">{{errorMessage}}</p>
   <mat-form-field appearance="fill">
     <mat-label>City's name</mat-label>
     <input matInput [(ngModel)]="city.name">
   </mat-form-field>
   <div id="newCityLocationSelectionMap"></div>
-  <p style="color: red;" *ngIf="errorMessage">{{errorMessage}}</p>
 </div>
 <div mat-dialog-actions>
   <button [disabled]="isLoading" mat-button (click)="onCancelClick()">Cancel</button>

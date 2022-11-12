@@ -6,7 +6,7 @@
                 <mat-label>Filter By city</mat-label>
                 <mat-select formControlName="city">
                     <mat-option>No Filter</mat-option>
-                    <mat-option *ngFor="let city in cities" [value]="city.id">{{city.name}}</mat-option>
+                    <mat-option *ngFor="let city of cities" [value]="city.id">{{city.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxFlex="30">
@@ -20,7 +20,7 @@
                     <input matInput type="number" placeholder="Ex. 1900 or -5000" value="1900" formControlName="period_end">
                 </mat-form-field>
             </div>
-            <app-chips-field (onChange)="setTags($event)" [tags]="filterForm.get('tags')!.value" fxFlex></app-chips-field>
+            <app-chips-field (onChange)="setTags($event)" [tags]="tags" fxFlex></app-chips-field>
         </div>
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end none">
             <button (click)="clearFilters()" mat-flat-button color="accent" fxFlex.xs><mat-icon>clear</mat-icon>Clear Filters</button>

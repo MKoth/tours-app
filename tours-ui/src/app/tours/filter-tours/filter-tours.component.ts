@@ -53,7 +53,7 @@ export class FilterToursComponent implements OnInit {
       const search = params['search'];
       if(search !== this.search) {
         this.search = search;
-        this.searchParams = this.filterService.getValuesFromParam(search);
+        //this.searchParams = this.filterService.getValuesFromParam(search);
         this.setFieldsAccordingToParam();
       }
     });
@@ -64,29 +64,29 @@ export class FilterToursComponent implements OnInit {
   }
 
   filter() {
-    this.fields.forEach(field => {
-      let formField = this.filterForm.get(field.name);
-      let searchParam = this.searchParams.find(param=>param.name==field.name);
-      if (searchParam) {
-        if(searchParam.name == "tags")
-          searchParam.values = formField?.value;
-        else
-          searchParam.value = formField?.value;
-      } else {
-        const key = field.name == "tags"? "values":"value";
-        this.searchParams.push({...field, [key]:formField?.value});
-      }
-    });
-    this.filterService.navigateWithParams(this.searchParams);
+    // this.fields.forEach(field => {
+    //   let formField = this.filterForm.get(field.name);
+    //   let searchParam = this.searchParams.find(param=>param.name==field.name);
+    //   if (searchParam) {
+    //     if(searchParam.name == "tags")
+    //       searchParam.values = formField?.value;
+    //     else
+    //       searchParam.value = formField?.value;
+    //   } else {
+    //     const key = field.name == "tags"? "values":"value";
+    //     this.searchParams.push({...field, [key]:formField?.value});
+    //   }
+    // });
+    // this.filterService.navigateWithParams(this.searchParams);
   }
 
   setFieldsAccordingToParam() {
-    this.searchParams.forEach(param => {
-      let field;
-      if (field = this.filterForm.get(param.name)) {
-        field.setValue(param.values? param.values : param.value);
-      }
-    });
+    // this.searchParams.forEach(param => {
+    //   let field;
+    //   if (field = this.filterForm.get(param.name)) {
+    //     field.setValue(param.values? param.values : param.value);
+    //   }
+    // });
   }
 
 }

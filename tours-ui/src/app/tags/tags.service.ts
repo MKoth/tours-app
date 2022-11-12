@@ -19,8 +19,12 @@ export class TagsService {
     return this.http.get<any>(TAGS_API_URL);
   }
 
+  geTagById(id: number) {
+    return this.http.get<any>(TAGS_API_URL+`/${id}`);
+  }
+
   geTagByName(name: string) {
-    return this.http.get<any>(TAGS_API_URL+`/${name}`);
+    return this.http.get<any>(TAGS_API_URL+`/name/${name}`);
   }
 
   geTagsLike(like: string) {

@@ -1,5 +1,6 @@
 package com.toursapp.tourslocationslayers.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,6 +24,7 @@ public class Layer {
 
     private String name;
 
+    @Column(length=100000)
     private String[] points;
 
     private String text;
@@ -41,11 +44,16 @@ public class Layer {
     @ManyToOne
     private City city;
 
+    @OneToMany
+    @JsonIgnoreProperties(value={ "layer", "locations" })
+    private List<Tour> tours;
+
     private Boolean enabled;
 
     private Boolean approved;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value={ "layers", "locations", "tours" })
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "layers_tags",
             joinColumns = @JoinColumn(name = "layer_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")

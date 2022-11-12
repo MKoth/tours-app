@@ -18,17 +18,17 @@ public class SpecificationsBuilder<T> {
     }
 
     public SpecificationsBuilder with(String key, String operation, Object value) {
-        if (key == "tags") {
-            List<Tag> tags = Arrays.stream(value.toString().split("\\|"))
-                    .map(Integer::parseInt).map(Tag::new).toList();
-            params.add(new SearchCriteria(key, operation, null, tags));
-        }
-        else {
+//        if (key == "tags") {
+//            List<Tag> tags = Arrays.stream(value.toString().split("\\|"))
+//                    .map(Integer::parseInt).map(Tag::new).toList();
+//            params.add(new SearchCriteria(key, operation, null, tags));
+//        }
+//        else {
             if (operation.equalsIgnoreCase("<") || operation.equalsIgnoreCase(">")){
-                value = Integer.parseInt((String) value);
+                value = Long.parseLong((String) value);
             }
             params.add(new SearchCriteria(key, operation, value, null));
-        }
+//        }
         return this;
     }
 

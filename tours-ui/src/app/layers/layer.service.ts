@@ -17,7 +17,7 @@ export interface Layer {
   creator_id: string,
   tours: Array<Tour>,
   city: City,
-  tags: Array<Tag>|Array<number>,
+  tags: Array<Tag>,
 }
 
 @Injectable({
@@ -44,6 +44,6 @@ export class LayerService {
   }
 
   findLayer(searchParams: string) {
-    return this.http.get<any>(LAYERS_API_URL+`?search=${searchParams}`);
+    return this.http.get<any>(LAYERS_API_URL+`/filter?search=${searchParams}`);
   }
 }

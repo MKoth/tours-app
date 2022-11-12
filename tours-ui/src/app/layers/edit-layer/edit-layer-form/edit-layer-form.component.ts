@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tag } from 'src/app/tags/tags.service';
 import { City } from 'src/app/useful-components/select-create-city/city.service';
@@ -13,6 +13,8 @@ export class EditLayerFormComponent implements OnInit {
 
   @Input() layer: Layer|{} = {};
 
+  injector: Injector | null = null;
+
   layerForm: FormGroup;
 
   fromYear: number = 0;
@@ -20,19 +22,20 @@ export class EditLayerFormComponent implements OnInit {
   fromDay: number = 0;
 
   toYear: number = 0;
-  toMonth: number = 0;
+  toMonth: number = 10;
   toDay: number = 0;
 
   city: City|null = null;
   tags: Tag[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, injector:Injector) {
+    this.injector = injector;
     this.layerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       period_start: [0, [Validators.required]],
       period_end: [0, [Validators.required]],
-      text: ['', [Validators.required, Validators.minLength(100)]],
-      image: [0, [Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
+      text: ['', [Validators.required]],
+      image: [0, [Validators.required]],
     });
   }
 
@@ -61,6 +64,7 @@ export class EditLayerFormComponent implements OnInit {
   }
 
   setTags(tags: Tag[]) {
+    console.log("Setting tags", tags);
     this.tags = tags;
   }
 
@@ -69,6 +73,7 @@ export class EditLayerFormComponent implements OnInit {
   }
 
   setCity(city: City) {
+    console.log("Hello here", city);
     this.city= city;
   }
 
@@ -80,6 +85,7 @@ export class EditLayerFormComponent implements OnInit {
     if (this.fromDay)
       date.setDate(this.fromMonth-1);
     this.period_start?.setValue(date.getTime());
+    console.log(date.getTime());
   }
 
   setToDate() {

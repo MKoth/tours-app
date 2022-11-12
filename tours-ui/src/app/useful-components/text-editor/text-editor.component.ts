@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, EventEmitter, Injector, Input, NgZone, OnInit, Output, ViewContainerRef } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SelectUploadFileDialogComponent } from 'src/app/dialogs/select-upload-file-dialog/select-upload-file-dialog.component';
 declare let tinymce: any;
 
@@ -15,12 +15,12 @@ export class TextEditorComponent implements OnInit {
 
   tinymceInit: any;
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private ngZone: NgZone) {
     this.tinymceInit = { 
       plugins: 'lists link image table code help wordcount',
       toolbar: 'image',
       image_advtab: true,
-      file_picker_callback: function(cb: any, value: any, meta: any) {
+      file_picker_callback: (cb: any, value: any, meta: any) => {
         this.selectFileDialog(cb);
       }
     };
@@ -34,15 +34,21 @@ export class TextEditorComponent implements OnInit {
   }
 
   selectFileDialog(callback: any) {
-    const dialogRef = this.dialog.open(SelectUploadFileDialogComponent, {
+    const matDialogConfig: MatDialogConfig = {
       width: '600px',
-      minHeight: '400px'
-    });
+      minHeight: '400px',
+      backdropClass: 'image-selection-dialog-backdrop',
+      panelClass: 'image-selection-dialog-backdrop'
+    };
+    this.ngZone.run(() => {
+      const dialogRef = this.dialog.open(SelectUploadFileDialogComponent, matDialogConfig);
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      if (result)
-        callback(result);
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed', result);
+        if (result)
+          callback(result);
+      });
     });
+    
   }
 }

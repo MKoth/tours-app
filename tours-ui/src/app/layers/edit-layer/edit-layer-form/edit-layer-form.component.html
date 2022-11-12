@@ -12,57 +12,57 @@
         <div fxLayout="row" fxLayoutGap="10px">
           <mat-form-field class="number-field" appearance="fill">
             <mat-label>Years from</mat-label>
-            <input matInput [(ngModel)]="fromYear" type="number" placeholder="Ex. 1700 or -300" value="1700">
+            <input name="fromYear" matInput [(ngModel)]="fromYear" type="number" placeholder="Ex. 1700 or -300" value="1700" (change)="setFromDate()" (keyup)="setFromDate()">
           </mat-form-field>
           <mat-form-field class="month-field" appearance="fill" fxFlex.gt-xs>
             <mat-label>Select month</mat-label>
-            <mat-select [disabled]="!fromYear" [(ngModel)]="fromMonth">
+            <mat-select name="fromMonth" [disabled]="!fromYear" [(ngModel)]="fromMonth" (selectionChange)="setFromDate()">
               <mat-option>No data</mat-option>
-              <mat-option value="1">January</mat-option>
-              <mat-option value="2">February</mat-option>
-              <mat-option value="3">March</mat-option>
-              <mat-option value="4">April</mat-option>
-              <mat-option value="5">May</mat-option>
-              <mat-option value="6">June</mat-option>
-              <mat-option value="7">July</mat-option>
-              <mat-option value="8">August</mat-option>
-              <mat-option value="9">September</mat-option>
-              <mat-option value="10">October</mat-option>
-              <mat-option value="11">November</mat-option>
-              <mat-option value="12">December</mat-option>
+              <mat-option [value]="1">January</mat-option>
+              <mat-option [value]="2">February</mat-option>
+              <mat-option [value]="3">March</mat-option>
+              <mat-option [value]="4">April</mat-option>
+              <mat-option [value]="5">May</mat-option>
+              <mat-option [value]="6">June</mat-option>
+              <mat-option [value]="7">July</mat-option>
+              <mat-option [value]="8">August</mat-option>
+              <mat-option [value]="9">September</mat-option>
+              <mat-option [value]="10">October</mat-option>
+              <mat-option [value]="11">November</mat-option>
+              <mat-option [value]="12">December</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="number-field" appearance="fill">
             <mat-label>Day</mat-label>
-            <input [disabled]="!fromMonth" [(ngModel)]="fromDay" matInput type="number" placeholder="1 to 31">
+            <input name="fromDay" [disabled]="!fromMonth" [(ngModel)]="fromDay" matInput type="number" placeholder="1 to 31" (change)="setFromDate()" (keyup)="setFromDate()">
           </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutGap="10px">
           <mat-form-field class="number-field" appearance="fill">
             <mat-label>Years to</mat-label>
-            <input matInput [(ngModel)]="toYear" type="number" placeholder="Ex. 1700 or -300" value="1700">
+            <input name="toYear" matInput [(ngModel)]="toYear" type="number" placeholder="Ex. 1700 or -300" value="1700" (change)="setToDate()" (keyup)="setToDate()">
           </mat-form-field>
           <mat-form-field appearance="fill" class="month-field" fxFlex.gt-xs>
             <mat-label>Select month</mat-label>
-            <mat-select [disabled]="!toYear" [(ngModel)]="toMonth">
+            <mat-select name="toMonth" [disabled]="!toYear" [(ngModel)]="toMonth" (selectionChange)="setToDate()">
               <mat-option>No data</mat-option>
-              <mat-option value="1">January</mat-option>
-              <mat-option value="2">February</mat-option>
-              <mat-option value="3">March</mat-option>
-              <mat-option value="4">April</mat-option>
-              <mat-option value="5">May</mat-option>
-              <mat-option value="6">June</mat-option>
-              <mat-option value="7">July</mat-option>
-              <mat-option value="8">August</mat-option>
-              <mat-option value="9">September</mat-option>
-              <mat-option value="10">October</mat-option>
-              <mat-option value="11">November</mat-option>
-              <mat-option value="12">December</mat-option>
+              <mat-option [value]="1">January</mat-option>
+              <mat-option [value]="2">February</mat-option>
+              <mat-option [value]="3">March</mat-option>
+              <mat-option [value]="4">April</mat-option>
+              <mat-option [value]="5">May</mat-option>
+              <mat-option [value]="6">June</mat-option>
+              <mat-option [value]="7">July</mat-option>
+              <mat-option [value]="8">August</mat-option>
+              <mat-option [value]="9">September</mat-option>
+              <mat-option [value]="10">October</mat-option>
+              <mat-option [value]="11">November</mat-option>
+              <mat-option [value]="12">December</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="number-field" appearance="fill">
             <mat-label>Day</mat-label>
-            <input [disabled]="!toMonth" [(ngModel)]="toYear" matInput type="number" placeholder="1 to 31">
+            <input name="toDay" [disabled]="!toMonth" [(ngModel)]="toDay" matInput type="number" placeholder="1 to 31" (change)="setToDate()" (keyup)="setToDate()">
           </mat-form-field>
         </div>
       </div>

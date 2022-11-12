@@ -25,7 +25,7 @@ export class SelectCreateCityComponent implements OnInit {
   ngOnInit(): void {
     if (this.city) this.selectedCity.setValue(this.city);
     this.cityService.getAllCities().subscribe(cities => {
-      if (this.cities.length)
+      if (cities.length)
         this.cities = cities;
       else
         this.cities = [{id:-1, name:"No city available, create one!", point:""}];
@@ -33,7 +33,7 @@ export class SelectCreateCityComponent implements OnInit {
   }
 
   onChange() {
-    this.onCityChange.emit(this.cities.find(city=>this.selectedCity.value()==city.id));
+    this.onCityChange.emit(this.cities.find(city=>this.selectedCity.value==city.id));
   }
 
   openDialog(event: MouseEvent): void {

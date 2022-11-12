@@ -6,6 +6,7 @@ import com.toursapp.tourslocationslayers.entities.Tag;
 import com.toursapp.tourslocationslayers.entities.Tour;
 import com.toursapp.tourslocationslayers.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class TagController {
 
     @GetMapping
     List<Tag> getAll() {
-        return (List<Tag>) repository.findAll(PageRequest.of(0, 5));
+        return repository.findAll(PageRequest.of(0, 5)).stream().toList();
     }
 
     @PostMapping
@@ -31,6 +32,11 @@ public class TagController {
     @GetMapping("/{id}")
     Tag getById(@PathVariable Integer id) {
         return repository.findById(id).orElseThrow(() -> new TagNotFoundException(id));
+    }
+
+    @GetMapping("/name/{id}")
+    Tag getById(@PathVariable String name) {
+        return repository.findByName(name).orElseThrow(() -> new TagNotFoundException(name));
     }
 
     @GetMapping("/find")

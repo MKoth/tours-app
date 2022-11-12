@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { __values } from 'tslib';
 import { Layer } from '../../layer.service';
 
 let map:google.maps.Map;
@@ -91,6 +92,6 @@ export class EditLayerMapComponent implements OnInit {
 
   get path() {
     const path = poly.getPath();
-    return path.getArray().map(value=>value.toString());
+    return path.getArray().map(value=>value.lat()+","+value.lng());
   }
 }
