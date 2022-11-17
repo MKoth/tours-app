@@ -3,7 +3,7 @@
         <mat-label>Image URL</mat-label>
         <input disabled type="text" matInput [(ngModel)]="imageUrl">
     </mat-form-field>
-    <button class="select-image-button" mat-flat-button color="accent" (click)="openImageDialog()">Select Image</button>
+    <button class="select-image-button" mat-flat-button color="accent" (click)="openImageDialog($event)">Select Image</button>
 </div>
 <div fxLayout="row" fxLayoutAlign="center center" >
     <img class="image-preview" [src]="imageUrl" alt=""/>

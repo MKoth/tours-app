@@ -12,7 +12,7 @@ export class HomepageComponent implements OnInit {
   ngOnInit(): void {
     let mapProp = {
       center: new google.maps.LatLng(0, -180),
-      zoom: 3,
+      zoom: 10,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     let map = new google.maps.Map(document.getElementById("googleMap") as HTMLElement, mapProp);

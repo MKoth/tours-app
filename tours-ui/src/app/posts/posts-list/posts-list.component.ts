@@ -19,14 +19,15 @@ export class PostsListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.postService.getAllPosts().subscribe(result=>{
-      this.posts = result;
-    });
     this.activatedRoute.queryParams.subscribe(params => {
       const search = params['search'];
-      if(search !== this.search) {
+      if(search && search !== this.search) {
         this.search = search;
         this.postService.findPost(search).subscribe(result=>{
+          this.posts = result;
+        });
+      } else {
+        this.postService.getAllPosts().subscribe(result=>{
           this.posts = result;
         });
       }
@@ -34,7 +35,9 @@ export class PostsListComponent implements OnInit {
   }
 
   turnicateText(text: string) {
-    return text.substring(0, this.excerptLength)+"...";
+    const regexp = /(<([^>]+)>)/gi;
+    const strippedText = text.replace(regexp, "");
+    return strippedText.substring(0, this.excerptLength)+"...";
   }
 
 }

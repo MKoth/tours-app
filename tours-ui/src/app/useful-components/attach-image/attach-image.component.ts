@@ -16,7 +16,9 @@ export class AttachImageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openImageDialog() {
+  openImageDialog(event: Event) {
+    event.stopPropagation();
+    event.preventDefault();
     const dialogRef = this.dialog.open(SelectUploadFileDialogComponent, {
       width: '600px',
       minHeight: '400px'

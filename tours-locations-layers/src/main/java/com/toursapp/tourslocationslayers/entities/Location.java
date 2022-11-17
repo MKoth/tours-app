@@ -55,11 +55,12 @@ public class Location {
     @ManyToOne
     private Layer layer;
 
+    @JsonIgnoreProperties(value={ "locations", "layer" }, allowSetters = true)
     @ManyToOne
     private Tour tour;
 
     @JsonIgnoreProperties(value={ "layers", "locations", "tours" })
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinTable(name = "locations_tags",
             joinColumns = @JoinColumn(name = "location_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")

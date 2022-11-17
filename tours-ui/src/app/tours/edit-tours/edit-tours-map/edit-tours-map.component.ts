@@ -26,7 +26,7 @@ export class EditToursMapComponent implements OnInit {
     const startPoint = this.tour?.locations.length?this.tour?.locations[1].point.split(","):this.defaultLatLng;
     let mapProp = {
       center: new google.maps.LatLng(parseFloat(startPoint[0]),parseFloat(startPoint[1])),
-      zoom: 3,
+      zoom: 10,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("googleMapNewTour") as HTMLElement, mapProp);
@@ -38,11 +38,12 @@ export class EditToursMapComponent implements OnInit {
     });
   
     poly.setMap(map);
-    event = map.addListener("click", this.addLatLng);
-    this.addExistingPostsToPath();
+    event = map.addListener("click", (e:any)=>this.addLatLng(e));
+    this.redrawLocationsToMap();
   }
 
-  addExistingPostsToPath() {
+  redrawLocationsToMap() {
+    this.clearPath();
     const path = poly.getPath();
     this.tour.locations.forEach(post=>{
       const point = post.point.split(",").map(loc=>parseFloat(loc));
@@ -54,21 +55,21 @@ export class EditToursMapComponent implements OnInit {
         position: latLng,
         draggable: true
       });
-      newMarker.addListener("dragend", (e: google.maps.MapMouseEvent) => { this.onMarkerDragEnd(e, post, path.getLength()-1) } );
+      newMarker.addListener("dragend", (e: google.maps.MapMouseEvent) => { this.onMarkerDragEnd(e, post) } );
       markers.push(newMarker);
     });
   }
 
-  onMarkerDragEnd(event: google.maps.MapMouseEvent, post: Post, pathIndex:number) {
-    poly.getPath().setAt(pathIndex, event.latLng as google.maps.LatLng);
-    post.point = event.latLng?.toString() as string;
+  onMarkerDragEnd(event: google.maps.MapMouseEvent, post: Post) {
+    post.point = event.latLng!.lat()+","+event.latLng!.lng();
+    this.redrawLocationsToMap();
   }
 
   addLatLng(event:any) {
     const path = poly.getPath();
     path.push(event.latLng);
     const newMarker = new google.maps.Marker({
-      label: "Tours post no. " + markers.length,
+      label: "Post for no. " + (markers.length+1),
       map: map,
       position: event.latLng,
       draggable: true
@@ -78,27 +79,30 @@ export class EditToursMapComponent implements OnInit {
       name: "Post for no. " + markers.length,
       text: "Sample text here!",
       image: "/assets/empty-post.jpeg",
-      point: event.latLng.toString(),
+      point: event.latLng.lat()+","+event.latLng.lng(),
       period_start: 0,
       period_end: 0,
       creator_id: '',
       city: {name:"", id:0, point:""},
       tags: [],
       layer: {},
-      tour: this.tour,
       ordering: markers.length
     };
     this.tour.locations.push(post);
-    newMarker.addListener("dragend", (e: google.maps.MapMouseEvent) => { this.onMarkerDragEnd(e, post, path.getLength()-1) });
+    newMarker.addListener("dragend", (e: google.maps.MapMouseEvent) => { this.onMarkerDragEnd(e, post) });
   }
 
-  clearLine() {
+  clearLocations() {
+    this.clearPath();
+    this.tour.locations = [];
+    this.unassignedPosts = structuredClone(this.tour.locations.filter(post=>post.id));
+  }
+
+  clearPath() {
     const path = poly.getPath();
     path.clear();
     markers.forEach(value=>value.setMap(null));
     markers = [];
-    this.unassignedPosts = structuredClone(this.tour.locations);
-    this.tour.locations = [];
   }
 
   cancelLastStroke() {
@@ -117,6 +121,8 @@ export class EditToursMapComponent implements OnInit {
 
   onReorderPosts(e: CdkDragDrop<Post[]>) {
     moveItemInArray(this.tour.locations, e.previousIndex, e.currentIndex);
+    this.redrawLocationsToMap();
+    this.tour.locations.forEach((post, index)=>{post.ordering = index+1});
   }
 
   setPostToBeReplaced(toBeReplacePost: Post) {
@@ -128,6 +134,20 @@ export class EditToursMapComponent implements OnInit {
     if (index >= 0 ) {
       this.tour.locations[index] = newPost;
     }
+    this.redrawLocationsToMap();
+  }
+
+  swapPost(postToSwap: Post) {
+    const index1 = this.tour.locations.indexOf(this.toBeReplacePost as Post);
+    const index2 = this.tour.locations.indexOf(postToSwap);
+    this.tour.locations[index1] = postToSwap;
+    this.tour.locations[index2] = this.toBeReplacePost!;
+    const {ordering, point} = postToSwap;
+    postToSwap.ordering = this.toBeReplacePost!.ordering;
+    postToSwap.point = this.toBeReplacePost!.point;
+    this.toBeReplacePost!.ordering = ordering;
+    this.toBeReplacePost!.point = point;
+    this.redrawLocationsToMap();
   }
 
   get path() {

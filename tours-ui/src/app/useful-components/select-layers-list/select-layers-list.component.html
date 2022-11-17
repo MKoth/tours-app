@@ -1,6 +1,6 @@
 <mat-form-field appearance="fill" class="multiple-layers-selector">
     <mat-label>Layers</mat-label>
-    <mat-select (selectionChange)="onChange()" [formControl]="layers">
+    <mat-select (selectionChange)="onChange()" [formControl]="layerId">
         <mat-form-field class="multiple-layers-selector-form-field" appearance="outline">
             <mat-label>Search Layers</mat-label>
             <input matInput type="text" [(ngModel)]="value" (keyup)="onKey()">
@@ -11,12 +11,12 @@
         <mat-option class="disabled-option" disabled></mat-option>
         <mat-option *ngFor="let layer of layersList" [value]="layer.id">{{layer.name}}</mat-option>
     </mat-select>
-    <button *ngIf="layers.value"
+    <button *ngIf="layerId.value"
         matSuffix
         mat-icon-button
         type="button"
         aria-label="Clear"
-        (click)="layers.setValue(''); $event.stopPropagation()">
+        (click)="layerId.setValue(0); $event.stopPropagation(); changeLayers.emit({});">
         <mat-icon>close</mat-icon>
     </button>
 </mat-form-field>

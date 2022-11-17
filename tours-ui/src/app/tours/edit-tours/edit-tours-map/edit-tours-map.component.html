@@ -1,25 +1,25 @@
-<!--
-    user can see posts that became unassigned
-    user can assign unassigned posts to newly created posts
--->
 <div fxLayout fxLayoutGap="10px" class="buttons_holder">
     <button mat-flat-button color="accent" (click)="cancelLastStroke()" [disabled]="getPointsCount()<=1">Cancel Last Stroke</button>
-    <button mat-flat-button color="accent" (click)="clearLine()" [disabled]="getPointsCount()==0">Clear Points</button>
+    <button mat-flat-button color="accent" (click)="clearLocations()" [disabled]="getPointsCount()==0">Clear Points</button>
 </div>
 <div id="googleMapNewTour"></div>
-<h3>Posts order can be changed here</h3>
+<h2 class="posts-header">Posts order can be changed here</h2>
 <div cdkDropList class="posts-list" (cdkDropListDropped)="onReorderPosts($event)">
+    <div class="no-posts-message" *ngIf="!tour.locations.length">No posts yet</div>
     <div class="post-box" *ngFor="let post of tour.locations" cdkDrag>{{post.name}}
-        <span *ngIf="post.id">(Newly created)</span>
+        <span *ngIf="!post.id">(Newly created)</span>
         <button class="menu-item-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Submenu of post" (click)="setPostToBeReplaced(post)">
             <mat-icon>more_vert</mat-icon>
         </button>
     </div>
 </div>
 
-<mat-menu #menu="matMenu">
-    <button [matMenuTriggerFor]="submenu" mat-menu-item>
+<mat-menu class="unassigned-posts-menu" #menu="matMenu">
+    <button *ngIf="unassignedPosts.length" [matMenuTriggerFor]="submenu" mat-menu-item>
         Replace with unassigned post
+    </button>
+    <button *ngIf="tour.locations.length>1" [matMenuTriggerFor]="submenu2" mat-menu-item>
+        Swap post with other
     </button>
 </mat-menu>
 
@@ -29,7 +29,16 @@
     </button>
 </mat-menu>
 
-<h3>Already saved posts that was unassigned by map path changing</h3>
+<mat-menu #submenu2="matMenu">
+    <ng-container *ngFor="let post of tour.locations">
+        <button *ngIf="toBeReplacePost!=post" mat-menu-item (click)="swapPost(post)">
+            {{post.name}}
+        </button>
+    </ng-container>
+</mat-menu>
+
+<h2 class="posts-header">Already saved posts that was unassigned by map path changing</h2>
 <div class="posts-list">
-    <div class="post-box" *ngFor="let post of unassignedPosts" cdkDrag>{{post.name}}</div>
+    <div class="no-posts-message" *ngIf="!unassignedPosts.length">No unassigned posts</div>
+    <div class="post-box non-draggable" *ngFor="let post of unassignedPosts">{{post.name}}</div>
 </div>

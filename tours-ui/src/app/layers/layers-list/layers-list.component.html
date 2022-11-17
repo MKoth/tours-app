@@ -3,7 +3,7 @@
 <div fxLayoutAlign="end center" style="margin-bottom: 10px;">
     <button mat-flat-button color="warn" routerLink="/layers/edit/new"><mat-icon>add</mat-icon>Create New Layer</button>
 </div>
-<div *ngFor="let layer of layers" class="layers-list-holder" fxLayoutGap="10px" fxLayout="column" fxLayoutAlign="space-between center">
+<div class="layers-list-holder" fxLayoutGap="10px" fxLayout="column" fxLayoutAlign="space-between center">
     <mat-card class="layer-list-item" *ngFor="let layer of layers">
         <mat-card-title-group>
           <mat-card-title>{{layer.name}}</mat-card-title>

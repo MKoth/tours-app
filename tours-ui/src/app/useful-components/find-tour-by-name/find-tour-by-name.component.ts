@@ -10,7 +10,6 @@ import { Tour, TourService } from 'src/app/tours/tour.service';
 export class FindTourByNameComponent implements OnInit {
 
   @Output() changeTour = new EventEmitter<any>();
-  @Input() cityId: number = 0;
   @Input() tourId: number = 0;
   
   tour = new FormControl();
@@ -21,17 +20,19 @@ export class FindTourByNameComponent implements OnInit {
   constructor(private tourService: TourService) { }
 
   ngOnInit(): void {
-    this.tourService.findTour("city:" + this.cityId).subscribe(result=>{
+    this.tourService.getAllTours().subscribe(result=>{
       this.allToursList = result;
+      this.toursList = this.allToursList;
+      if (this.tourId) {
+        this.tour.setValue(this.tourId);
+      }
     });
 
-    if (this.tourId) {
-      this.tour.setValue(this.tourId);
-    }
+    
   }
 
   onChange() {
-    this.changeTour.emit(this.tour.value());
+    this.changeTour.emit(this.allToursList.find(tour => tour.id == this.tour.value));
   }
 
   onKey() {

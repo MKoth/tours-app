@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Layer } from 'src/app/layers/layer.service';
+import { Tour } from 'src/app/tours/tour.service';
 import { City } from 'src/app/useful-components/select-create-city/city.service';
 import { Post, PostService } from '../post.service';
 import { EditPostFormComponent } from './edit-post-form/edit-post-form.component';
@@ -19,7 +21,6 @@ export class EditPostComponent implements OnInit {
   formErrorMessage = "";
   isLoading = true;
   isError = false;
-
   post: Post = {
     name: "",
     text: "",
@@ -44,29 +45,25 @@ export class EditPostComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    if (id == "new") {
-      this.post.creator_id = this.authService.getDecodedAccessToken().sub;
-      this.isLoading = false;
-    } else {
-      this.isLoading = true;
-      this.postService.getPostById(parseInt(id as string)).subscribe({
-        next: result=>{
-          this.isLoading = false;
-          this.isError = false;
-          this.post = result;
-        },
-        error: err=>{
-          this.isLoading = false;
-          this.isError = true;
-          console.log("Error", err);
-        }
-      });
-    }
+    this.isLoading = true;
+    this.postService.getPostById(parseInt(id as string)).subscribe({
+      next: result => {
+        this.isLoading = false;
+        this.isError = false;
+        this.post = result;
+      },
+      error: err=>{
+        this.isLoading = false;
+        this.isError = true;
+        console.log("Error", err);
+      }
+    });
   }
 
   onSubmit() {
     this.formErrorMessage = "";
     const postForm = this.formComponent.postForm;
+    const tour = this.formComponent.tour as Tour;
     if(postForm.invalid) {
       this.formErrorMessage = "Please fill in all required fields!";
       return;
@@ -76,26 +73,23 @@ export class EditPostComponent implements OnInit {
       this.formErrorMessage = "Post should have point on map!";
       return;
     }
-    this.post.city = this.formComponent.city as City;
     this.post.tags = this.formComponent.tags;
     this.post.image = postForm.get("image")?.value;
     this.post.name = postForm.get("name")?.value;
     this.post.text = postForm.get("text")?.value;
     this.post.period_start = postForm.get("period_start")?.value;
     this.post.period_end = postForm.get("period_end")?.value;
-    this.post.point = point;
-    this.post.layer = postForm.get("layer")?.value;
-    this.post.tour = postForm.get("tour")?.value;
 
     this.isError = false;
     this.isLoading = true;
+    console.log("Updated post", this.post);
 
     this.postService.createPost(this.post).subscribe({
       next: result=>{
         this.isLoading = false;
         this.isError = false;
         this.post = result;
-        this.router.navigate(["/layers/"+this.post.id]);
+        this.router.navigate(["/posts/"+this.post.id]);
       },
       error: err=>{
         this.isLoading = false;

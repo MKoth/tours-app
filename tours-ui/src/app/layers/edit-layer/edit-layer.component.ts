@@ -92,7 +92,7 @@ export class EditLayerComponent implements OnInit {
         this.isError = false;
         this.layer = result;
         console.log("Result:", result);
-        //this.router.navigate(["/layers/"+this.layer.id]);
+        this.router.navigate(["/layers/"+this.layer.id]);
       },
       error: err=>{
         this.isLoading = false;

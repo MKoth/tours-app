@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Layer } from 'src/app/layers/layer.service';
 import { Post } from 'src/app/posts/post.service';
 import { City } from 'src/app/useful-components/select-create-city/city.service';
 import { Tour, TourService } from '../tour.service';
@@ -20,7 +21,6 @@ export class EditToursComponent implements OnInit {
   formErrorMessage = "";
   isLoading = true;
   isError = false;
-
   tour: Tour = {
     name: "",
     text: "",
@@ -67,6 +67,8 @@ export class EditToursComponent implements OnInit {
   onSubmit() {
     this.formErrorMessage = "";
     const tourForm = this.formComponent.tourForm;
+    const layer = this.formComponent.layer as Layer;
+    
     if(tourForm.invalid) {
       this.formErrorMessage = "Please fill in all required fields!";
       return;
@@ -76,14 +78,18 @@ export class EditToursComponent implements OnInit {
       this.formErrorMessage = "Map path should consist of at least 2 points!";
       return;
     }
-    this.tour.city = this.formComponent.city as City;
+    if (!this.formComponent.layer||!(this.formComponent.layer as Layer).id) {
+      this.formErrorMessage = "Please, selet layer first!";
+      return;
+    }
+    this.tour.layer = layer;
+    this.tour.city = layer.city;
     this.tour.tags = this.formComponent.tags;
     this.tour.image = tourForm.get("image")?.value;
     this.tour.name = tourForm.get("name")?.value;
     this.tour.text = tourForm.get("text")?.value;
-    this.tour.period_start = tourForm.get("period_start")?.value;
-    this.tour.period_end = tourForm.get("period_end")?.value;
-    this.tour.layer = tourForm.get("layer")?.value;
+    this.tour.period_start = layer.period_start;
+    this.tour.period_end = layer.period_end;
     this.tour.duration = tourForm.get("duration")?.value;
     this.tour.locations = this.mapComponent.path.map((post:Post, index:number)=>this.insertDataIntoNewPost(post, index));
 
@@ -95,7 +101,7 @@ export class EditToursComponent implements OnInit {
         this.isLoading = false;
         this.isError = false;
         this.tour = result;
-        this.router.navigate(["/tours/"+this.tour.id]);
+        //this.router.navigate(["/tours/"+this.tour.id]);
       },
       error: err=>{
         this.isLoading = false;
@@ -107,7 +113,7 @@ export class EditToursComponent implements OnInit {
 
   insertDataIntoNewPost(post: Post, index: number):Post {
     post.ordering = index;
-    return post.id? post:{
+    return post.id? {...post, tour: undefined}:{
       name: "Post for "+this.tour.name+" no. "+(post.ordering+1),
       text: "Sample text here!",
       image: "/assets/empty-post.jpeg",
@@ -118,7 +124,6 @@ export class EditToursComponent implements OnInit {
       city: this.tour.city,
       tags: this.tour.tags,
       layer: this.tour.layer,
-      tour: this.tour,
       ordering: post.ordering
     };
   }

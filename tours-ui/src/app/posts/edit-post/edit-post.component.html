@@ -8,6 +8,8 @@
     <app-edit-post-form [post]="post"></app-edit-post-form>
     <app-edit-post-map [post]="post"></app-edit-post-map>
     <p class="error" *ngIf="formErrorMessage">{{formErrorMessage}}</p>
-    <button (click)="onSubmit()" mat-flat-button color="accent"><mat-icon>save</mat-icon>Save Post</button>
+    <div fxLayout="row" fxLayoutAlign="end center" style="margin-top: 20px;">
+        <button (click)="onSubmit()" mat-flat-button color="accent"><mat-icon>save</mat-icon>Save Post</button>
+    </div>
 </ng-container>
 

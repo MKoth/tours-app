@@ -19,14 +19,15 @@ export class ToursListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.tourService.getAllTours().subscribe(result=>{
-      this.tours = result;
-    });
     this.activatedRoute.queryParams.subscribe(params => {
       const search = params['search'];
-      if(search !== this.search) {
+      if(search && search !== this.search) {
         this.search = search;
         this.tourService.findTour(search).subscribe(result=>{
+          this.tours = result;
+        });
+      } else {
+        this.tourService.getAllTours().subscribe(result=>{
           this.tours = result;
         });
       }
@@ -34,7 +35,9 @@ export class ToursListComponent implements OnInit {
   }
 
   turnicateText(text: string) {
-    return text.substring(0, this.excerptLength)+"...";
+    const regexp = /(<([^>]+)>)/gi;
+    const strippedText = text.replace(regexp, "");
+    return strippedText.substring(0, this.excerptLength)+"...";
   }
 
   getDuration(minutes: number) {

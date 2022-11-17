@@ -4,12 +4,13 @@
         <p class="page-text" [class.error]="isError">No layer found by this id, or there has been connection error!</p>
     </div>
 </div>
-
+<div id="googleMapPost"></div>
 <ng-container *ngIf="post">
-    <div id="googleMapPost"></div>
     <div fxLayout="row" fxLayoutAlign="space-between center">
         <h1 class="mat-headline">{{post.name}}</h1>
-        <button mat-flat-button color="accent" routerLink="/posts/edit/1"><mat-icon>edit</mat-icon>Edit Post</button>
+        <div fxLayout="row" fxLayoutGap="10px">
+            <button mat-flat-button color="accent" routerLink="/posts/edit/{{post.id}}"><mat-icon>edit</mat-icon>Edit Post</button>
+        </div>
     </div>
     
     <div class="separator"></div>
@@ -17,18 +18,18 @@
     <p class="additional-info"><mat-icon>timeline</mat-icon>{{getDateRange(post)}}</p>
     <img class="post-image" [src]="post.image" alt=""/>
     <div class="mat-body">
-        {{post.text}}
+        <div [innerHTML]="post.text"></div>
         <div class="chips-holder" fxLayout="row" fxLayoutAlign="end start">
             <mat-chip-list aria-label="Fish selection">
-                <mat-chip *ngFor="let tag in post.tags">{{tag.name}}</mat-chip>
+                <mat-chip *ngFor="let tag of post.tags">{{tag.name}}</mat-chip>
             </mat-chip-list>
         </div>
     </div>
     <div class="separator"></div>
     <div fxLayout="row" fxLayoutAlign="end start" fxLayoutGap="10px">
         <button mat-flat-button color="basic" routerLink="/tours/{{$any(post.tour).id}}"><mat-icon>expand_less</mat-icon>To Tour</button>
-        <button *ngIf="prevPostId" mat-flat-button color="accent" routerLink="/posts/{{prevPostId}}"><mat-icon>navigate_before</mat-icon>Prev Post</button>
-        <button *ngIf="nextPostId" mat-flat-button color="accent" routerLink="/posts/{{nextPostId}}"><mat-icon>navigate_next</mat-icon>Next Post</button>
+        <button [disabled]="!prevPostId" mat-flat-button color="accent" routerLink="/posts/{{prevPostId}}"><mat-icon>navigate_before</mat-icon>Prev Post</button>
+        <button [disabled]="!nextPostId" mat-flat-button color="accent" routerLink="/posts/{{nextPostId}}"><mat-icon>navigate_next</mat-icon>Next Post</button>
     </div>
     <div class="separator"></div>
 </ng-container>

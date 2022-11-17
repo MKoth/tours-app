@@ -59,7 +59,7 @@ export class NewCityCreationDialogComponent implements OnInit {
   ngOnInit(): void {
     let mapProp = {
       center: new google.maps.LatLng(41.879, -87.624),
-      zoom: 3,
+      zoom: 10,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     marker = new google.maps.Marker({

@@ -8,5 +8,7 @@
     <app-edit-tours-form [tour]="tour"></app-edit-tours-form>
     <app-edit-tours-map [tour]="tour"></app-edit-tours-map>
     <p class="error" *ngIf="formErrorMessage">{{formErrorMessage}}</p>
-    <button mat-flat-button color="accent"><mat-icon>save</mat-icon>Save Tour</button>
+    <div fxLayout="row" fxLayoutAlign="end center" style="margin-top: 20px;">
+        <button (click)="onSubmit()" mat-flat-button color="accent"><mat-icon>save</mat-icon>Save Tour</button>
+    </div>
 </ng-container>

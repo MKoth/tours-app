@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, of, Subscriber } from 'rxjs';
+import { LayerService } from './layers/layer.service';
 import { TagsService } from './tags/tags.service';
+import { TourService } from './tours/tour.service';
 import { CityService } from './useful-components/select-create-city/city.service';
 
 export interface SearchParam {
@@ -19,6 +21,8 @@ export class FilterService {
     private router: Router,
     private route: ActivatedRoute,
     private cityService: CityService,
+    private layerService: LayerService,
+    private tourService: TourService,
     private tagsService: TagsService) {}
 
   getValuesFromParam(search: string):Observable<SearchParam> {
@@ -44,6 +48,10 @@ export class FilterService {
         const searchParam: SearchParam = {name: name, operation: operation}
         if (name=="tags") {
           this.tagsService.geTagById(parseInt(value)).subscribe(subscriprionFunctioon(sub, searchParam));
+        } else if (name=="layer") {
+          this.layerService.getLayerById(parseInt(value)).subscribe(subscriprionFunctioon(sub, searchParam));
+        } else if (name=="tour") {
+          this.tourService.getTourById(parseInt(value)).subscribe(subscriprionFunctioon(sub, searchParam));
         } else if (name=="city") {
           this.cityService.getCityById(parseInt(value)).subscribe(subscriprionFunctioon(sub, searchParam));
         } else if (name=="period_start" || name=="period_end") {
@@ -55,12 +63,12 @@ export class FilterService {
     });
   }
 
-  navigateWithParams(params:SearchParam[]) {
+  navigateWithParams(params:SearchParam[], path: string) {
     let search:string[] = [];
     params.forEach(param => {
-      if (param.name=="tags" || param.name=="city") 
+      if (param.name=="tags" || param.name=="city" || param.name=="layer" || param.name=="tour"){ 
         search.push(param.name + param.operation + param.value["id"]);
-      else if (param.name=="period_start" || param.name=="period_end") {
+      } else if (param.name=="period_start" || param.name=="period_end") {
         const date = new Date();
         date.setUTCFullYear(param.value);
         date.setUTCMonth(0);
@@ -68,6 +76,6 @@ export class FilterService {
         search.push(param.name + param.operation + date.getTime());
       }
     });
-    this.router.navigate(['layers'], {relativeTo: this.route, queryParams:{search:search.join(",")}})
+    this.router.navigate([path], {relativeTo: this.route, queryParams:{search:search.join(",")}})
   }
 }

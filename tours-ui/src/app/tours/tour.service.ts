@@ -46,6 +46,6 @@ export class TourService {
   }
 
   findTour(searchParams: string) {
-    return this.http.get<any>(TOURS_API_URL+`?search=${searchParams}`);
+    return this.http.get<any>(TOURS_API_URL+`/filter?search=${searchParams}`);
   }
 }

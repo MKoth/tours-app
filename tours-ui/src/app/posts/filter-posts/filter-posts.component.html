@@ -6,11 +6,11 @@
                 <mat-label>Filter By city</mat-label>
                 <mat-select formControlName="city">
                     <mat-option>No Filter</mat-option>
-                    <mat-option *ngFor="let city in cities" [value]="city.id">{{city.name}}</mat-option>
+                    <mat-option *ngFor="let city of cities" [value]="city.id">{{city.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <app-select-layers-list [value]="filterForm.get('layer')!.value" [cityId]="filterForm.get('city')!.value" (changeLayers)="setLayer($event)" fxFlex="30"></app-select-layers-list>
-            <app-chips-field (onChange)="setTags($event)" [tags]="filterForm.get('tags')!.value" fxFlex></app-chips-field>
+            <app-select-layers-list [layer]="layer" (changeLayers)="setLayer($event)" fxFlex="30"></app-select-layers-list>
+            <app-chips-field (onChange)="setTags($event)" [tags]="tags" fxFlex></app-chips-field>
         </div>
         <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="end center">
             <button (click)="clearFilters()" mat-flat-button color="accent" fxFlex.xs><mat-icon>clear</mat-icon>Clear Filters</button>
@@ -23,7 +23,7 @@
     <mat-card>
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-between end" fxLayout.xs="column"
             fxLayoutAlign.xs="none">
-            <app-find-tour-by-name [cityId]="filterForm.get('city')!.value" [tourId]="getTourId()" (changeTour)="onTourChange($event)" fxFlex></app-find-tour-by-name>
+            <app-find-tour-by-name [tourId]="$any(tour).id" (changeTour)="onTourChange($event)" fxFlex></app-find-tour-by-name>
         </div>
     </mat-card>
 </form>

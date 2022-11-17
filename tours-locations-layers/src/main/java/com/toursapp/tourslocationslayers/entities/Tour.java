@@ -51,17 +51,17 @@ public class Tour {
     @Enumerated(EnumType.STRING)
     private TourType type;
 
+    @JsonIgnoreProperties(value={ "tours" })
     @ManyToOne
     private Layer layer;
 
-    @JsonIgnoreProperties(value={ "tour" })
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("ordering ASC")
     @ToString.Exclude
     private List<Location> locations;
 
     @JsonIgnoreProperties(value={ "layers", "locations", "tours" })
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinTable(name = "tours_tags",
             joinColumns = @JoinColumn(name = "tour_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")

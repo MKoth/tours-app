@@ -19,13 +19,13 @@ export class EditToursFormComponent implements OnInit {
 
   city: City|null = null;
   tags: Tag[] = [];
+  layer: Layer|{} = {};
 
   constructor(private fb: FormBuilder) {
     this.tourForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
-      text: ['', [Validators.required, Validators.minLength(100)]],
-      image: [0, [Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
-      layer: [0, [Validators.required]],
+      text: ['', [Validators.required]],
+      image: [0, [Validators.required]],
       duration: [0, [Validators.required]],
     });
   }
@@ -40,10 +40,6 @@ export class EditToursFormComponent implements OnInit {
   
   get image() {
     return this.tourForm.get('image');
-  }
-
-  get layer() {
-    return this.tourForm.get('layer');
   }
 
   get duration() {
@@ -62,8 +58,8 @@ export class EditToursFormComponent implements OnInit {
     this.city= city;
   }
 
-  setLayer(layerId: number) {
-    this.layer?.setValue(layerId);
+  setLayer(layer: Layer | {}) {
+    this.layer = layer;
   }
 
   setImage(image: any) {
@@ -77,9 +73,9 @@ export class EditToursFormComponent implements OnInit {
       this.text?.setValue(tour.text);
       this.image?.setValue(tour.image);
       this.duration?.setValue(tour.duration);
-      this.layer?.setValue((tour.layer as Layer).id);
       this.city = tour.city;
-      this.tags = tour.tags as Tag[];
+      this.tags = tour.tags;
+      this.layer = tour.layer as Layer;
     }
   }
 }

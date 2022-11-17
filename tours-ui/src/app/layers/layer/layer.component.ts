@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TourService } from 'src/app/tours/tour.service';
+import { Tour, TourService } from 'src/app/tours/tour.service';
 import { Layer, LayerService } from '../layer.service';
 
 let map:google.maps.Map;
@@ -15,13 +15,14 @@ let poly:google.maps.Polyline;
 export class LayerComponent implements OnInit {
   layerId: number = 0;
   layer: Layer | null = null;
-  tours:Array<number> = [];
+  tours:Array<Tour> = [];
   isLoading:boolean = false;
   isError:boolean = false;
   excerptLength = 300;
 
   constructor(
     private layerService: LayerService,
+    private tourService: TourService,
     private route: ActivatedRoute
   ) { }
 
@@ -34,6 +35,9 @@ export class LayerComponent implements OnInit {
         this.isError = false;
         this.layer = result;
         this.initMap();
+        this.tourService.findTour("layer:"+id).subscribe(tours=>{
+          this.tours = tours;
+        })
       },
       error: err=>{
         this.isLoading = false;

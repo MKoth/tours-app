@@ -27,16 +27,16 @@ export class EditPostFormComponent implements OnInit {
 
   city: City|null = null;
   tags: Tag[] = [];
+  layer: Layer | {} = {}
+  tour: Tour | {} = {}
 
   constructor(private fb: FormBuilder) {
     this.postForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       period_start: [0, [Validators.required]],
       period_end: [0, [Validators.required]],
-      text: ['', [Validators.required, Validators.minLength(100)]],
-      image: [0, [Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
-      layer: [0, [Validators.required]],
-      tour: [0, [Validators.required]],
+      text: ['', [Validators.required]],
+      image: [0, [Validators.required]],
       ordering: [0, [Validators.required]]
     });
   }
@@ -61,14 +61,6 @@ export class EditPostFormComponent implements OnInit {
     return this.postForm.get('image');
   }
 
-  get layer() {
-    return this.postForm.get('layer');
-  }
-
-  get tour() {
-    return this.postForm.get('tour');
-  }
-
   get ordering() {
     return this.postForm.get('ordering');
   }
@@ -85,12 +77,8 @@ export class EditPostFormComponent implements OnInit {
     this.city= city;
   }
 
-  setLayer(layerId: number) {
-    this.layer?.setValue(layerId);
-  }
-
-  setTour(tourId: number) {
-    this.tour?.setValue(tourId);
+  setLayer(layer: Layer) {
+    this.layer = layer;
   }
 
   setFromDate() {
@@ -125,8 +113,8 @@ export class EditPostFormComponent implements OnInit {
       this.period_start?.setValue(post.period_start);
       this.period_end?.setValue(post.period_end);
       this.image?.setValue(post.image);
-      this.layer?.setValue((post.layer as Layer).id);
-      this.tour?.setValue((post.tour as Tour).id);
+      this.layer = post.layer;
+      this.tour = post.tour as Tour;
       this.ordering?.setValue(post.ordering);
 
       const dateStart = new Date(post.period_start);
@@ -139,7 +127,7 @@ export class EditPostFormComponent implements OnInit {
       this.toMonth = dateEnd.getMonth()+1;
       this.toYear = dateEnd.getFullYear();
       this.city = post.city;
-      this.tags = post.tags as Tag[];
+      this.tags = post.tags;
     }
   }
 

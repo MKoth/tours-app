@@ -13,8 +13,6 @@ export class EditLayerFormComponent implements OnInit {
 
   @Input() layer: Layer|{} = {};
 
-  injector: Injector | null = null;
-
   layerForm: FormGroup;
 
   fromYear: number = 0;
@@ -28,8 +26,7 @@ export class EditLayerFormComponent implements OnInit {
   city: City|null = null;
   tags: Tag[] = [];
 
-  constructor(private fb: FormBuilder, injector:Injector) {
-    this.injector = injector;
+  constructor(private fb: FormBuilder) {
     this.layerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       period_start: [0, [Validators.required]],
@@ -59,12 +56,7 @@ export class EditLayerFormComponent implements OnInit {
     return this.layerForm.get('image');
   }
 
-  updateText(text: string) {
-    this.text?.setValue(text);
-  }
-
   setTags(tags: Tag[]) {
-    console.log("Setting tags", tags);
     this.tags = tags;
   }
 
@@ -73,7 +65,6 @@ export class EditLayerFormComponent implements OnInit {
   }
 
   setCity(city: City) {
-    console.log("Hello here", city);
     this.city= city;
   }
 
@@ -85,7 +76,6 @@ export class EditLayerFormComponent implements OnInit {
     if (this.fromDay)
       date.setDate(this.fromMonth-1);
     this.period_start?.setValue(date.getTime());
-    console.log(date.getTime());
   }
 
   setToDate() {
@@ -121,7 +111,7 @@ export class EditLayerFormComponent implements OnInit {
       this.toMonth = dateEnd.getMonth()+1;
       this.toYear = dateEnd.getFullYear();
       this.city = layer.city;
-      this.tags = layer.tags as Tag[];
+      this.tags = layer.tags;
     }
   }
 

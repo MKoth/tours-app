@@ -4,10 +4,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
+        event:
+          merge:
+            entity_copy_observer: allow
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/tours
     username: root

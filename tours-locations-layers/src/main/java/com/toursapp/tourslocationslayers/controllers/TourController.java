@@ -29,6 +29,8 @@ public class TourController {
 
     @PostMapping
     Tour save(@RequestBody Tour tour) {
+        List<Location> locations = tour.getLocations();
+        locations.forEach(location -> location.setTour(tour));
         return repository.save(tour);
     }
 

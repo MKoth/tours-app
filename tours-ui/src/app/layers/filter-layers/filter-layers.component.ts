@@ -49,7 +49,6 @@ export class FilterLayersComponent implements OnInit {
 
     this.activatedRoute.queryParams.subscribe(params => {
       const search = params['search'];
-      console.log("search", search);
       if(search !== this.search) {
         this.search = search;
         this.searchParams = [];
@@ -71,7 +70,7 @@ export class FilterLayersComponent implements OnInit {
 
   clearFilters() {
     this.filterForm.reset();
-    this.filterService.navigateWithParams([]);
+    this.filterService.navigateWithParams([], "layers");
   }
 
   filter() {
@@ -84,7 +83,7 @@ export class FilterLayersComponent implements OnInit {
     this.tags.forEach(tag=>{
       this.searchParams.push(this.generateSearchParam("tags", tag));
     });
-    this.filterService.navigateWithParams(this.searchParams);
+    this.filterService.navigateWithParams(this.searchParams, "layers");
   }
 
   generateSearchParam(name: string, value:any):SearchParam {

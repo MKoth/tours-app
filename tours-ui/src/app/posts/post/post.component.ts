@@ -21,38 +21,44 @@ export class PostComponent implements OnInit {
 
   constructor(
     private postService: PostService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.isLoading = true;
-    this.postService.getPostById(parseInt(id as string)).subscribe({
-      next: result=>{
-        this.isLoading = false;
-        this.isError = false;
-        this.post = result;
-        this.initMap();
-        this.postService.findPost("tour:"+(this.post?.tour as Tour).id).subscribe(res=>{
-          const posts = (res as Post[]);
-          const postIndex = posts.findIndex(p=>p.id==parseInt(id as string));
-          if (postIndex!==0) this.prevPostId = posts[postIndex-1].id as number;
-          if (postIndex!==posts.length-1) this.nextPostId = posts[postIndex+1].id as number;
-        });
-      },
-      error: err=>{
-        this.isLoading = false;
-        this.isError = true;
-        console.log("Error", err);
-      }
+    this.route.params.subscribe(params => {
+      console.log("params", params);
+      const id = params['id'];
+      this.isLoading = true;
+      this.postService.getPostById(parseInt(id as string)).subscribe({
+        next: result=>{
+          this.isLoading = false;
+          this.isError = false;
+          this.post = result;
+          this.initMap();
+          this.postService.findPost("tour:"+(this.post?.tour as Tour).id).subscribe(res=>{
+            const posts = (res as Post[]);
+            const postIndex = posts.findIndex(p=>p.id==parseInt(id as string));
+            
+            this.prevPostId = postIndex!==0? posts[postIndex-1].id as number : 0;
+            
+            this.nextPostId = postIndex!==posts.length-1? posts[postIndex+1].id as number : 0;
+          });
+        },
+        error: err=>{
+          this.isLoading = false;
+          this.isError = true;
+          console.log("Error", err);
+        }
+      });
     });
+    
   }
 
   initMap() {
     let pointLatLng = this.post?.point.split(",").map(coord=>parseFloat(coord));
     let mapProp = {
       center: new google.maps.LatLng((pointLatLng as number[])[0], (pointLatLng as number[])[1]),
-      zoom: 3,
+      zoom: 10,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
     };
     map = new google.maps.Map(document.getElementById("googleMapPost") as HTMLElement, mapProp);
@@ -67,11 +73,13 @@ export class PostComponent implements OnInit {
   getDateRange(post: Post) {
     let from = new Date(post.period_start);
     let to = new Date(post.period_end);
-    return from.getFullYear + "-" + to.getFullYear;
+    return from.getFullYear() + "-" + to.getFullYear();
   }
 
   turnicateText(text: string) {
-    return text.substring(0, this.excerptLength)+"...";
+    const regexp = /(<([^>]+)>)/gi;
+    const strippedText = text.replace(regexp, "");
+    return strippedText.substring(0, this.excerptLength)+"...";
   }
 
 }

@@ -23,7 +23,7 @@ export class EditLayerMapComponent implements OnInit {
     const startPoint = this.layer?.points.length?this.layer?.points[1].split(","):this.defaultLatLng;
     let mapProp = {
       center: new google.maps.LatLng(parseFloat(startPoint[0]),parseFloat(startPoint[1])),
-      zoom: 3,
+      zoom: 10,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("googleMapNewLayers") as HTMLElement, mapProp);

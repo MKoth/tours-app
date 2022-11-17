@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FilterService, SearchParam } from 'src/app/filter.service';
+import { Layer } from 'src/app/layers/layer.service';
+import { Tag } from 'src/app/tags/tags.service';
 import { City, CityService } from 'src/app/useful-components/select-create-city/city.service';
 
 @Component({
@@ -21,7 +23,8 @@ export class FilterToursComponent implements OnInit {
     {name:'layer', operation:':'},
     {name:'tags', operation:':'},
   ];
-
+  layer: Layer | {} = {};
+  tags: Tag[] = [];
 
   constructor(
     private cityService: CityService,
@@ -30,63 +33,76 @@ export class FilterToursComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.filterForm = this.fb.group({
-      city: [],
-      layer: [],
-      tags: [[]]
+      city: []
     });
   }
 
-  setTags(tags:[]) {
-    this.filterForm.get("tags")?.setValue(tags);
+  setTags(tags:Tag[]) {
+    this.tags = tags;
   }
 
-  setLayer(layerId: number) {
-    this.filterForm.get("layer")?.setValue(layerId);
+  setLayer(layer: Layer | {}) {
+    this.layer = layer;
   }
 
   ngOnInit(): void {
-    this.cityService.getAllCities().subscribe(res=>{
-      this.cities = res;
-    });
-
     this.activatedRoute.queryParams.subscribe(params => {
       const search = params['search'];
-      if(search !== this.search) {
+      if(search) {
         this.search = search;
-        //this.searchParams = this.filterService.getValuesFromParam(search);
-        this.setFieldsAccordingToParam();
+        this.searchParams = [];
+        this.tags = [];
+        this.layer = {};
+        this.filterService.getValuesFromParam(search).subscribe({
+          next: searchParam => {
+            if (searchParam.name == "tags") 
+              this.tags.push(searchParam.value);
+            else if (searchParam.name == "layer") {
+              this.layer = searchParam.value;
+            } else
+              this.filterForm.get(searchParam.name)?.setValue(searchParam.value.id);
+            this.searchParams.push(searchParam);
+          }
+        });
+      } else {
+        this.cityService.getAllCities().subscribe(res=>{
+          this.cities = res;
+        });
       }
     });
   }
 
   clearFilters() {
-    this.filterService.navigateWithParams([]);
+    this.tags = [];
+    this.layer = {};
+    this.filterForm.reset();
+    this.filterService.navigateWithParams([], "tours");
   }
 
   filter() {
-    // this.fields.forEach(field => {
-    //   let formField = this.filterForm.get(field.name);
-    //   let searchParam = this.searchParams.find(param=>param.name==field.name);
-    //   if (searchParam) {
-    //     if(searchParam.name == "tags")
-    //       searchParam.values = formField?.value;
-    //     else
-    //       searchParam.value = formField?.value;
-    //   } else {
-    //     const key = field.name == "tags"? "values":"value";
-    //     this.searchParams.push({...field, [key]:formField?.value});
-    //   }
-    // });
-    // this.filterService.navigateWithParams(this.searchParams);
+    this.searchParams = [];
+    for (const [name, value] of Object.entries(this.filterForm.value)) {
+      if (value) {
+        this.searchParams.push(this.generateSearchParam(name, value));
+      }
+    }
+    this.tags.forEach(tag=>{
+      this.searchParams.push(this.generateSearchParam("tags", tag));
+    });
+    if (this.layer && (this.layer as Layer).id){
+      this.searchParams.push(this.generateSearchParam("layer", this.layer));
+    }
+    this.filterService.navigateWithParams(this.searchParams, "tours");
   }
 
-  setFieldsAccordingToParam() {
-    // this.searchParams.forEach(param => {
-    //   let field;
-    //   if (field = this.filterForm.get(param.name)) {
-    //     field.setValue(param.values? param.values : param.value);
-    //   }
-    // });
+  generateSearchParam(name: string, value:any):SearchParam {
+    let searchParam: SearchParam = {name, operation: this.fields.find(field=>field.name==name)?.operation as string};
+    if (name == "city") {
+      searchParam.value = this.cities.find(city=>city.id==value);
+    } else {
+      searchParam.value = value;
+    }
+    return searchParam;
   }
 
 }

@@ -18,7 +18,7 @@ export interface Post {
   creator_id: string,
   city: City,
   layer: Layer|{},
-  tour: Tour|{},
+  tour?: Tour|{},
   tags: Array<Tag>,
   ordering: number
 }
@@ -47,6 +47,6 @@ export class PostService {
   }
 
   findPost(searchParams: string) {
-    return this.http.get<any>(POSTS_API_URL+`?search=${searchParams}`);
+    return this.http.get<any>(POSTS_API_URL+`/filter?search=${searchParams}`);
   }
 }

@@ -50,7 +50,7 @@ export class TourComponent implements OnInit {
     let cityLatLng = this.tour?.city.point.split(",").map(coord=>parseFloat(coord));
     let mapProp = {
       center: new google.maps.LatLng((cityLatLng as number[])[0], (cityLatLng as number[])[1]),
-      zoom: 3,
+      zoom: 10,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("googleMapTour") as HTMLElement, mapProp);
@@ -70,10 +70,12 @@ export class TourComponent implements OnInit {
   getDateRange(tour: Tour) {
     let from = new Date(tour.period_start);
     let to = new Date(tour.period_end);
-    return from.getFullYear + "-" + to.getFullYear;
+    return from.getFullYear() + "-" + to.getFullYear();
   }
 
   turnicateText(text: string) {
-    return text.substring(0, this.excerptLength)+"...";
+    const regexp = /(<([^>]+)>)/gi;
+    const strippedText = text.replace(regexp, "");
+    return strippedText.substring(0, this.excerptLength)+"...";
   }
 }
