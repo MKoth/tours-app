@@ -1,6 +1,6 @@
 
 <app-filter-layers></app-filter-layers>
-<div fxLayoutAlign="end center" style="margin-bottom: 10px;">
+<div fxLayoutAlign="end center" style="margin-bottom: 10px;" *ngIf="canUserCreateItem()">
     <button mat-flat-button color="warn" routerLink="/layers/edit/new"><mat-icon>add</mat-icon>Create New Layer</button>
 </div>
 <div class="layers-list-holder" fxLayoutGap="10px" fxLayout="column" fxLayoutAlign="space-between center">

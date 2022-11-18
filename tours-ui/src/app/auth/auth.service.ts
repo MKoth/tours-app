@@ -27,7 +27,9 @@ export class AuthService {
     private router: Router,
   ) { }
 
+  tokenInfo: any = {};
   public isLogged = new Subject<boolean>();
+  allowedRolesForEditing = ["ADMIN", "CREATOR"];
 
   redirectForLogin() {
     this.document.location.href = `${OAUTH_API_URL}/auth?client_id=${client_id}&response_type=code&redirect_uri=${redirect}`;
@@ -47,6 +49,7 @@ export class AuthService {
         tap(res => {
           this.tokenService.saveToken(res.access_token);
           this.tokenService.saveRefreshToken(res.refresh_token);
+          this.tokenInfo = this.getDecodedAccessToken();
           this.isLogged.next(true);
         }),
         catchError(AuthService.handleError)
@@ -70,6 +73,7 @@ export class AuthService {
         tap(res => {
           this.tokenService.saveToken(res.access_token);
           this.tokenService.saveRefreshToken(res.refresh_token);
+          this.tokenInfo = this.getDecodedAccessToken();
           this.isLogged.next(true);
         }),
         catchError(AuthService.handleError)
@@ -83,6 +87,7 @@ export class AuthService {
       .set('client_id', client_id);
     this.isLogged.next(false);
     this.http.post<any>(OAUTH_API_URL + '/logout', body, HTTP_OPTIONS).subscribe(()=>{
+      this.tokenInfo = {};
       this.tokenService.removeToken();
       this.tokenService.removeRefreshToken();
     });
@@ -112,6 +117,26 @@ export class AuthService {
     // If token expired or does not exists
     this.tokenService.removeToken();
     this.tokenService.removeRefreshToken();
+    return false;
+  }
+
+  // ADMIN can edit all items, CREATOR cen edit only those items which he/she created
+  canUserEditItem(itemCreatorId: string) {
+    if (this.tokenInfo && this.tokenInfo.realm_access && this.tokenInfo.realm_access.roles) {
+      if(this.tokenInfo.realm_access.roles.includes("ADMIN") || 
+        (this.tokenInfo.realm_access.roles.includes("CREATOR") 
+        && this.tokenInfo.sub == itemCreatorId)
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  canUserCreateItem() {
+    if (this.tokenInfo && this.tokenInfo.realm_access && this.tokenInfo.realm_access.roles) {
+      return this.tokenInfo.realm_access.roles.some((role:string)=>this.allowedRolesForEditing.includes(role));
+    }
     return false;
   }
 

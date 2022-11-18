@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Layer, LayerService } from '../layer.service';
 
 @Component({
@@ -15,8 +16,13 @@ export class LayersListComponent implements OnInit {
 
   constructor(
     private layerService: LayerService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) { }
+
+  canUserCreateItem() {
+    return this.authService.canUserCreateItem();
+  }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {

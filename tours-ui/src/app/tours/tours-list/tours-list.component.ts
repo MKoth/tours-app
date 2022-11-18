@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Tour, TourService } from '../tour.service';
 
 @Component({
@@ -15,8 +16,13 @@ export class ToursListComponent implements OnInit {
 
   constructor(
     private tourService: TourService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) { }
+
+  canUserCreateItem() {
+    return this.authService.canUserCreateItem();
+  }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {

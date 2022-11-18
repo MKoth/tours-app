@@ -101,7 +101,7 @@ export class EditToursComponent implements OnInit {
         this.isLoading = false;
         this.isError = false;
         this.tour = result;
-        //this.router.navigate(["/tours/"+this.tour.id]);
+        this.router.navigate(["/tours/"+this.tour.id]);
       },
       error: err=>{
         this.isLoading = false;

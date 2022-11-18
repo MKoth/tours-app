@@ -1,5 +1,5 @@
 <app-filter-tours></app-filter-tours>
-<div fxLayoutAlign="end center" style="margin-bottom: 10px;">
+<div fxLayoutAlign="end center" style="margin-bottom: 10px;" *ngIf="canUserCreateItem()">
     <button mat-flat-button color="warn" routerLink="/tours/edit/new"><mat-icon>add</mat-icon>Create New Tour</button>
 </div>
 <div class="tour-list-holder" fxLayoutGap="10px" fxLayout="column" fxLayoutAlign="space-between center">

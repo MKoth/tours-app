@@ -8,7 +8,7 @@
 <ng-container *ngIf="layer">
     <div fxLayout="row" fxLayoutAlign="space-between center">
         <h1 class="mat-headline">{{layer.name}}</h1>
-        <div fxLayout="row" fxLayoutGap="10px">
+        <div *ngIf="canUserEditItem(layer.creator_id)" fxLayout="row" fxLayoutGap="10px">
             <button mat-flat-button color="accent" routerLink="/layers/edit/{{layer.id}}"><mat-icon>edit</mat-icon>Edit Layer</button>
         </div>
     </div>

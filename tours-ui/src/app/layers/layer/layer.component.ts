@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Tour, TourService } from 'src/app/tours/tour.service';
 import { Layer, LayerService } from '../layer.service';
 
@@ -23,8 +24,13 @@ export class LayerComponent implements OnInit {
   constructor(
     private layerService: LayerService,
     private tourService: TourService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) { }
+
+  canUserEditItem(creator_id: string) {
+    return this.authService.canUserEditItem(creator_id);
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

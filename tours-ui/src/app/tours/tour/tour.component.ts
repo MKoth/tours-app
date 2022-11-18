@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Post, PostService } from 'src/app/posts/post.service';
 import { Tour, TourService } from '../tour.service';
 
@@ -22,8 +23,13 @@ export class TourComponent implements OnInit {
   constructor(
     private postService: PostService,
     private tourService: TourService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) { }
+
+  canUserEditItem(creator_id:string) {
+    return this.authService.canUserEditItem(creator_id);
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
