@@ -25,6 +25,7 @@ public class Tour {
 
     private String name;
 
+    @Column(length=100000)
     private String text;
 
     private String image;
@@ -51,7 +52,7 @@ public class Tour {
     @Enumerated(EnumType.STRING)
     private TourType type;
 
-    @JsonIgnoreProperties(value={ "tours" })
+    @JsonIgnoreProperties(value={ "tours", "tags" })
     @ManyToOne
     private Layer layer;
 

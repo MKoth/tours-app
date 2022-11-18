@@ -26,6 +26,7 @@ public class Location {
 
     private String point;
 
+    @Column(length=100000)
     private String text;
 
     private String image;

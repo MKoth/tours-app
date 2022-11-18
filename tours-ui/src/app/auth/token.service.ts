@@ -32,8 +32,8 @@ export class TokenService {
     localStorage.removeItem(REFRESH_TOKEN);
   }
 
-  saveCurrentUrl(): string {
-    localStorage.setItem(REDIRECT_URL, window.location.href);
+  saveCurrentUrl(url:string): string {
+    localStorage.setItem(REDIRECT_URL, url);
     return window.location.href;
   }
   getCurrentUrl(): string | null {

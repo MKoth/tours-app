@@ -10,6 +10,7 @@ import { DialogsModule } from '../dialogs/dialogs.module';
 import { SelectLayersListComponent } from './select-layers-list/select-layers-list.component';
 import { FindTourByNameComponent } from './find-tour-by-name/find-tour-by-name.component';
 import { AttachImageComponent } from './attach-image/attach-image.component';
+import { SafeHTMLPipe } from './safe-html.pipe';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { AttachImageComponent } from './attach-image/attach-image.component';
     SelectCreateCityComponent,
     SelectLayersListComponent,
     FindTourByNameComponent,
-    AttachImageComponent
+    AttachImageComponent,
+    SafeHTMLPipe
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { AttachImageComponent } from './attach-image/attach-image.component';
     SelectCreateCityComponent,
     SelectLayersListComponent,
     FindTourByNameComponent,
-    AttachImageComponent
+    AttachImageComponent,
+    SafeHTMLPipe
   ]
 })
 export class UsefulComponentsModule { }

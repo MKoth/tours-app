@@ -18,7 +18,8 @@
     <p class="additional-info"><mat-icon>timeline</mat-icon>{{getDateRange(post)}}</p>
     <img class="post-image" [src]="post.image" alt=""/>
     <div class="mat-body">
-        <div [innerHTML]="post.text"></div>
+        <div [innerHTML]="post.text | safeHTML"></div>
+        <div class="content-text-bottom-clear"></div>
         <div class="chips-holder" fxLayout="row" fxLayoutAlign="end start">
             <mat-chip-list aria-label="Fish selection">
                 <mat-chip *ngFor="let tag of post.tags">{{tag.name}}</mat-chip>

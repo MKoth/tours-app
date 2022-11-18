@@ -30,14 +30,12 @@ export class AuthService {
   public isLogged = new Subject<boolean>();
 
   redirectForLogin() {
-    const localRedirect = this.tokenService.saveCurrentUrl();
     this.document.location.href = `${OAUTH_API_URL}/auth?client_id=${client_id}&response_type=code&redirect_uri=${redirect}`;
   }
 
   getTokenByCode(code: string): Observable<any> {
     this.tokenService.removeToken();
     this.tokenService.removeRefreshToken();
-    const localRedirect = this.tokenService.getCurrentUrl()? this.tokenService.getCurrentUrl() as string : redirect;
     const body = new HttpParams()
       .set('grant_type', 'authorization_code')
       .set('client_id', client_id)

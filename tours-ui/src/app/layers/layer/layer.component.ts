@@ -56,17 +56,25 @@ export class LayerComponent implements OnInit {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("googleMapLayer") as HTMLElement, mapProp);
+    const pathArr = this.layer?.points.map(point=>{
+      let pointArr = point.split(",");
+      return new google.maps.LatLng(parseFloat(pointArr[0]), parseFloat(pointArr[1]));
+    });
     poly = new google.maps.Polyline({
       strokeColor: "#FF0000",
       strokeOpacity: 1.0,
       strokeWeight: 2,
-      path:this.layer?.points.map(point=>{
-        let pointArr = point.split(",");
-        return new google.maps.LatLng(parseFloat(pointArr[0]), parseFloat(pointArr[1]));
-      })
+      path: pathArr
     });
   
     poly.setMap(map);
+
+    const bounds = new google.maps.LatLngBounds();
+    pathArr?.forEach(latLng=>{
+      bounds.extend(latLng);
+    });
+    map.fitBounds(bounds);
+    map.setCenter(bounds.getCenter());
   }
 
   getDateRange(layer: Layer) {

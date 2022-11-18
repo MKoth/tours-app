@@ -44,11 +44,13 @@ export class EditToursMapComponent implements OnInit {
 
   redrawLocationsToMap() {
     this.clearPath();
+    const bounds = new google.maps.LatLngBounds();
     const path = poly.getPath();
     this.tour.locations.forEach(post=>{
       const point = post.point.split(",").map(loc=>parseFloat(loc));
       const latLng = new google.maps.LatLng(point[0], point[1]);
       path.push(latLng);
+      bounds.extend(latLng);
       const newMarker = new google.maps.Marker({
         label: post.name,
         map: map,
@@ -58,6 +60,8 @@ export class EditToursMapComponent implements OnInit {
       newMarker.addListener("dragend", (e: google.maps.MapMouseEvent) => { this.onMarkerDragEnd(e, post) } );
       markers.push(newMarker);
     });
+    map.fitBounds(bounds);
+    map.setCenter(bounds.getCenter());
   }
 
   onMarkerDragEnd(event: google.maps.MapMouseEvent, post: Post) {

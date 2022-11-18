@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { TokenService } from '../token.service';
 
 @Component({
   selector: 'app-authenticated',
@@ -18,6 +19,7 @@ export class AuthenticatedComponent implements OnInit {
   constructor(
     private route:ActivatedRoute,
     private authService:AuthService,
+    private tokenService: TokenService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -29,7 +31,11 @@ export class AuthenticatedComponent implements OnInit {
         this.pageText = 'Error happened while attempting to Login, please try again later!';
       },
       complete: () => {
-        this.router.navigateByUrl('home');
+        if (this.tokenService.getCurrentUrl()) {
+          this.router.navigateByUrl(this.tokenService.getCurrentUrl() as string);
+        } else {
+          this.router.navigateByUrl("/login");
+        }
       }
     });
   }

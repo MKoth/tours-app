@@ -27,6 +27,7 @@ public class Layer {
     @Column(length=100000)
     private String[] points;
 
+    @Column(length=100000)
     private String text;
 
     private String image;

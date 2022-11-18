@@ -17,7 +17,8 @@
     <p class="additional-info"><mat-icon>location_on</mat-icon>{{layer.city.name}} ({{getDateRange(layer)}})</p>
     <img class="post-image" [src]="layer.image" alt=""/>
     <div class="mat-body">
-        <div [innerHTML]="layer.text"></div>
+        <div [innerHTML]="layer.text | safeHTML"></div>
+        <div class="content-text-bottom-clear"></div>
         <div class="chips-holder" fxLayout="row" fxLayoutAlign="end start">
             <mat-chip-list aria-label="Fish selection">
                 <mat-chip *ngFor="let tag of layer.tags">{{tag.name}}</mat-chip>

@@ -23,7 +23,7 @@
         <ul fxLayout fxLayoutGap="15px" class="navigation-items login">
             <li>
                 <ng-container *ngIf="!isLogged">
-                    <a routerLink="/login">Login</a>
+                    <a (click)="goToLogin()">Login</a>
                     <span>/</span>
                     <a routerLink="/register">Register</a>
                 </ng-container>

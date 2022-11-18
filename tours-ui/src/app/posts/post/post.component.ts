@@ -58,7 +58,7 @@ export class PostComponent implements OnInit {
     let pointLatLng = this.post?.point.split(",").map(coord=>parseFloat(coord));
     let mapProp = {
       center: new google.maps.LatLng((pointLatLng as number[])[0], (pointLatLng as number[])[1]),
-      zoom: 10,
+      zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
     };
     map = new google.maps.Map(document.getElementById("googleMapPost") as HTMLElement, mapProp);
