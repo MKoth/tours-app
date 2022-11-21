@@ -5,8 +5,10 @@ import com.toursapp.tourslocationslayers.entities.Location;
 import com.toursapp.tourslocationslayers.repositories.LocationRepository;
 import com.toursapp.tourslocationslayers.repositories.specs.LocationSpecification;
 import com.toursapp.tourslocationslayers.repositories.specs.SpecificationsBuilder;
+import com.toursapp.tourslocationslayers.services.AuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +21,16 @@ public class LocationController {
     @Autowired
     LocationRepository repository;
 
+    @Autowired
+    AuthenticatedUserService authenticatedUserService;
+
     @GetMapping
     List<Location> getAll() {
         return (List<Location>) repository.findAll();
     }
 
     @PostMapping
+    @PreAuthorize("@authenticatedUserService.canUserEditItem(#location.creator_id)")
     Location save(@RequestBody Location location) {
         return repository.save(location);
     }
@@ -35,6 +41,7 @@ public class LocationController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@authenticatedUserService.canUserDeleteLocation(#id)")
     void deleteById(@PathVariable Integer id) {
         repository.deleteById(id);
     }

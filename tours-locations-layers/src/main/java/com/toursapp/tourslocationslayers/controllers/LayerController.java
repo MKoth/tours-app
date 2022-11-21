@@ -7,6 +7,7 @@ import com.toursapp.tourslocationslayers.repositories.specs.LayerSpecification;
 import com.toursapp.tourslocationslayers.repositories.specs.SpecificationsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class LayerController {
     }
 
     @PostMapping
+    @PreAuthorize("@authenticatedUserService.canUserEditItem(#layer.creator_id)")
     Layer save(@RequestBody Layer layer) {
         return repository.save(layer);
     }
@@ -36,6 +38,7 @@ public class LayerController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@authenticatedUserService.canUserDeleteLayer(#id)")
     void deleteById(@PathVariable Integer id) {
         repository.deleteById(id);
     }

@@ -122,6 +122,9 @@ export class AuthService {
 
   // ADMIN can edit all items, CREATOR cen edit only those items which he/she created
   canUserEditItem(itemCreatorId: string) {
+    if (this.tokenService.getToken() && (!this.tokenInfo || !this.tokenInfo.realm_access)){
+      this.tokenInfo = this.getDecodedAccessToken();
+    }
     if (this.tokenInfo && this.tokenInfo.realm_access && this.tokenInfo.realm_access.roles) {
       if(this.tokenInfo.realm_access.roles.includes("ADMIN") || 
         (this.tokenInfo.realm_access.roles.includes("CREATOR") 

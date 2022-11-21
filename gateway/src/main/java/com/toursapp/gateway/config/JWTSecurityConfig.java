@@ -32,8 +32,11 @@ public class JWTSecurityConfig {
                 .pathMatchers(HttpMethod.GET ,"/users-manager/user/assignCreatorRole/*").hasRole("USER")
                 .pathMatchers(HttpMethod.GET ,"/users-manager/user/*").permitAll()
                 .pathMatchers(HttpMethod.POST ,"/users-manager/user").permitAll()
-                .pathMatchers(HttpMethod.GET ,"/tours-locations-layers/**").permitAll()
                 .pathMatchers(HttpMethod.GET ,"/files-uploader/**").permitAll()
+                .pathMatchers(HttpMethod.GET ,"/tours-locations-layers/**").permitAll()
+                .pathMatchers(HttpMethod.POST ,"/tours-locations-layers/**").hasAnyRole("CREATOR", "ADMIN")
+                .pathMatchers(HttpMethod.PUT ,"/tours-locations-layers/**").hasAnyRole("CREATOR", "ADMIN")
+                .pathMatchers(HttpMethod.DELETE ,"/tours-locations-layers/**").hasAnyRole("CREATOR", "ADMIN")
                 .anyExchange().authenticated().and()
                 .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(
                         jwt -> jwt.jwtAuthenticationConverter( grantedAuthoritiesExtractor())));
@@ -54,11 +57,6 @@ public class JWTSecurityConfig {
         return source;
     }
 
-//    private Converter<Jwt, ? extends Mono<? extends AbstractAuthenticationToken>> jwtAuthenticationConverter() {
-//        JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
-//        jwtConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRealmRoleConverter());
-//        return (Converter) jwtConverter;
-//    }
     Converter<Jwt, Mono<AbstractAuthenticationToken>> grantedAuthoritiesExtractor() {
         JwtAuthenticationConverter jwtAuthenticationConverter =
                 new JwtAuthenticationConverter();

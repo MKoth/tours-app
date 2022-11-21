@@ -8,8 +8,13 @@ import com.toursapp.tourslocationslayers.repositories.TourRepository;
 import com.toursapp.tourslocationslayers.repositories.specs.LocationSpecification;
 import com.toursapp.tourslocationslayers.repositories.specs.SpecificationsBuilder;
 import com.toursapp.tourslocationslayers.repositories.specs.TourSpecification;
+import com.toursapp.tourslocationslayers.services.AuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,12 +27,16 @@ public class TourController {
     @Autowired
     TourRepository repository;
 
+    @Autowired
+    AuthenticatedUserService authenticatedUserService;
+
     @GetMapping
     List<Tour> getAll() {
         return (List<Tour>) repository.findAll();
     }
 
     @PostMapping
+    @PreAuthorize("@authenticatedUserService.canUserEditItem(#tour.creator_id)")
     Tour save(@RequestBody Tour tour) {
         List<Location> locations = tour.getLocations();
         locations.forEach(location -> location.setTour(tour));
@@ -40,6 +49,7 @@ public class TourController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@authenticatedUserService.canUserDeleteTour(#id)")
     void deleteById(@PathVariable Integer id) {
         repository.deleteById(id);
     }
