@@ -1,4 +1,38 @@
 #googleMap {
-    width: 100%;
-    height: 70vh;
+    width: calc(100% + 30px);
+    margin-left: -15px;
+    margin-top: -17px;
+    height: calc(100vh - 62px);
+}
+
+.cities-dropdown {
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    height: 52px;
+}
+
+.layer-list-section {
+    position: absolute;
+    bottom: 50px;
+    left: 15px;
+    z-index: 1000;
+    background: white;
+
+    ul {
+        list-style-type: none;
+        padding: 0px 15px;
+        width: 201px;
+        max-height: 170px;
+        overflow-y: auto;
+        
+        li {
+            span.layer-color-indicator {
+                width: 20px;
+                height: 10px;
+                background: aquamarine;
+                display: inline-block;
+            }
+        }
+    }
 }

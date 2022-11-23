@@ -5,6 +5,7 @@ import { HomepageRoutingModule } from './homepage-routing.module';
 import { HomepageComponent } from './homepage/homepage.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MaterialModule } from '../material/material.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { MaterialModule } from '../material/material.module';
     CommonModule,
     HomepageRoutingModule,
     GoogleMapsModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule
   ]
 })
 export class HomepageModule { }

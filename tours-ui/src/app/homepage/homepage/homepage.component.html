@@ -1,1 +1,29 @@
+<mat-form-field class="cities-dropdown" appearance="fill">
+    <mat-label>Select City</mat-label>
+    <mat-select [(ngModel)]="selectedCityId" name="city" (selectionChange)="fetchInfo()">
+        <mat-option>No City Selected</mat-option>
+        <mat-option *ngFor="let city of cities" [value]="city.id">{{city.name}}</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<div class="layer-list-section" *ngIf="selectableLayers.length">
+    <ul>
+        <li>
+            <mat-checkbox [(ngModel)]="selectDisselectAll"
+                    color="warn"
+                    [(indeterminate)]="indeterminateSelection"
+                    (ngModelChange)="onAllSelectionDisselection()">
+                Select/disselect All
+            </mat-checkbox>
+        </li>
+        <li *ngFor="let layer of selectableLayers">
+            <mat-checkbox [(ngModel)]="layer.selected"
+                    color="warn"
+                    (ngModelChange)="showSelectedLayersOnMap()">
+                <span class="layer-color-indicator" [ngStyle]="{background: layer.color}"></span> {{layer.name}}
+            </mat-checkbox>
+        </li>
+    </ul>
+</div>
+
 <div id="googleMap"></div>
