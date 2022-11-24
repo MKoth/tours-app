@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Layer, LayerService } from 'src/app/layers/layer.service';
+import { Post } from 'src/app/posts/post.service';
 import { Tour, TourService } from 'src/app/tours/tour.service';
 import { City, CityService } from 'src/app/useful-components/select-create-city/city.service';
 import colorArray from "./colors";
@@ -30,6 +31,11 @@ export class HomepageComponent implements OnInit {
   selectDisselectAll: boolean = true;
   indeterminateSelection: boolean = false;
   selectableLayers: SelectableLayer[] = [];
+  selectedPostId: number = 0;
+  selectedToursPosts: Post[] = [];
+  selectedMarker: google.maps.Marker | null = null;
+  previousColor: string = '';
+  markerPostMapper: {post_id:number, post_marker: google.maps.Marker}[] = [];
 
   constructor(
     private cityService: CityService,
@@ -84,14 +90,53 @@ export class HomepageComponent implements OnInit {
             strokeColor: color[1],
             scale: 4
           },
-          position: latLng
+          position: latLng,
         });
+        newMarker.addListener("click", ()=>{
+          this.onMarkerClick(post.id as number, tour.locations, newMarker);
+        })
         markers.push(newMarker);
+
+        this.markerPostMapper.push({post_id: post.id as number, post_marker: newMarker});
       });
       const relatedLayer = this.selectableLayers.find(layer=>layer.id==(tour.layer as Layer).id);
       relatedLayer!.toursPolies.push(poly);
       relatedLayer!.toursMarkers = markers;
     });
+  }
+
+  onMarkerClick(postId: number, posts: Post[], marker: google.maps.Marker) {
+    this.clearPreviousMarker()
+    this.selectedPostId = postId;
+    this.selectedToursPosts = posts;
+    this.selectedMarker = marker;
+    this.highlightSelectedMarker();
+  }
+
+  displayedPostChanged(newPostId: number) {
+    const newMarker = this.markerPostMapper.find(postMapper=>postMapper.post_id == newPostId)?.post_marker;
+    this.onMarkerClick(newPostId, this.selectedToursPosts, newMarker as google.maps.Marker);
+  }
+
+  clearPreviousMarker() {
+    if (this.selectedPostId) {
+      const previousIcon = this.selectedMarker!.getIcon() as google.maps.Symbol;
+      previousIcon.strokeColor = this.previousColor;
+      previousIcon.scale = 4;
+      this.selectedMarker!.setIcon(previousIcon);
+    }
+    this.selectedPostId = 0;
+    this.selectedToursPosts = [];
+    this.selectedMarker = null;
+    this.previousColor = '';
+  }
+
+  highlightSelectedMarker() {
+    const clickedIcon = this.selectedMarker!.getIcon() as google.maps.Symbol;
+    this.previousColor = clickedIcon.strokeColor as string;
+    clickedIcon.strokeColor = 'red';
+    clickedIcon.scale = 6;
+    this.selectedMarker!.setIcon(clickedIcon);
   }
 
   mapLayersPolyline(layers: Layer[]) {
@@ -161,6 +206,7 @@ export class HomepageComponent implements OnInit {
     this.layerService.findLayer("city:"+this.selectedCityId).subscribe(res=>{
       this.mapLayersPolyline(res);
       this.tourService.findTour("city:"+this.selectedCityId).subscribe(res=>{
+        this.tours = res;
         this.mapToursPolylineAndLocations(res);
         this.showSelectedLayersOnMap();
       });
@@ -168,14 +214,13 @@ export class HomepageComponent implements OnInit {
   }
 
   getRandomColorPair() {
-    //const lighterColor = "#"+(Math.floor(Math.random()*16777215).toString(16));
     const lighterColor = colorArray[Math.floor(Math.random()*colorArray.length)];
     const darkerColor = this.adjust(lighterColor, -40);
     return [lighterColor, darkerColor];
   }
 
   adjust(color: string, amount:number) {
-    return '#' + color.replace(/^#/, '').replace(/../g, color => ('0'+Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
+    return '#' + color.replace(/^#/, '').replace(/../g, col => ('0'+Math.min(255, Math.max(0, parseInt(col, 16) + amount)).toString(16)).substr(-2));
   }
 
 }

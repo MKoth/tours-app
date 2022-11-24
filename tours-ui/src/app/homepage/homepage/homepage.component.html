@@ -26,4 +26,6 @@
     </ul>
 </div>
 
+<app-side-info-bar *ngIf="selectedPostId" [posts]="selectedToursPosts" [postId]="selectedPostId" (onPostChange)="displayedPostChanged($event)" (onSideInfoClose)="clearPreviousMarker()"></app-side-info-bar>
+
 <div id="googleMap"></div>
