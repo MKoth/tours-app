@@ -6,7 +6,7 @@ import { TokenService } from './token.service';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
 
-const OAUTH_API_URL = 'http://localhost:8080/auth/realms/my_realm/protocol/openid-connect';
+const OAUTH_API_URL = 'http://localhost:8180/auth/realms/my_realm/protocol/openid-connect';
 const client_id = 'my_client';
 const redirect = 'http://localhost:4200/authenticated';
 const HTTP_OPTIONS = {

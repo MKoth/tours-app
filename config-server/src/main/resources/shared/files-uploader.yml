@@ -1,0 +1,30 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/files
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:mysql://database:3306/files
+    username: root
+    password:
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-discovery-service:8761/eureka

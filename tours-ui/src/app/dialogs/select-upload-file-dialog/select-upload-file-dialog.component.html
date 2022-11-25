@@ -7,7 +7,7 @@
     <div class="images-holder">
         <div class="image-wrapper" *ngFor="let img of images">
             <mat-icon (click)="deleteImage(img.id)">delete_forever</mat-icon>
-            <img (click)="selectImage($event)" [class.selected]="selectedFile.includes(img.id)" src="http://localhost:8081/files-uploader/file/image/{{img.id}}" alt=""/>
+            <img (click)="selectImage($event)" [class.selected]="selectedFile.includes(img.id)" src="http://localhost:8080/files-uploader/file/image/{{img.id}}" alt=""/>
         </div>
         <div style="clear: both;"></div>
     </div>

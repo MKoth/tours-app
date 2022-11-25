@@ -1,9 +1,14 @@
 spring:
   application:
     name: users-manager
+  config:
+    import: configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
 server:
   port: 8084
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8083/eureka
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+    import: configserver:http://config-server:8888

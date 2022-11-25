@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-const USER_API_URL = 'http://localhost:8081/users-manager/user';
+const USER_API_URL = 'http://localhost:8080/users-manager/user';
 const HTTP_OPTIONS = {
   headers: new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const TAGS_API_URL = 'http://localhost:8081/tours-locations-layers/tag';
+const TAGS_API_URL = 'http://localhost:8080/tours-locations-layers/tag';
 
 export interface Tag {
   id?: number,

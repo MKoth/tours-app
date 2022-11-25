@@ -5,7 +5,7 @@ import { Tag } from '../tags/tags.service';
 import { Tour } from '../tours/tour.service';
 import { City } from '../useful-components/select-create-city/city.service';
 
-const POSTS_API_URL = 'http://localhost:8081/tours-locations-layers/location';
+const POSTS_API_URL = 'http://localhost:8080/tours-locations-layers/location';
 
 export interface Post {
   id?: number,

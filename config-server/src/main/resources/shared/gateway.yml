@@ -1,0 +1,49 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/auth/realms/my_realm
+  cloud:
+    gateway:
+      routes:
+        - id: tours-locations-layers
+          uri: lb://tours-locations-layers
+          predicates:
+            - Path=/tours-locations-layers/**
+        - id: users-manager
+          uri: lb://users-manager
+          predicates:
+            - Path=/users-manager/**
+        - id: files-uploader
+          uri: lb://files-uploader
+          predicates:
+            - Path=/files-uploader/**
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+        add-to-simple-url-handler-mapping: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8180/auth/realms/my_realm
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-discovery-service:8761/eureka

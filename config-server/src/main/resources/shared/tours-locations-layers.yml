@@ -1,0 +1,45 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/auth/realms/my_realm
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        event:
+          merge:
+            entity_copy_observer: allow
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/tours
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:mysql://database:3306/tours
+    username: root
+    password:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8180/auth/realms/my_realm
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-discovery-service:8761/eureka

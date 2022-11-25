@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const CITY_API_URL = 'http://localhost:8081/tours-locations-layers/city';
+const CITY_API_URL = 'http://localhost:8080/tours-locations-layers/city';
 
 export interface City {
   id: number,

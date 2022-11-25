@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const FILES_API_URL = 'http://localhost:8081/files-uploader';
+const FILES_API_URL = 'http://localhost:8080/files-uploader';
 const HTTP_OPTIONS = {
   headers: new HttpHeaders({
     'Content-Type': 'multipart/form-data'
