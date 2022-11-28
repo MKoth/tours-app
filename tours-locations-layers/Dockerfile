@@ -16,4 +16,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 EXPOSE 8090
-ENTRYPOINT ["java","-cp","app:app/lib/*","-Dspring.profiles.active=docker","ToursLocationsLayersApplication"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","-Dspring.profiles.active=docker","com.toursapp.tourslocationslayers.ToursLocationsLayersApplication"]

@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 volumes:
   postgres_data:
@@ -7,18 +7,21 @@ volumes:
 services:
   service-discovery:
     build: ./service-discovery
+    platform: linux/amd64
     ports:
       - 8761:8761
+    depends_on:
+      - config-server
 
   config-server:
     build: ./config-server
+    platform: linux/amd64
     ports:
       - 8888:8888
-    depends_on:
-      - service-discovery
   
   gateway:
     build: ./gateway
+    platform: linux/amd64
     ports:
       - 8080:8080
     depends_on:
@@ -30,6 +33,7 @@ services:
   
   users-manager:
     build: ./users-manager
+    platform: linux/amd64
     ports:
       - 8084:8084
     depends_on:
@@ -38,14 +42,18 @@ services:
 
   files-uploader:
     build: ./files-uploader
+    platform: linux/amd64
     ports:
       - 8087:8087
+    volumes:
+      - ./files-uploader/src/main/resources/images:/app/images
     depends_on:
       - config-server
       - database
   
   tours-locations-layers:
     build: ./tours-locations-layers
+    platform: linux/amd64
     ports:
       - 8090:8090
     depends_on:
@@ -68,21 +76,28 @@ services:
       - ./database:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
       MYSQL_DATABASE: tours
 
   postgres:
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./keycloak/db:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
   keycloak:
     image: quay.io/keycloak/keycloak:legacy
+    volumes:
+     - type: bind
+       source: ./keycloak/application-realm.json
+       target: /application-realm.json
+       read_only: true
+    command:
+      - "-Dkeycloak.migration.action=import"
+      - "-Dkeycloak.migration.provider=singleFile"
+      - "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"
+      - "-Dkeycloak.migration.file=/application-realm.json"
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: postgres
