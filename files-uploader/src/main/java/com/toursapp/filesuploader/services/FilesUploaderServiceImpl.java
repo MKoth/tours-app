@@ -8,6 +8,7 @@ import com.toursapp.filesuploader.entities.FileInfo;
 import com.toursapp.filesuploader.repositories.FileRepository;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.UrlResource;
@@ -17,10 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,16 +31,28 @@ import java.util.UUID;
 public class FilesUploaderServiceImpl implements FilesUploaderService {
     @Autowired
     ResourceLoader resourceLoader;
+    @Autowired
+    private Environment environment;
 //    private final Path rootImages = Paths.get("images");
 //    private final Path rootAudios = Paths.get("audios");
-    private final Path rootImages = Paths.get("src", "main", "resources", "images");
-    private final Path rootAudios = Paths.get("src", "main", "resources", "audios");
+
+    private Path rootImages = Paths.get(this.getClass().getClassLoader().getResource("images").getPath());
+    private Path rootAudios = Paths.get(this.getClass().getClassLoader().getResource("images").getPath());
+
+//    URL url = this.getClass().getClassLoader().getResource("/images").getPath();
+//    Path test = url.getPath();
 
     @Autowired
     FileRepository repository;
 
     @Override
     public void init() {
+        System.out.println("Init Folder for images");
+        if (Arrays.asList(environment.getActiveProfiles()).contains("docker")) {
+            System.out.println("Init Folder for docker profile");
+            this.rootImages = Paths.get("images");
+            this.rootAudios = Paths.get("audios");
+        }
         try {
             Files.createDirectory(rootImages);
             Files.createDirectory(rootAudios);

@@ -5,13 +5,21 @@ volumes:
       driver: local
 
 services:
-  service-discovery:
+  eureka-discovery-service:
     build: ./service-discovery
     platform: linux/amd64
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888/
     ports:
       - 8761:8761
     depends_on:
       - config-server
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      while ! (nc -z config-server 8888); do sleep 15; echo 'Waiting for config-server services to start-up...'; done;
+      java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.servicediscovery.ServiceDiscoveryApplication
+      "
 
   config-server:
     build: ./config-server
@@ -22,6 +30,8 @@ services:
   gateway:
     build: ./gateway
     platform: linux/amd64
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888/
     ports:
       - 8080:8080
     depends_on:
@@ -30,19 +40,35 @@ services:
       - files-uploader
       - tours-locations-layers
       - users-manager
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      while ! (nc -z config-server 8888); do sleep 15; echo 'Waiting for config-server services to start-up...'; done;
+      java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.gateway.GatewayApplication
+      "
   
   users-manager:
     build: ./users-manager
     platform: linux/amd64
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888/
     ports:
       - 8084:8084
     depends_on:
       - config-server
       - keycloak
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      while ! (nc -z config-server 8888); do sleep 15; echo 'Waiting for config-server services to start-up...'; done;
+      java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.usersmanager.UsersManagerApplication
+      "
 
   files-uploader:
     build: ./files-uploader
     platform: linux/amd64
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888/
     ports:
       - 8087:8087
     volumes:
@@ -50,16 +76,30 @@ services:
     depends_on:
       - config-server
       - database
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      while ! (nc -z config-server 8888); do sleep 15; echo 'Waiting for config-server services to start-up...'; done;
+      java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.filesuploader.FilesUploaderApplication
+      "
   
   tours-locations-layers:
     build: ./tours-locations-layers
     platform: linux/amd64
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888/
     ports:
       - 8090:8090
     depends_on:
       - config-server
       - database
       - keycloak
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      while ! (nc -z config-server 8888); do sleep 15; echo 'Waiting for config-server services to start-up...'; done;
+      java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.tourslocationslayers.ToursLocationsLayersApplication
+      "
   
   tours-ui:
     build: ./tours-ui
