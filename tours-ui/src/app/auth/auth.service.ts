@@ -5,10 +5,11 @@ import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 import { TokenService } from './token.service';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
-const OAUTH_API_URL = 'http://localhost:8180/auth/realms/my_realm/protocol/openid-connect';
+const OAUTH_API_URL = `${environment.oauth_uri}/auth/realms/my_realm/protocol/openid-connect`;
 const client_id = 'my_client';
-const redirect = 'http://localhost:4200/authenticated';
+const redirect = `${environment.redirect_uri}/authenticated`;
 const HTTP_OPTIONS = {
   headers: new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'

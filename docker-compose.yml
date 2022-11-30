@@ -43,7 +43,7 @@ services:
     entrypoint: /bin/sh
     command: >
       -c "
-      while ! (nc -z config-server 8888); do sleep 15; echo 'Waiting for config-server services to start-up...'; done;
+      while ! (nc -z eureka-discovery-service 8761); do sleep 15; echo 'Waiting for eureka-discovery-service services to start-up...'; done;
       java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.gateway.GatewayApplication
       "
   
@@ -60,7 +60,7 @@ services:
     entrypoint: /bin/sh
     command: >
       -c "
-      while ! (nc -z config-server 8888); do sleep 15; echo 'Waiting for config-server services to start-up...'; done;
+      while ! (nc -z eureka-discovery-service 8761); do sleep 15; echo 'Waiting for eureka-discovery-service services to start-up...'; done;
       java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.usersmanager.UsersManagerApplication
       "
 
@@ -79,7 +79,7 @@ services:
     entrypoint: /bin/sh
     command: >
       -c "
-      while ! (nc -z config-server 8888); do sleep 15; echo 'Waiting for config-server services to start-up...'; done;
+      while ! (nc -z eureka-discovery-service 8761); do sleep 15; echo 'Waiting for eureka-discovery-service services to start-up...'; done;
       java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.filesuploader.FilesUploaderApplication
       "
   
@@ -97,7 +97,7 @@ services:
     entrypoint: /bin/sh
     command: >
       -c "
-      while ! (nc -z config-server 8888); do sleep 15; echo 'Waiting for config-server services to start-up...'; done;
+      while ! (nc -z eureka-discovery-service 8761); do sleep 15; echo 'Waiting for eureka-discovery-service services to start-up...'; done;
       java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.tourslocationslayers.ToursLocationsLayersApplication
       "
   
@@ -136,7 +136,7 @@ services:
     command:
       - "-Dkeycloak.migration.action=import"
       - "-Dkeycloak.migration.provider=singleFile"
-      - "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"
+      - "-Dkeycloak.migration.strategy=IGNORE_EXISTING"
       - "-Dkeycloak.migration.file=/application-realm.json"
     environment:
       DB_VENDOR: POSTGRES

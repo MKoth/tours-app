@@ -62,7 +62,8 @@ export class AuthInterceptor implements HttpInterceptor {
                         }),
                         catchError(err => {
                             if (err.status === 401) {
-                                this.tokenService.saveCurrentUrl(this.router.url);
+                                //this.tokenService.saveCurrentUrl(this.router.url);
+
                                 this.router.navigate(['login']);
                             }
                             return throwError(() => error);

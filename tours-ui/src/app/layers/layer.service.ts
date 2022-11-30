@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { Tag } from '../tags/tags.service';
 import { Tour } from '../tours/tour.service';
 import { City } from '../useful-components/select-create-city/city.service';
+import { environment } from '../../environments/environment';
 
-const LAYERS_API_URL = 'http://localhost:8080/tours-locations-layers/layer';
+const LAYERS_API_URL = `${environment.api_uri}/tours-locations-layers/layer`;
 
 export interface Layer {
   id?: number,

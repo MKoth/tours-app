@@ -31,11 +31,12 @@ export class AuthenticatedComponent implements OnInit {
         this.pageText = 'Error happened while attempting to Login, please try again later!';
       },
       complete: () => {
-        if (this.tokenService.getCurrentUrl()) {
-          this.router.navigateByUrl(this.tokenService.getCurrentUrl() as string);
-        } else {
-          this.router.navigateByUrl("/login");
-        }
+        // if (this.tokenService.getCurrentUrl()&&this.tokenService.getCurrentUrl()!=="login") {
+        //   this.router.navigateByUrl(this.tokenService.getCurrentUrl() as string);
+        // } else {
+        //   this.router.navigateByUrl("/home");
+        // }
+        //this.router.navigateByUrl("/home");
       }
     });
   }

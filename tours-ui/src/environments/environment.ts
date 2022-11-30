@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  oauth_uri: "http://localhost:8180",
+  redirect_uri: "http://localhost:4200",
+  api_uri: "http://localhost:8080"
 };
 
 /*

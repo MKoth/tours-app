@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoders;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -41,6 +43,11 @@ public class JWTSecurityConfig {
                 .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(
                         jwt -> jwt.jwtAuthenticationConverter( grantedAuthoritiesExtractor())));
         return http.cors().and().build();
+    }
+
+    @Bean
+    public ReactiveJwtDecoder jwtDecoder() {
+        return ReactiveJwtDecoders.fromIssuerLocation("http://keycloak:8080/auth/realms/my_realm");
     }
 
     @Bean

@@ -4,8 +4,9 @@ import { Layer } from '../layers/layer.service';
 import { Post } from '../posts/post.service';
 import { Tag } from '../tags/tags.service';
 import { City } from '../useful-components/select-create-city/city.service';
+import { environment } from '../../environments/environment';
 
-const TOURS_API_URL = 'http://localhost:8080/tours-locations-layers/tour';
+const TOURS_API_URL = `${environment.api_uri}/tours-locations-layers/tour`;
 
 export interface Tour {
   id?: number,
