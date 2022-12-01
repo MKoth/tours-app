@@ -16,7 +16,7 @@ let event:google.maps.MapsEventListener;
 export class EditToursMapComponent implements OnInit {
 
   @Input() tour:Tour|{locations:Post[]} = {locations:[]};
-  defaultLatLng = ["41.879","-87.624"];
+  defaultLatLng = ["49.83766974226121","24.034463539353638"];
   unassignedPosts:Post[] = [];
   toBeReplacePost: Post|null = null;
 
@@ -26,7 +26,7 @@ export class EditToursMapComponent implements OnInit {
     const startPoint = this.tour?.locations.length?this.tour?.locations[1].point.split(","):this.defaultLatLng;
     let mapProp = {
       center: new google.maps.LatLng(parseFloat(startPoint[0]),parseFloat(startPoint[1])),
-      zoom: 10,
+      zoom: 12,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("googleMapNewTour") as HTMLElement, mapProp);

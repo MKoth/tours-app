@@ -1,0 +1,169 @@
+version: '3.7'
+
+volumes:
+  postgres_data:
+      driver: local
+
+services:
+  eureka-discovery-service:
+    build:
+      context: ./service-discovery
+      dockerfile: dev.Dockerfile
+    platform: linux/amd64
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888/
+    ports:
+      - 8761:8761
+    depends_on:
+      - config-server
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      while ! (nc -z config-server 8888); do sleep 15; echo 'Waiting for config-server services to start-up...'; done;
+      java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.servicediscovery.ServiceDiscoveryApplication
+      "
+
+  config-server:
+    build:
+      context: ./config-server
+      dockerfile: dev.Dockerfile
+    platform: linux/amd64
+    ports:
+      - 8888:8888
+  
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: dev.Dockerfile
+    platform: linux/amd64
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888/
+    ports:
+      - 8080:8080
+    depends_on:
+      - config-server
+      - keycloak
+      - files-uploader
+      - tours-locations-layers
+      - users-manager
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      while ! (nc -z eureka-discovery-service 8761); do sleep 15; echo 'Waiting for eureka-discovery-service services to start-up...'; done;
+      java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.gateway.GatewayApplication
+      "
+  
+  users-manager:
+    build:
+      context: ./users-manager
+      dockerfile: dev.Dockerfile
+    platform: linux/amd64
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888/
+    ports:
+      - 8084:8084
+    depends_on:
+      - config-server
+      - keycloak
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      while ! (nc -z eureka-discovery-service 8761); do sleep 15; echo 'Waiting for eureka-discovery-service services to start-up...'; done;
+      java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.usersmanager.UsersManagerApplication
+      "
+
+  files-uploader:
+    build: 
+      context: ./files-uploader
+      dockerfile: dev.Dockerfile
+    platform: linux/amd64
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888/
+    ports:
+      - 8087:8087
+    volumes:
+      - ./files-uploader/src/main/resources/images:/app/images
+    depends_on:
+      - config-server
+      - database
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      while ! (nc -z eureka-discovery-service 8761); do sleep 15; echo 'Waiting for eureka-discovery-service services to start-up...'; done;
+      java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.filesuploader.FilesUploaderApplication
+      "
+  
+  tours-locations-layers:
+    build: 
+      context: ./tours-locations-layers
+      dockerfile: dev.Dockerfile
+    platform: linux/amd64
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888/
+    ports:
+      - 8090:8090
+    depends_on:
+      - config-server
+      - database
+      - keycloak
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      while ! (nc -z eureka-discovery-service 8761); do sleep 15; echo 'Waiting for eureka-discovery-service services to start-up...'; done;
+      java -cp 'app:app/lib/*' -Dspring.profiles.active=docker com.toursapp.tourslocationslayers.ToursLocationsLayersApplication
+      "
+  
+  tours-ui:
+    build: 
+      context: ./tours-ui
+      dockerfile: dev.Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - gateway
+
+  database:
+    image: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: tours
+
+  postgres:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+  keycloak:
+    image: quay.io/keycloak/keycloak:legacy
+    volumes:
+     - type: bind
+       source: ./keycloak/application-realm.json
+       target: /application-realm.json
+       read_only: true
+    command:
+      - "-Dkeycloak.migration.action=import"
+      - "-Dkeycloak.migration.provider=singleFile"
+      - "-Dkeycloak.migration.strategy=IGNORE_EXISTING"
+      - "-Dkeycloak.migration.file=/application-realm.json"
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: Pa55w0rd
+      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+      #JDBC_PARAMS: "ssl=true"
+    ports:
+      - 8180:8080
+    depends_on:
+      - postgres

@@ -3,9 +3,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-#          issuer-uri: http://localhost:8180/auth/realms/my_realm
-          authorization-uri: http://localhost:8180/auth/realms/my_realm/protocol/openid-connect/auth
-          token-uri: http://localhost:8180/auth/realms/my_realm/protocol/openid-connect/token
+          issuer-uri: http://${WEBSITE_HOST:localhost}:8180/auth/realms/my_realm
+          jwk-set-uri: http://${WEBSITE_HOST:localhost}:8180/auth/realms/my_realm/protocol/openid-connect/certs
   jpa:
     hibernate:
       ddl-auto: update
@@ -40,9 +39,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-#         issuer-uri: http://keycloak:8080/auth/realms/my_realm
-          authorization-uri: http://keycloak:8080/auth/realms/my_realm/protocol/openid-connect/auth
-          token-uri: http://keycloak:8080/auth/realms/my_realm/protocol/openid-connect/token
+          jwk-set-uri: http://keycloak:8080/auth/realms/my_realm/protocol/openid-connect/certs
 eureka:
   client:
     serviceUrl:

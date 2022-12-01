@@ -15,7 +15,7 @@ let eventCleared:boolean = true;
 export class EditLayerMapComponent implements OnInit {
 
   @Input() layer:Layer|{points:string[]} = {points:[]};
-  defaultLatLng = ["41.879","-87.624"];
+  defaultLatLng = ["49.83766974226121","24.034463539353638"];
 
   constructor() { }
 
@@ -23,7 +23,7 @@ export class EditLayerMapComponent implements OnInit {
     const startPoint = this.layer?.points.length?this.layer?.points[1].split(","):this.defaultLatLng;
     let mapProp = {
       center: new google.maps.LatLng(parseFloat(startPoint[0]),parseFloat(startPoint[1])),
-      zoom: 10,
+      zoom: 12,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("googleMapNewLayers") as HTMLElement, mapProp);

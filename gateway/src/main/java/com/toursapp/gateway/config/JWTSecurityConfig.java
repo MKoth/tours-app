@@ -1,5 +1,6 @@
 package com.toursapp.gateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.config.GlobalCorsProperties;
 import org.springframework.context.annotation.Bean;
@@ -9,16 +10,10 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
-import org.springframework.security.oauth2.jwt.ReactiveJwtDecoders;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.CorsWebFilter;
@@ -27,6 +22,13 @@ import reactor.core.publisher.Mono;
 
 @Configuration
 public class JWTSecurityConfig {
+
+    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+    private String ISSUER_URI;
+
+    @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
+    private String JWK_SET_URI;
+
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -41,13 +43,19 @@ public class JWTSecurityConfig {
                 .pathMatchers(HttpMethod.DELETE ,"/tours-locations-layers/**").hasAnyRole("CREATOR", "ADMIN")
                 .anyExchange().authenticated().and()
                 .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(
-                        jwt -> jwt.jwtAuthenticationConverter( grantedAuthoritiesExtractor())));
+                        jwt -> jwt.jwtAuthenticationConverter(grantedAuthoritiesExtractor())));
         return http.cors().and().build();
     }
 
+
+
     @Bean
     public ReactiveJwtDecoder jwtDecoder() {
-        return ReactiveJwtDecoders.fromIssuerLocation("http://keycloak:8080/auth/realms/my_realm");
+        NimbusReactiveJwtDecoder jwtDecoder = NimbusReactiveJwtDecoder
+                .withJwkSetUri(JWK_SET_URI)
+                .build();
+        jwtDecoder.setJwtValidator(JwtValidators.createDefaultWithIssuer(ISSUER_URI));
+        return jwtDecoder;
     }
 
     @Bean
