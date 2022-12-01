@@ -21,10 +21,13 @@ spring:
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  zipkin:
+    baseUrl: http://${ZIPKIN_HOST:localhost}:9411/
+
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka
 
 ---
 spring:
@@ -40,6 +43,8 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://keycloak:8080/auth/realms/my_realm/protocol/openid-connect/certs
+  zipkin:
+    baseUrl: http://zipkin:9411/
 eureka:
   client:
     serviceUrl:
